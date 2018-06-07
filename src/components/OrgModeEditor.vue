@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div>
+    <div class="org-code-container">
       <textarea  v-model="form.content" cols="30" id="" name="" rows="10"></textarea>
     </div>
 
     <div>
-      
+
     </div>
-    <div v-html="orgHtml"></div>
+    <div class="org-preview-container" v-html="orgHtml"></div>
   </div>
 </template>
 
@@ -43,5 +43,32 @@ export default class OrgModeEditor extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  width: 100%;
+  height: calc(100vh - 61px);
+}
 
+.org-code-container {
+  width: 50%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #e8e8e8;
+}
+
+.org-code-container textarea {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+}
+
+.org-preview-container {
+  text-align: left;
+  width: 50%;
+  height: 100%;
+}
 </style>
