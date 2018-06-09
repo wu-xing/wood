@@ -9,6 +9,8 @@ Vue.use(Router);
 const SignIn = async () => await require('./views/SignIn.vue');
 const SignUp = async () => await require('./views/SignUp.vue');
 const Articles = async () => await require('./views/Articles.vue');
+const ArticleEditor = async () => await require('./views/ArticleEditor.vue');
+
 
 
 export default new Router({

@@ -15,5 +15,7 @@ import OrgModeEditor from '@/components/OrgModeEditor.vue';
     OrgModeEditor
   }
 })
-export default class Editor extends Vue {}
+export default class ArticleEditor extends Vue {
+
+}
 </script>
