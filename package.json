@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "element-ui": "^2.4.0",
+    "element-ui": "^2.3.2",
     "orgpr": "^0.2.1",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
