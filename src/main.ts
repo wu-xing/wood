@@ -1,16 +1,21 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import "./registerServiceWorker";
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import axios from 'axios';
+
+import './registerServiceWorker';
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-Vue.config.productionTip = false;
+import { setupAxiosAuth } from './util/axios'
+setupAxiosAuth();
+
+Vue.config.productionTip = true;
 
 Vue.use(ElementUI);
 
 new Vue({
   router,
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app');

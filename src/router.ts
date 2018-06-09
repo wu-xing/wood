@@ -6,10 +6,37 @@ import Editor from './views/Editor.vue';
 
 Vue.use(Router);
 
+const SignIn = async () => await require('./views/SignIn.vue');
+const SignUp = async () => await require('./views/SignUp.vue');
+const Articles = async () => await require('./views/Articles.vue');
+
+
 export default new Router({
+  mode: 'history',
   routes: [
     {
+      path: '/signin',
+      name: 'signin',
+      component: SignIn
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUp
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: Articles
+    },
+
+    {
       path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/401',
       name: 'home',
       component: Home
     },
