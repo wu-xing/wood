@@ -14,12 +14,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import axios from 'axios';
 
 @Component({
   components: {}
 })
 export default class Editor extends Vue {
-  articles: any[];
+  articles: any[] = [];
 
   public created() {
     this.getArticles();

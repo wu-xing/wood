@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Component, Vue, Model, Provide } from 'vue-property-decorator';
 import { Message } from 'element-ui';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import router from '@/router';
 
 @Component({
@@ -113,7 +113,7 @@ export default class SignUp extends Vue {
         captchaId: this.captchaId
       });
 
-      if (resp && resp.response.status === 400) {
+      if (resp && resp.status === 400) {
         return Message.error('Sign up error., please retry');
       }
       Message({

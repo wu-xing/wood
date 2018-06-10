@@ -1,21 +1,33 @@
 <template>
   <div>
-    <OrgModeEditor/>
+    <OrgModeEditor
+      v-on:save="onSave"
+      v-model="content" />
   </div>
 </template>
 
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import OrgModeEditor from '@/components/OrgModeEditor.vue';
+import axios from 'axios';
 
 @Component({
   components: {
     OrgModeEditor
   }
 })
-export default class ArticleEditor extends Vue {
+export default class ArticleEdit extends Vue {
+  public content: string = '';
 
+  public onSave() {
+    axios
+      .post('/api/auth/article', {
+        content: this.content
+      })
+      .then(resp => {
+        console.log(resp);
+      });
+  }
 }
 </script>
