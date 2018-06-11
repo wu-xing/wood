@@ -33,7 +33,7 @@ export default class OrgModeEditor extends Vue {
 
   @Prop() value: string = '';
 
-  onContentChanged($event) {
+  onContentChanged($event: any) {
     const parser = new org.Parser();
     const orgDocument = parser.parse($event.target.value);
     const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
