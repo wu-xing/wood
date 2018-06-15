@@ -11,7 +11,7 @@
               {{article.title}}
             </div>
             <div>
-              {{article.createdAt}}
+              {{formatDate(article.updatedAt || article.createdAt)}}
             </div>
           </li>
         </ul>
@@ -39,6 +39,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
+import format from 'date-fns/format';
 
 @Component({
   components: {}
@@ -53,6 +54,10 @@ export default class Editor extends Vue {
 
   public created() {
     this.getArticles();
+  }
+
+  public formatDate(date: number) {
+    return format(date, 'YYYY/MM/dd');
   }
 
   public async getArticles() {
