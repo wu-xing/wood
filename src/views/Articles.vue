@@ -1,13 +1,36 @@
 <template>
   <div>
 
-    <aside>
-      <ul v-if="articles.length">
-        <li v-bind:key="article.id" v-for="article in articles">
-          {{article.content}}
-        </li>
-      </ul>
-    </aside>
+    <div class="container-inner">
+      <aside>
+        <ul v-if="articles.length">
+          <li v-on:click="onArticleItemClick(article)"
+              v-bind:key="article.id"
+              v-for="article in articles">
+            <div class="article-title">
+              {{article.title}}
+            </div>
+            <div>
+              {{article.createdAt}}
+            </div>
+          </li>
+        </ul>
+      </aside>
+
+      <div class="preview-contaier">
+        <div>
+          <ul>
+            <li>
+              <el-tooltip class="item" effect="dark" content="Save" placement="right">
+                <i class="el-icon-document"></i>
+              </el-tooltip>
+            </li>
+          </ul>
+        </div>
+        <div v-html="articlePreviewHtml"></div>
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -15,21 +38,77 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
+import * as org from 'orgpr';
 
 @Component({
   components: {}
 })
 export default class Editor extends Vue {
-  articles: any[] = [];
+  public foucsedArticle: any;
+  public articlePreviewHtml: string = '';
+
+  get articles() {
+    return this.$store.state.articles;
+  }
 
   public created() {
     this.getArticles();
   }
 
-  async getArticles() {
+  public async getArticles() {
     const userId = window.localStorage.getItem('userId');
     const resp = await axios.get(`/api/auth/articles?userId=${userId}`);
-    this.articles = resp.data;
+
+    this.$store.commit('articles', resp.data);
+  }
+
+  public onArticleItemClick(aritcle: any) {
+    this.foucsedArticle = aritcle;
+    const parser = new org.Parser();
+    const orgDocument = parser.parse(aritcle.content);
+    const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
+      headerOffset: 1,
+      exportFromLineNumber: false,
+      suppressSubScriptHandling: false,
+      suppressAutoLink: false
+    });
+    this.articlePreviewHtml = orgHTMLDocument.toString();
   }
 }
 </script>
+
+<style scoped>
+.container-inner {
+  display: flex;
+}
+
+aside {
+  padding-left: 20px;
+  width: 35%;
+  max-width: 300px;
+}
+
+aside ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+aside li {
+  cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+  height: 50px;
+}
+
+.article-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.preview-contaier {
+  height: 100%;
+  width: 100%;
+}
+</style>

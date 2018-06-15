@@ -2,7 +2,7 @@
   <div>
     <OrgModeEditor
       v-on:save="onSave"
-      v-model="content" />
+      v-model="document" />
   </div>
 </template>
 
@@ -18,15 +18,25 @@ import axios from 'axios';
   }
 })
 export default class ArticleEdit extends Vue {
-  public content: string = '';
+  public document: any = {content: '', title: ''};
+  private saved: boolean = false;
 
   public onSave() {
+    if (this.saved) {
+      return;
+    }
+    this.saved = true;
     axios
       .post('/api/auth/article', {
-        content: this.content
+        content: this.document.content,
+        title: this.document.title
       })
       .then(resp => {
         console.log(resp);
+
+      })
+      .catch(() => {
+        this.saved = false;
       });
   }
 }

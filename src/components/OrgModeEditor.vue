@@ -7,17 +7,19 @@
             <i class="el-icon-document"></i>
           </el-tooltip>
         </li>
+        <li v-on:click="addTitle()">
+           <el-tooltip class="item" effect="dark" content="Title" placement="right">
+             <i class="el-icon-edit"></i>
+           </el-tooltip>
+        </li>
 
       </ul>
     </div>
     <div class="edit-container">
       <div class="org-code-container">
-        <textarea v-on:input="onContentChanged" v-bind:value="value" cols="30" id="" name="" rows="10"></textarea>
+        <textarea v-on:input="onContentChanged" v-bind:value="value.content" cols="30" id="" name="" rows="10"></textarea>
       </div>
 
-      <div>
-
-      </div>
       <div class="org-preview-container" v-html="orgHtml"></div>
     </div>
   </div>
@@ -31,7 +33,7 @@ import * as org from 'orgpr';
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
 
-  @Prop() value: string = '';
+  @Prop() value: any;
 
   onContentChanged($event: any) {
     const parser = new org.Parser();
@@ -43,12 +45,18 @@ export default class OrgModeEditor extends Vue {
       suppressAutoLink: false
     });
     this.orgHtml = orgHTMLDocument.toString();
-    this.$emit('input', $event.target.value);
+    this.$emit('input', {
+      title: orgHTMLDocument.title,
+      content: $event.target.value
+    });
+  }
+
+  addTitle() {
+    this.$emit('input', { ...this.value, content: this.value.content + `#+TITLE: \n#+AUTHOR:\n` });
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container {
   width: 100%;
