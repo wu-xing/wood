@@ -1,8 +1,9 @@
 <template>
   <div>
     <OrgModeEditor
+      is-edit
       v-on:change="onChange"
-      v-model="document" />
+      v-bind:document="document" />
   </div>
 </template>
 
@@ -12,6 +13,8 @@ import { Message } from 'element-ui';
 import axios from 'axios';
 import router from '../router';
 import OrgModeEditor from '@/components/OrgModeEditor.vue';
+import { Subject } from 'rxjs';
+import { switchMap, throttleTime } from 'rxjs/operators';
 
 @Component({
   components: {
@@ -20,34 +23,42 @@ import OrgModeEditor from '@/components/OrgModeEditor.vue';
 })
 export default class ArticleEdit extends Vue {
   private saved: boolean = false;
+  private sync$: any = new Subject();
+
+  constructor() {
+    super();
+  }
 
   get document() {
     const id = this.$route.params.id;
-    return (<any>this.$store).articles[id];
+    return this.$store.state.articles[id];
   }
 
   created() {
-    /* const storeArticle = this.state.articles[id]; */
+    const userId = window.localStorage.getItem('userId');
+    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
+      this.$store.commit('articles', resp.data);
+    });
+
+    this.sync$
+      .pipe(
+        throttleTime(1000),
+        switchMap(() => {
+          console.log(this);
+          return axios.put(`/api/auth/article/${this.$route.params.id}`, {
+            ...this.document
+          });
+        })
+      )
+      .subscribe();
   }
 
   public onChange(document: any) {
-    axios
-      .post('/api/auth/article', {
-        content: this.document.content,
-        title: this.document.title
-      })
-      .then(resp => {
-        Message({
-          message: 'Add article successful.',
-          type: 'success'
-        });
-        router.push({
-          name: 'edit',
-          params: {
-            id: resp.data.id
-          }
-        });
-      });
+    this.$store.commit('articleMidifiy', {
+      id: this.$route.params.id,
+      ...document
+    });
+    this.sync$.next();
   }
 }
 </script>

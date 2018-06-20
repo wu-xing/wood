@@ -2,7 +2,7 @@
   <div class="container">
     <div class="operation-container">
       <ul class="operation-list">
-        <li v-on:click="$emit('save')">
+        <li v-if="!isEdit" v-on:click="$emit('save')">
           <el-tooltip class="item" effect="dark" content="Save" placement="right">
             <i class="el-icon-document"></i>
           </el-tooltip>
@@ -11,6 +11,11 @@
            <el-tooltip class="item" effect="dark" content="Title" placement="right">
              <i class="el-icon-edit"></i>
            </el-tooltip>
+        </li>
+        <li v-on:click="addTitle()">
+          <el-tooltip class="item" effect="dark" content="全屏" placement="right">
+            <i class="el-icon-rank"></i>
+          </el-tooltip>
         </li>
       </ul>
     </div>
@@ -32,8 +37,11 @@ import * as org from 'orgpr';
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
 
-  @Prop({ default: { content: '', title: '' } })
+  @Prop({ default: () => ({ content: '', title: '' }) })
   document: any;
+
+  @Prop({ default: false })
+  isEdit: boolean;
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);

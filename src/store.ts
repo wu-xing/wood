@@ -17,6 +17,12 @@ export default new Vuex.Store<any>({
     },
     article(state: any, payload: any) {
       state.articles[payload.id] = payload;
+    },
+    articleMidifiy(state: any, payload: any) {
+      state.articles = {
+        ...state.articles,
+        [payload.id]: payload
+      }
     }
   },
   actions: {

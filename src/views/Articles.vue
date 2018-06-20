@@ -19,8 +19,8 @@
       <div class="preview-contaier">
         <div>
           <ul class="preview-operation">
-            <li>
-              <el-tooltip class="item" effect="dark" content="Save" placement="right">
+            <li v-on:click="goEdit()">
+              <el-tooltip class="item" effect="dark" content="Edit" placement="right">
                 <i class="el-icon-document"></i>
               </el-tooltip>
             </li>
@@ -50,6 +50,10 @@ export default class Editor extends Vue {
 
   get articles() {
     return values(this.$store.state.articles);
+  }
+
+  goEdit() {
+    this.$router.push(`/article/${this.foucsedArticle.id}`);
   }
 
   public created() {
