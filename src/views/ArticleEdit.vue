@@ -23,11 +23,11 @@ export default class ArticleEdit extends Vue {
 
   get document() {
     const id = this.$route.params.id;
-    return this.$store.articles[id];
+    return (<any>this.$store).articles[id];
   }
 
   created() {
-    const storeArticle = this.state.articles[id];
+    /* const storeArticle = this.state.articles[id]; */
   }
 
   public onChange(document: any) {

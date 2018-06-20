@@ -32,6 +32,7 @@ export default class ArticleEdit extends Vue {
 
   onChange(document: any) {
     window.localStorage.setItem(DRAFT_KEY, JSON.stringify(document));
+    this.document = document;
   }
 
   public onSave() {
@@ -39,17 +40,20 @@ export default class ArticleEdit extends Vue {
       return;
     }
     this.saved = true;
+    const document = {
+      content: this.document.content,
+      title: this.document.title,
+      createdAt: new Date().getTime()
+    }
     axios
-      .post('/api/auth/article', {
-        content: this.document.content,
-        title: this.document.title
-      })
+      .post('/api/auth/article', document)
       .then(resp => {
-        Message({
-          message: 'Add article successful.',
-          type: 'success'
+        this.$store.commit('article', {
+          id: resp.data.id,
+          ...document
         });
-        this.$store.commit('articles', resp.data);
+        this.saved = false;
+        window.localStorage.removeItem(DRAFT_KEY);
         router.push({
           name: 'edit',
           params: {
@@ -57,12 +61,11 @@ export default class ArticleEdit extends Vue {
           }
         });
       })
-      .catch(() => {
+      .catch(error => {
         Message({
           message: 'Add article failure.',
           type: 'error'
         });
-      }).finally(() => {
         this.saved = false;
       });
   }
