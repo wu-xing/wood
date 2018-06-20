@@ -26,33 +26,53 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
 
 @Component({})
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
+  public document: any = {
+    content: null,
+    title: null
+  };
 
   @Prop() value: any;
 
-  onContentChanged($event: any) {
+  created() {
+    this.parseHtmlFromOrgCode(this.value.content);
+  }
+
+  @Watch('value')
+  onValueChange(document: any) {
+    /* this.parseHtmlFromOrgCode(document.content); */
+  }
+
+  parseHtmlFromOrgCode(code: any) {
     const parser = new org.Parser();
-    const orgDocument = parser.parse($event.target.value);
+    const orgDocument = parser.parse(code);
     const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
       headerOffset: 1,
       exportFromLineNumber: false,
       suppressSubScriptHandling: false,
       suppressAutoLink: false
     });
+    this.document = orgHTMLDocument;
     this.orgHtml = orgHTMLDocument.toString();
-    this.$emit('input', {
-      title: orgHTMLDocument.title,
+  }
+
+  onContentChanged($event: any) {
+    this.parseHtmlFromOrgCode($event.target.value);
+    const document = {
+      title: this.document.title,
       content: $event.target.value
-    });
+    };
+    this.$emit('input', document);
+    this.$emit('change', document);
   }
 
   addTitle() {
-    this.$emit('input', { ...this.value, content: this.value.content + `#+TITLE: \n#+AUTHOR:\n` });
+    this.$emit('input', { ...this.value, content: `#+TITLE: \n#+AUTHOR:\n` + this.value.content });
   }
 }
 </script>
@@ -70,6 +90,7 @@ export default class OrgModeEditor extends Vue {
   align-content: flex-start;
   width: calc(100vw - 50px);
   height: 100%;
+  padding: 10px;
 }
 
 .operation-container {
@@ -109,5 +130,6 @@ export default class OrgModeEditor extends Vue {
   text-align: left;
   width: 50%;
   height: 100%;
+  padding: 10px;
 }
 </style>

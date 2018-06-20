@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="container-inner">
       <aside>
         <ul v-if="articles.length">
@@ -19,7 +18,7 @@
 
       <div class="preview-contaier">
         <div>
-          <ul>
+          <ul class="preview-operation">
             <li>
               <el-tooltip class="item" effect="dark" content="Save" placement="right">
                 <i class="el-icon-document"></i>
@@ -112,8 +111,17 @@ aside li {
   white-space: nowrap;
 }
 
+.preview-operation {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
 .preview-contaier {
   height: 100%;
   width: 100%;
+  text-align: left;
 }
 </style>

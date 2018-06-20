@@ -3,10 +3,16 @@
 
     <el-menu class="el-menu" mode="horizontal">
       <el-menu-item index="1">
-        <router-link to="/">列表</router-link>
+        <router-link to="/">
+          <i class="el-icon-tickets"></i>
+          列表
+        </router-link>
       </el-menu-item>
       <el-menu-item index="3">
-        <router-link to="/create">新建</router-link>
+        <router-link to="/create">
+          <i class="el-icon-tickets"></i>
+          新建
+        </router-link>
       </el-menu-item>
     </el-menu>
 
@@ -39,5 +45,11 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+</style>
+<style scoped>
+.el-menu-item a {
+  display: inline-block;
+  height: 100%;
 }
 </style>

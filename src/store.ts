@@ -10,9 +10,11 @@ export default new Vuex.Store({
   mutations: {
     articles(state, payload) {
       state.articles = payload;
+    },
+    article(state, payload) {
+      state.articles.push
     }
   },
   actions: {
-
   }
 })

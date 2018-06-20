@@ -1,11 +1,11 @@
 <template>
   <div>
     <OrgModeEditor
+      v-on:change="onChange"
       v-on:save="onSave"
       v-model="document" />
   </div>
 </template>
-
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -13,6 +13,8 @@ import { Message } from 'element-ui';
 import axios from 'axios';
 import router from '../router';
 import OrgModeEditor from '@/components/OrgModeEditor.vue';
+
+const DRAFT_KEY = 'CREATING_DRAFT';
 
 @Component({
   components: {
@@ -22,6 +24,15 @@ import OrgModeEditor from '@/components/OrgModeEditor.vue';
 export default class ArticleEdit extends Vue {
   public document: any = { content: '', title: '' };
   private saved: boolean = false;
+
+  created() {
+    const creatingDraft = JSON.parse(<any>window.localStorage.getItem(DRAFT_KEY));
+    this.document = creatingDraft;
+  }
+
+  onChange(document: any) {
+    window.localStorage.setItem(DRAFT_KEY, JSON.stringify(document));
+  }
 
   public onSave() {
     if (this.saved) {
@@ -34,11 +45,12 @@ export default class ArticleEdit extends Vue {
         title: this.document.title
       })
       .then(resp => {
-        console.log(resp);
         Message({
           message: 'Add article successful.',
           type: 'success'
         });
+        this.$store.commit('articles', resp.data);
+
         router.push({
           name: 'edit',
           params: {
