@@ -39,6 +39,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
 import format from 'date-fns/format';
+import * as values from 'ramda/src/values';
 
 @Component({
   components: {}
@@ -48,7 +49,7 @@ export default class Editor extends Vue {
   public articlePreviewHtml: string = '';
 
   get articles() {
-    return this.$store.state.articles;
+    return values(this.$store.state.articles);
   }
 
   public created() {
@@ -59,11 +60,11 @@ export default class Editor extends Vue {
     return format(date, 'YYYY/MM/dd');
   }
 
-  public async getArticles() {
+  public getArticles() {
     const userId = window.localStorage.getItem('userId');
-    const resp = await axios.get(`/api/auth/articles?userId=${userId}`);
-
-    this.$store.commit('articles', resp.data);
+    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
+      this.$store.commit('articles', resp.data);
+    });
   }
 
   public onArticleItemClick(aritcle: any) {

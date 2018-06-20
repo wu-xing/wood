@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <el-menu class="el-menu" mode="horizontal">
       <el-menu-item index="1">
         <router-link to="/">
@@ -10,7 +9,7 @@
       </el-menu-item>
       <el-menu-item index="3">
         <router-link to="/create">
-          <i class="el-icon-tickets"></i>
+          <i class="el-icon-edit-outline"></i>
           新建
         </router-link>
       </el-menu-item>
@@ -47,6 +46,7 @@ body {
   color: #42b983;
 }
 </style>
+
 <style scoped>
 .el-menu-item a {
   display: inline-block;

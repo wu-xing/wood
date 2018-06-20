@@ -1,11 +1,10 @@
 <template>
   <div>
     <OrgModeEditor
-      v-on:save="onSave"
+      v-on:change="onChange"
       v-model="document" />
   </div>
 </template>
-
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -20,21 +19,24 @@ import OrgModeEditor from '@/components/OrgModeEditor.vue';
   }
 })
 export default class ArticleEdit extends Vue {
-  public document: any = { content: '', title: '' };
   private saved: boolean = false;
 
-  public onSave() {
-    if (this.saved) {
-      return;
-    }
-    this.saved = true;
+  get document() {
+    const id = this.$route.params.id;
+    return this.$store.articles[id];
+  }
+
+  created() {
+    const storeArticle = this.state.articles[id];
+  }
+
+  public onChange(document: any) {
     axios
       .post('/api/auth/article', {
         content: this.document.content,
         title: this.document.title
       })
       .then(resp => {
-        console.log(resp);
         Message({
           message: 'Add article successful.',
           type: 'success'
@@ -45,9 +47,6 @@ export default class ArticleEdit extends Vue {
             id: resp.data.id
           }
         });
-      })
-      .catch(() => {
-        this.saved = false;
       });
   }
 }

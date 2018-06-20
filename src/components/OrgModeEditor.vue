@@ -12,12 +12,11 @@
              <i class="el-icon-edit"></i>
            </el-tooltip>
         </li>
-
       </ul>
     </div>
     <div class="edit-container">
       <div class="org-code-container">
-        <textarea v-on:input="onContentChanged" v-bind:value="value.content" cols="30" id="" name="" rows="10"></textarea>
+        <textarea v-on:input="onContentChanged" v-bind:value="document.content" cols="30" id="" name="" rows="10"></textarea>
       </div>
 
       <div class="org-preview-container" v-html="orgHtml"></div>
@@ -32,18 +31,15 @@ import * as org from 'orgpr';
 @Component({})
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
-  public document: any = {
-    content: null,
-    title: null
-  };
 
-  @Prop() value: any;
+  @Prop({ default: { content: '', title: '' } })
+  document: any;
 
   created() {
-    this.parseHtmlFromOrgCode(this.value.content);
+    this.parseHtmlFromOrgCode(this.document.content);
   }
 
-  @Watch('value')
+  @Watch('document')
   onValueChange(document: any) {
     /* this.parseHtmlFromOrgCode(document.content); */
   }
@@ -57,7 +53,7 @@ export default class OrgModeEditor extends Vue {
       suppressSubScriptHandling: false,
       suppressAutoLink: false
     });
-    this.document = orgHTMLDocument;
+    /* this.document = orgHTMLDocument; */
     this.orgHtml = orgHTMLDocument.toString();
   }
 
@@ -72,7 +68,10 @@ export default class OrgModeEditor extends Vue {
   }
 
   addTitle() {
-    this.$emit('input', { ...this.value, content: `#+TITLE: \n#+AUTHOR:\n` + this.value.content });
+    this.$emit('input', {
+      ...this.document,
+      content: `#+TITLE: \n#+AUTHOR:\n` + this.document.content
+    });
   }
 }
 </script>

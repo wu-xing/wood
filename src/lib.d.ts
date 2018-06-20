@@ -1,4 +1,7 @@
 /// <reference> node.d.ts
+declare module 'ramda/src/values';
+
+
 declare module "orgpr" {
   export var ConverterHTML: any;
 

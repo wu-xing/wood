@@ -5,14 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    articles: []
+    articles: {}
   },
   mutations: {
-    articles(state, payload) {
-      state.articles = payload;
+    articles(state: any, payload: any) {
+      const articles = {...state.articles}
+      payload.forEach((article: any) => {
+        articles[article.id] = article;
+      });
+      state.articles = articles;
     },
-    article(state, payload) {
-      state.articles.push
+    article(state: any, payload: any) {
+      state.articles[payload.id] = payload;
     }
   },
   actions: {

@@ -3,7 +3,7 @@
     <OrgModeEditor
       v-on:change="onChange"
       v-on:save="onSave"
-      v-model="document" />
+      v-bind:document="document" />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default class ArticleEdit extends Vue {
 
   created() {
     const creatingDraft = JSON.parse(<any>window.localStorage.getItem(DRAFT_KEY));
-    this.document = creatingDraft;
+    this.document = creatingDraft || this.document;
   }
 
   onChange(document: any) {
@@ -50,7 +50,6 @@ export default class ArticleEdit extends Vue {
           type: 'success'
         });
         this.$store.commit('articles', resp.data);
-
         router.push({
           name: 'edit',
           params: {
@@ -59,6 +58,11 @@ export default class ArticleEdit extends Vue {
         });
       })
       .catch(() => {
+        Message({
+          message: 'Add article failure.',
+          type: 'error'
+        });
+      }).finally(() => {
         this.saved = false;
       });
   }
