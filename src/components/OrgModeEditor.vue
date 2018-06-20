@@ -37,11 +37,11 @@ import * as org from 'orgpr';
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
 
+  @Prop({ default: () => false })
+  isEdit!: boolean;
+
   @Prop({ default: () => ({ content: '', title: '' }) })
   document: any;
-
-  @Prop({ default: false })
-  isEdit: boolean;
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);

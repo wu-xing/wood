@@ -55,7 +55,7 @@ export default class ArticleEdit extends Vue {
         this.saved = false;
         window.localStorage.removeItem(DRAFT_KEY);
         router.push({
-          name: 'edit',
+          name: 'article',
           params: {
             id: resp.data.id
           }
