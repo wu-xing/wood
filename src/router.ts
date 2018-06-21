@@ -11,6 +11,7 @@ const SignUp = async () => await require('./views/SignUp.vue');
 const Articles = async () => await require('./views/Articles.vue');
 const ArticleEdit = async () => await require('./views/ArticleEdit.vue');
 const ArticleCreate = async () => await require('./views/ArticleCreate.vue');
+const Unauthorized = async () => await require('./views/Unauthorized.vue');
 
 export default new Router({
   mode: 'history',
@@ -46,8 +47,8 @@ export default new Router({
     },
     {
       path: '/401',
-      name: 'home',
-      component: Home
+      name: '401',
+      component: Unauthorized
     },
     {
       path: '/about',
