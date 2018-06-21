@@ -12,7 +12,7 @@
              <i class="el-icon-edit"></i>
            </el-tooltip>
         </li>
-        <li v-on:click="addTitle()">
+        <li v-on:click="fullScreen()">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
             <i class="el-icon-rank"></i>
           </el-tooltip>
@@ -38,7 +38,7 @@ export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
 
   @Prop({ default: () => false })
-  isEdit!: boolean;
+  isEdit: boolean;
 
   @Prop({ default: () => ({ content: '', title: '' }) })
   document: any;
@@ -76,10 +76,14 @@ export default class OrgModeEditor extends Vue {
   }
 
   addTitle() {
-    this.$emit('input', {
+    this.$emit('change', {
       ...this.document,
       content: `#+TITLE: \n#+AUTHOR:\n` + this.document.content
     });
+  }
+
+  fullScreen() {
+    this.$eventHub.$emit('full-screen');
   }
 }
 </script>

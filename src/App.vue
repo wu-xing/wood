@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <el-menu class="el-menu" mode="horizontal">
+    <el-menu
+      v-bind:class="{ hide: hideMenu }"
+      class="el-menu"
+      mode="horizontal">
       <el-menu-item index="1">
         <router-link to="/">
           <i class="el-icon-tickets"></i>
@@ -18,6 +21,32 @@
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { Message } from 'element-ui';
+import axios from 'axios';
+import router from '../router';
+import OrgModeEditor from '@/components/OrgModeEditor.vue';
+import { Subject } from 'rxjs';
+import { switchMap, throttleTime } from 'rxjs/operators';
+
+@Component({})
+export default class APp extends Vue {
+  public hideMenu = false;
+
+  constructor() {
+    super();
+  }
+
+  created() {
+    this.$eventHub.$on('full-screen', () => {
+      this.hideMenu = !this.hideMenu;
+    });
+  }
+}
+</script>
+
 
 <style>
 html,
@@ -48,6 +77,13 @@ body {
 </style>
 
 <style scoped>
+.el-menu {
+  transition: margin-top ease-in-out 200ms;
+}
+.el-menu.hide {
+  margin-top: -61px;
+}
+
 .el-menu-item a {
   display: inline-block;
   height: 100%;
