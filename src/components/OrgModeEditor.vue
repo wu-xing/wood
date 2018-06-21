@@ -36,6 +36,7 @@ import * as org from 'orgpr';
 @Component({})
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
+  title: string = '';
 
   @Prop({ default: () => false })
   isEdit!: boolean;
@@ -61,14 +62,15 @@ export default class OrgModeEditor extends Vue {
       suppressSubScriptHandling: false,
       suppressAutoLink: false
     });
-    /* this.document = orgHTMLDocument; */
+    /* this.tempDocument = orgHTMLDocument; */
     this.orgHtml = orgHTMLDocument.toString();
+    this.title = orgHTMLDocument.title;
   }
 
   onContentChanged($event: any) {
     this.parseHtmlFromOrgCode($event.target.value);
     const document = {
-      title: this.document.title,
+      title: this.title,
       content: $event.target.value
     };
     this.$emit('input', document);
