@@ -38,10 +38,10 @@ export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
 
   @Prop({ default: () => false })
-  isEdit: boolean;
+  isEdit!: boolean;
 
   @Prop({ default: () => ({ content: '', title: '' }) })
-  document: any;
+  document!: any;
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
