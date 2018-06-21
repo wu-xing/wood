@@ -24,20 +24,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Message } from 'element-ui';
-import axios from 'axios';
-import router from '../router';
-import OrgModeEditor from '@/components/OrgModeEditor.vue';
-import { Subject } from 'rxjs';
-import { switchMap, throttleTime } from 'rxjs/operators';
 
 @Component({})
-export default class APp extends Vue {
+export default class App extends Vue {
   public hideMenu = false;
-
-  constructor() {
-    super();
-  }
 
   created() {
     this.$eventHub.$on('full-screen', () => {
