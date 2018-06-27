@@ -12,10 +12,29 @@
              <i class="el-icon-edit"></i>
            </el-tooltip>
         </li>
+        <li v-on:click="addSrcBlog()">
+          <el-tooltip class="item" effect="dark" content="代码" placement="right">
+            <i class="el-icon-edit"></i>
+          </el-tooltip>
+        </li>
         <li v-on:click="fullScreen()">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
             <i class="el-icon-rank"></i>
           </el-tooltip>
+        </li>
+        <li>
+          <el-upload
+            class="upload-demo"
+            accept="image/*"
+            action="/api/auth/image"
+            :multiple="true"
+            :http-request="uploadImage"
+            :on-change="handleImageUploadChange">
+            <el-tooltip class="item" effect="dark" content="上传图片" placement="right">
+              <i class="el-icon-rank"></i>
+            </el-tooltip>
+          </el-upload>
+
         </li>
       </ul>
     </div>
@@ -32,6 +51,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
+import axios from 'axios';
 
 @Component({})
 export default class OrgModeEditor extends Vue {
@@ -42,7 +62,7 @@ export default class OrgModeEditor extends Vue {
   isEdit!: boolean;
 
   @Prop({ default: () => ({ content: '', title: '' }) })
-  document!: any;
+  document: any;
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
@@ -84,8 +104,35 @@ export default class OrgModeEditor extends Vue {
     });
   }
 
+  addSrcBlog() {
+    this.$emit('change', {
+      ...this.document,
+      content: this.document.content + `\n#+BEGIN_SRC\n\n+#END_SRC`
+    });
+  }
+
   fullScreen() {
     this.$eventHub.$emit('full-screen');
+  }
+
+  handleImageUploadChange() {}
+
+  uploadImage(uploadObject: any) {
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', (e: any) => {
+      axios
+        .post('/api/auth/image/base64', {
+          image: e.target.result
+        })
+        .then((resp: any) => {
+          this.$emit('change', {
+            ...this.document,
+            content: this.document.content + `\n[[/${resp.data.image}]]`
+          });
+        });
+    });
+
+    fileReader.readAsDataURL(uploadObject.file);
   }
 }
 </script>
