@@ -43,7 +43,9 @@
         <textarea v-on:input="onContentChanged" v-bind:value="document.content" cols="30" id="" name="" rows="10"></textarea>
       </div>
 
-      <div class="org-preview-container" v-html="orgHtml"></div>
+      <div class="org-preview-container">
+        <ArticlePreview :html="orgHtml"/>
+      </div>
     </div>
   </div>
 </template>
@@ -52,8 +54,13 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
 import axios from 'axios';
+import ArticlePreview from './ArticlePreview.vue';
 
-@Component({})
+@Component({
+  components: {
+    ArticlePreview
+  }
+})
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
   title: string = '';
@@ -71,24 +78,31 @@ export default class OrgModeEditor extends Vue {
   @Watch('document')
   onValueChange(document: any) {
     /* this.parseHtmlFromOrgCode(document.content); */
+    this.parseHtmlFromOrgCode(document.content);
+    
   }
 
   parseHtmlFromOrgCode(code: any) {
-    const parser = new org.Parser();
-    const orgDocument = parser.parse(code);
-    const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
-      headerOffset: 1,
-      exportFromLineNumber: false,
-      suppressSubScriptHandling: false,
-      suppressAutoLink: false
-    });
-    /* this.tempDocument = orgHTMLDocument; */
-    this.orgHtml = orgHTMLDocument.toString();
-    this.title = orgHTMLDocument.title;
+    try {
+      const parser = new org.Parser();
+      const orgDocument = parser.parse(code);
+      const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
+        headerOffset: 1,
+        exportFromLineNumber: false,
+        suppressSubScriptHandling: false,
+        suppressAutoLink: false
+      });
+      this.orgHtml = orgHTMLDocument.toString();
+      this.title = orgHTMLDocument.title;
+    } catch (error) {
+      console.warn('解析失败.');
+    }
+    
+
+    
   }
 
   onContentChanged($event: any) {
-    this.parseHtmlFromOrgCode($event.target.value);
     const document = {
       title: this.title,
       content: $event.target.value
@@ -107,7 +121,7 @@ export default class OrgModeEditor extends Vue {
   addSrcBlog() {
     this.$emit('change', {
       ...this.document,
-      content: this.document.content + `\n#+BEGIN_SRC\n\n+#END_SRC`
+      content: this.document.content + `\n#+BEGIN_SRC\n\n#+END_SRC`
     });
   }
 
@@ -127,7 +141,7 @@ export default class OrgModeEditor extends Vue {
         .then((resp: any) => {
           this.$emit('change', {
             ...this.document,
-            content: this.document.content + `\n[[/${resp.data.image}]]`
+            content: this.document.content + `\n[[image-url:/${resp.data.image}]]`
           });
         });
     });
@@ -150,7 +164,7 @@ export default class OrgModeEditor extends Vue {
   align-content: flex-start;
   width: calc(100vw - 50px);
   height: 100%;
-  padding: 10px;
+  padding: 0 10px;
 }
 
 .operation-container {
@@ -187,9 +201,10 @@ export default class OrgModeEditor extends Vue {
 }
 
 .org-preview-container {
+  margin: 0;
   text-align: left;
   width: 50%;
   height: 100%;
-  padding: 10px;
+  padding: 0 10px;
 }
 </style>

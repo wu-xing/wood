@@ -23,18 +23,20 @@ import { switchMap, throttleTime } from 'rxjs/operators';
 })
 export default class ArticleEdit extends Vue {
   private saved: boolean = false;
-  private sync$: any = new Subject();
+  private sync$: Subject<void> = new Subject();
+  private uploadingContent?: string;
 
   constructor() {
     super();
   }
 
-  get document() {
+  get document(): ArticleDocument {
     const id = this.$route.params.id;
     return this.$store.state.articles[id];
   }
 
   created() {
+   
     const userId = window.localStorage.getItem('userId');
     axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
       this.$store.commit('articles', resp.data);
@@ -44,7 +46,7 @@ export default class ArticleEdit extends Vue {
       .pipe(
         throttleTime(1000),
         switchMap(() => {
-          console.log(this);
+          this.uploadingContent = this.document.content
           return axios.put(`/api/auth/article/${this.$route.params.id}`, {
             ...this.document
           });
@@ -53,7 +55,19 @@ export default class ArticleEdit extends Vue {
       .subscribe();
   }
 
-  public onChange(document: any) {
+  mounted() {
+    window.addEventListener('beforeunload', this.onBeforeunload);
+  }
+
+  destroyed() {
+    window.removeEventListener('beforeunload', this.onBeforeunload);
+  }
+
+  public onBeforeunload = (event: Event) => {
+    return '确认离开吗?';
+  }
+
+  public onChange(document: ArticleDocument) {
     this.$store.commit('articleMidifiy', {
       id: this.$route.params.id,
       ...document
