@@ -15,6 +15,8 @@ export default class ArticlePreview extends Vue {
 .article-preview {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .article-preview h1 {
@@ -24,5 +26,11 @@ export default class ArticlePreview extends Vue {
 
 .article-preview img {
   max-width: 95%;
+}
+
+.article-preview pre {
+  padding: 8px 8px;
+  border-radius: 3px;
+  border: 1px solid #eee;
 }
 </style>

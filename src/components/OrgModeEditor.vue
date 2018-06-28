@@ -97,9 +97,6 @@ export default class OrgModeEditor extends Vue {
     } catch (error) {
       console.warn('解析失败.');
     }
-    
-
-    
   }
 
   onContentChanged($event: any) {
