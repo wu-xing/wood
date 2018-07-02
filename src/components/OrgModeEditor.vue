@@ -9,17 +9,22 @@
         </li>
         <li v-on:click="addTitle()">
            <el-tooltip class="item" effect="dark" content="Title" placement="right">
-             <i class="el-icon-edit"></i>
+             <as-icon name="heading"></as-icon>
            </el-tooltip>
         </li>
         <li v-on:click="addSrcBlog()">
           <el-tooltip class="item" effect="dark" content="代码" placement="right">
-            <i class="el-icon-edit"></i>
+            <as-icon name="code"></as-icon>
+          </el-tooltip>
+        </li>
+        <li v-on:click="addInlineCode()">
+          <el-tooltip class="item" effect="dark" content="行内代码" placement="right">
+            <as-icon name="terminal"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="fullScreen()">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
-            <i class="el-icon-rank"></i>
+            <as-icon name="expand"></as-icon>
           </el-tooltip>
         </li>
         <li>
@@ -31,7 +36,7 @@
             :http-request="uploadImage"
             :on-change="handleImageUploadChange">
             <el-tooltip class="item" effect="dark" content="上传图片" placement="right">
-              <i class="el-icon-rank"></i>
+              <as-icon name="image"></as-icon>
             </el-tooltip>
           </el-upload>
 
@@ -119,6 +124,13 @@ export default class OrgModeEditor extends Vue {
     this.$emit('change', {
       ...this.document,
       content: this.document.content + `\n#+BEGIN_SRC\n\n#+END_SRC`
+    });
+  }
+
+  addInlineCode() {
+    this.$emit('change', {
+      ...this.document,
+      content: this.document.content + `= [code] =`
     });
   }
 
