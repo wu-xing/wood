@@ -4,11 +4,11 @@
       <ul class="operation-list">
         <li v-if="!isEdit" v-on:click="$emit('save')">
           <el-tooltip class="item" effect="dark" content="Save" placement="right">
-            <i class="el-icon-document"></i>
+            <as-icon name="save"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="addTitle()">
-           <el-tooltip class="item" effect="dark" content="Title" placement="right">
+          <el-tooltip class="item" effect="dark" content="Title" placement="right">
              <as-icon name="heading"></as-icon>
            </el-tooltip>
         </li>
