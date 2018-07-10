@@ -74,7 +74,7 @@ export default class OrgModeEditor extends Vue {
   isEdit!: boolean;
 
   @Prop({ default: () => ({ content: '', title: '' }) })
-  document: any;
+  document!: any;
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
@@ -84,7 +84,6 @@ export default class OrgModeEditor extends Vue {
   onValueChange(document: any) {
     /* this.parseHtmlFromOrgCode(document.content); */
     this.parseHtmlFromOrgCode(document.content);
-    
   }
 
   parseHtmlFromOrgCode(code: any) {
@@ -150,12 +149,27 @@ export default class OrgModeEditor extends Vue {
         .then((resp: any) => {
           this.$emit('change', {
             ...this.document,
-            content: this.document.content + `\n[[image-url:/${resp.data.image}]]`
+            content: this.getInsertValueToTextArea(`\n[[image-url:/${resp.data.image}]]`)
           });
         });
     });
 
     fileReader.readAsDataURL(uploadObject.file);
+  }
+
+  getInsertValueToTextArea(myValue: string): string {
+    const myField: any = this.$el.querySelector('textarea');
+    if (myField.selectionStart || myField.selectionStart === '0') {
+      const startPos = myField.selectionStart;
+      const endPos = myField.selectionEnd;
+      return (
+        myField.value.substring(0, startPos) +
+        myValue +
+        myField.value.substring(endPos, myField.value.length)
+      );
+    } else {
+      return myField.value + myValue;
+    }
   }
 }
 </script>
