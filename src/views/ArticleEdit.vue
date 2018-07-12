@@ -36,7 +36,6 @@ export default class ArticleEdit extends Vue {
   }
 
   created() {
-   
     const userId = window.localStorage.getItem('userId');
     axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
       this.$store.commit('articles', resp.data);

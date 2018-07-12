@@ -159,7 +159,7 @@ export default class OrgModeEditor extends Vue {
 
   getInsertValueToTextArea(myValue: string): string {
     const myField: any = this.$el.querySelector('textarea');
-    if (myField.selectionStart || myField.selectionStart === '0') {
+    if (myField.selectionStart || myField.selectionStart === 0) {
       const startPos = myField.selectionStart;
       const endPos = myField.selectionEnd;
       return (
@@ -220,6 +220,7 @@ export default class OrgModeEditor extends Vue {
   width: 100%;
   height: 100%;
   outline: none;
+  padding-bottom: 130px;
   border: none;
 }
 
