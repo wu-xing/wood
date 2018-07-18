@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-    <el-menu
-      v-bind:class="{ hide: hideMenu }"
-      class="el-menu"
-      mode="horizontal">
-      <el-menu-item index="1">
-        <router-link to="/">
-          <i class="el-icon-tickets"></i>
-          列表
-        </router-link>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <router-link to="/create">
-          <i class="el-icon-edit-outline"></i>
-          新建
-        </router-link>
-      </el-menu-item>
-    </el-menu>
+    <nav v-bind:class="{ hide: hideMenu }">
+      <ul>
+        <li>
+          <router-link to="/">
+            <i class="el-icon-tickets"></i>
+            列表
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/create">
+            <i class="el-icon-edit-outline"></i>
+            新建
+          </router-link>
+        </li>
+      </ul>
+    </nav>
 
     <router-view/>
   </div>
@@ -52,30 +52,29 @@ body {
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
 
 <style scoped>
-.el-menu {
+nav {
   transition: margin-top ease-in-out 200ms;
-}
-.el-menu.hide {
-  margin-top: -61px;
+  color: white;
+  background-color: #333;
 }
 
-.el-menu-item a {
+nav ul {
+  margin: 0;
+  padding: 0;
+  display: block;
+  text-align: left;
+}
+
+nav ul li {
+  color: white;
   display: inline-block;
-  height: 100%;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
 }
 </style>
