@@ -60,6 +60,7 @@ body,
   flex-direction: column;
   justify-items: stretch;
   position: relative;
+  overflow: hidden;
 }
 
 #app > div {
