@@ -12,7 +12,7 @@
             <as-icon name="heading" style="color: #dc4e52"></as-icon>
            </el-tooltip>
         </li>
-        <li v-on:click="addSrcBlog()">
+        <li v-on:click="addSrcBlock()">
           <el-tooltip class="item" effect="dark" content="代码" placement="right">
             <as-icon name="code" style="color: #df9c38"></as-icon>
           </el-tooltip>
@@ -119,17 +119,17 @@ export default class OrgModeEditor extends Vue {
     });
   }
 
-  addSrcBlog() {
+  addSrcBlock() {
     this.$emit('change', {
       ...this.document,
-      content: this.document.content + `\n#+BEGIN_SRC\n\n#+END_SRC`
+      content: this.getInsertValueToTextArea(`\n#+BEGIN_SRC\n\n#+END_SRC`);
     });
   }
 
   addInlineCode() {
     this.$emit('change', {
       ...this.document,
-      content: this.document.content + `= [code] =`
+      content: this.getInsertValueToTextArea(`= [code] =`)
     });
   }
 

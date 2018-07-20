@@ -3,11 +3,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+
+declare var hljs: any;
 
 @Component
 export default class ArticlePreview extends Vue {
   @Prop() public html!: string;
+
+  updated(): void {
+    this.hlCode();
+  }
+
+  hlCode(): void {
+    this.$el.querySelectorAll('pre code').forEach(e => {
+      hljs.highlightBlock(e);
+    });
+  }
 }
 </script>
 
