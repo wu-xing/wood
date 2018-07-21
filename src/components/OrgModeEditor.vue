@@ -45,11 +45,19 @@
     </div>
     <div class="edit-container">
       <div class="org-code-container">
-        <textarea v-on:input="onContentChanged" v-bind:value="document.content" cols="30" id="" name="" rows="10"></textarea>
+        <textarea
+          ref="textarea"
+          v-on:input="onContentChanged"
+          v-on:scroll="onTextAreaScroll"
+          v-bind:value="document.content"
+        ></textarea>
       </div>
 
       <div class="org-preview-container">
-        <ArticlePreview :html="orgHtml"/>
+        <ArticlePreview
+          ref="preview"
+          :html="orgHtml"
+        />
       </div>
     </div>
   </div>
@@ -78,12 +86,23 @@ export default class OrgModeEditor extends Vue {
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
+    window.addEventListener('beforeunload', this.handleBeforeunload);
+  }
+
+  destroyed() {
+    window.removeEventListener('beforeunload', this.handleBeforeunload);
   }
 
   @Watch('document')
   onValueChange(document: any) {
     /* this.parseHtmlFromOrgCode(document.content); */
     this.parseHtmlFromOrgCode(document.content);
+  }
+
+  handleBeforeunload = (event: any) => {
+    const confirmationMessage = '\o/';
+
+    /* (event || window.event).returnValue = confirmationMessage;     // Gecko and Trident */
   }
 
   parseHtmlFromOrgCode(code: any) {
@@ -112,6 +131,16 @@ export default class OrgModeEditor extends Vue {
     this.$emit('change', document);
   }
 
+  onTextAreaScroll(event: Event) {
+    const textareaScrollRatio =
+      (<HTMLElement>this.$refs.textarea).scrollTop /
+    (<HTMLElement>this.$refs.textarea).scrollHeight;
+    const preview: Vue = <any>this.$refs.preview;
+    window.requestAnimationFrame(() => {
+      preview.$el.scrollTop = preview.$el.scrollHeight * textareaScrollRatio;
+    });
+  }
+
   addTitle() {
     this.$emit('change', {
       ...this.document,
@@ -122,7 +151,7 @@ export default class OrgModeEditor extends Vue {
   addSrcBlock() {
     this.$emit('change', {
       ...this.document,
-      content: this.getInsertValueToTextArea(`\n#+BEGIN_SRC\n\n#+END_SRC`);
+      content: this.getInsertValueToTextArea(`\n#+BEGIN_SRC\n\n#+END_SRC`)
     });
   }
 
@@ -220,6 +249,7 @@ export default class OrgModeEditor extends Vue {
   height: 100%;
   outline: none;
   padding-bottom: 130px;
+  letter-spacing: 1px;
   border: none;
   font-size: 15px;
   padding: 10px;

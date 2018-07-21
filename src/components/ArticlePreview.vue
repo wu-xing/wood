@@ -1,5 +1,9 @@
 <template>
-  <div class="article-preview" v-html="html"></div>
+  <div
+    class="article-preview"
+    v-bind:class="{ 'show-outline': showOutline }"
+    v-html="html">
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,6 +14,9 @@ declare var hljs: any;
 @Component
 export default class ArticlePreview extends Vue {
   @Prop() public html!: string;
+
+  @Prop({ default: () => false })
+  public showOutline!: boolean;
 
   updated(): void {
     this.hlCode();
@@ -32,12 +39,46 @@ export default class ArticlePreview extends Vue {
   height: 100%;
   box-sizing: border-box;
   line-height: 1.1;
-  font-family: pingfang, SourceSansPro;
+  letter-spacing: 1px;
+}
+
+.article-preview .outline {
+  display: none;
+}
+
+.article-preview.show-outline .outline {
+  display: block;
 }
 
 .article-preview h1 {
   color: #555;
   margin-top: 5px;
+}
+
+.article-preview ul {
+  list-style: none;
+}
+
+.article-preview li {
+  margin-bottom: 8px;
+}
+
+.article-preview li a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.article-preview > ul {
+  padding: 0;
+}
+
+.article-preview .section-number {
+  margin-right: 8px;
+  background-color: #333;
+  border-radius: 2px;
+  color: white;
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 .article-preview img {
@@ -49,11 +90,11 @@ export default class ArticlePreview extends Vue {
 .article-preview pre {
   padding: 8px 8px;
   border-radius: 3px;
-  border: 1px solid #eee;
+  background-color: #232420;
+  border: 1px solid #232420;
 }
 
 code {
   font-family: Monaco;
-  padding: 10px;
 }
 </style>

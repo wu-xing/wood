@@ -9,7 +9,7 @@
             <div class="article-title">
               {{article.title}}
             </div>
-            <div>
+            <div class="article-date">
               {{formatDate(article.updatedAt || article.createdAt)}}
             </div>
           </li>
@@ -26,7 +26,12 @@
             </li>
           </ul>
         </div>
-        <div v-html="articlePreviewHtml"></div>
+
+
+        <ArticlePreview
+          ref="preview"
+          :html="articlePreviewHtml"
+        />
       </div>
 
     </div>
@@ -40,9 +45,12 @@ import axios from 'axios';
 import * as org from 'orgpr';
 import format from 'date-fns/format';
 import * as values from 'ramda/src/values';
+import ArticlePreview from '../components/ArticlePreview.vue';
 
 @Component({
-  components: {}
+  components: {
+    ArticlePreview
+  }
 })
 export default class Editor extends Vue {
   public foucsedArticle: any;
@@ -89,12 +97,13 @@ export default class Editor extends Vue {
 <style scoped>
 .container-inner {
   display: flex;
+  height: 100%;
 }
 
 aside {
-  padding-left: 20px;
   width: 35%;
   max-width: 300px;
+  border-right: 1px solid #f8f8f8;
 }
 
 aside ul {
@@ -104,9 +113,10 @@ aside ul {
 }
 
 aside li {
+  padding-left: 20px;
   cursor: pointer;
   text-align: left;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #f8f8f8;
   height: 50px;
 }
 
@@ -114,6 +124,10 @@ aside li {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.article-date {
+  font-size: 12px;
 }
 
 .preview-operation {
@@ -128,5 +142,6 @@ aside li {
   height: 100%;
   width: 100%;
   text-align: left;
+  overflow-y: auto;
 }
 </style>
