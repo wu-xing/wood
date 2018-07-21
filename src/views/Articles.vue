@@ -54,7 +54,7 @@ import ArticlePreview from '../components/ArticlePreview.vue';
   }
 })
 export default class Editor extends Vue {
-  public foucsedArticleId: number = null;
+  public foucsedArticleId?: number;
 
   get articles() {
     return values(this.$store.state.articles);
@@ -66,7 +66,7 @@ export default class Editor extends Vue {
 
   public created() {
     this.getArticles();
-    this.foucsedArticleId = window.localStorage.getItem('foucsedArticleId');
+    this.foucsedArticleId = (<any>window.localStorage.getItem('foucsedArticleId'));
   }
 
   public formatDate(date: number) {
@@ -84,9 +84,9 @@ export default class Editor extends Vue {
     });
   }
 
-  public onArticleItemClick(article: ArticleDocument) {
+  public onArticleItemClick(article: Article) {
     this.foucsedArticleId = article.id;
-    window.localStorage.setItem('foucsedArticleId', article.id);
+    window.localStorage.setItem('foucsedArticleId', (<any>article.id));
   }
 
   public parseOrgCode(code: string): string {
