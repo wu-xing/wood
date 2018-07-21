@@ -10,7 +10,7 @@
         <li v-on:click="addTitle()">
           <el-tooltip class="item" effect="dark" content="标题" placement="right">
             <as-icon name="heading" style="color: #dc4e52"></as-icon>
-           </el-tooltip>
+          </el-tooltip>
         </li>
         <li v-on:click="addSrcBlock()">
           <el-tooltip class="item" effect="dark" content="代码" placement="right">

@@ -16,13 +16,11 @@ import Icon from 'vue-awesome/components/Icon.vue'
 
 
 declare module 'vue/types/vue' {
-// 3. 声明为 Vue 补充的东西
   interface Vue {
     $eventHub: Vue
   }
 }
 
-// globally (in your main .js file)
 Vue.component('as-icon', Icon)
 
 Vue.prototype.$eventHub = new Vue();
