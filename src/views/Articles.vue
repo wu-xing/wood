@@ -54,7 +54,7 @@ import ArticlePreview from '../components/ArticlePreview.vue';
   }
 })
 export default class Editor extends Vue {
-  public foucsedArticleId?: number;
+  public foucsedArticleId: number | null = null;
 
   get articles() {
     return values(this.$store.state.articles);
