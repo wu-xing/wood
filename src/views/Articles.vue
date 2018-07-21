@@ -169,7 +169,7 @@ aside li:hover {
   position: absolute;
   right: 0;
   top: 0;
-  /* opacity: 0; */
+  opacity: 0;
 }
 
 .preview-contaier-toolbar ul {

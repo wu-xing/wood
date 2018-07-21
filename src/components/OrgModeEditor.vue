@@ -84,6 +84,9 @@ export default class OrgModeEditor extends Vue {
   @Prop({ default: () => ({ content: '', title: '' }) })
   document!: any;
 
+  @Prop({ default: () => false})
+  public waitPush?: boolean;
+
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
     window.addEventListener('beforeunload', this.handleBeforeunload);
@@ -95,14 +98,14 @@ export default class OrgModeEditor extends Vue {
 
   @Watch('document')
   onValueChange(document: any) {
-    /* this.parseHtmlFromOrgCode(document.content); */
     this.parseHtmlFromOrgCode(document.content);
   }
 
   handleBeforeunload = (event: any) => {
     const confirmationMessage = '\o/';
-
-    /* (event || window.event).returnValue = confirmationMessage;     // Gecko and Trident */
+    if (this.waitPush) {
+      (event || window.event).returnValue = confirmationMessage;
+    }
   }
 
   parseHtmlFromOrgCode(code: any) {

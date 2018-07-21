@@ -2,6 +2,7 @@
   <div>
     <OrgModeEditor
       is-edit
+      :waitPush="waitPush"
       v-on:change="onChange"
       v-bind:document="document" />
   </div>
@@ -14,7 +15,7 @@ import axios from 'axios';
 import router from '../router';
 import OrgModeEditor from '@/components/OrgModeEditor.vue';
 import { Subject } from 'rxjs';
-import { switchMap, throttleTime } from 'rxjs/operators';
+import { switchMap, debounceTime, tap } from 'rxjs/operators';
 
 @Component({
   components: {
@@ -25,6 +26,7 @@ export default class ArticleEdit extends Vue {
   private saved: boolean = false;
   private sync$: Subject<void> = new Subject();
   private uploadingContent?: string;
+  private waitPush = false;
 
   constructor() {
     super();
@@ -43,9 +45,13 @@ export default class ArticleEdit extends Vue {
 
     this.sync$
       .pipe(
-        throttleTime(1000),
+        tap(() => {
+          this.waitPush = true;
+        }),
+        debounceTime(1000),
         switchMap(() => {
-          this.uploadingContent = this.document.content
+          this.waitPush = false;
+          this.uploadingContent = this.document.content;
           return axios.put(`/api/auth/article/${this.$route.params.id}`, {
             ...this.document
           });
@@ -64,7 +70,7 @@ export default class ArticleEdit extends Vue {
 
   public onBeforeunload = (event: Event) => {
     return '确认离开吗?';
-  }
+  };
 
   public onChange(document: ArticleDocument) {
     this.$store.commit('articleMidifiy', {

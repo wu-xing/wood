@@ -90,13 +90,11 @@ export default class ArticlePreview extends Vue {
 }
 
 .article-preview pre {
-  padding: 8px 8px;
-  border-radius: 3px;
-  background-color: #232420;
-  border: 1px solid #232420;
 }
 
 code {
+  padding: 8px 8px;
+  border-radius: 3px;
   font-family: Monaco;
 }
 </style>
