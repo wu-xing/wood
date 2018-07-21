@@ -60,7 +60,7 @@ export default class ArticlePreview extends Vue {
 }
 
 .article-preview li {
-  margin-bottom: 8px;
+  margin-bottom: 3px;
 }
 
 .article-preview li a {
@@ -74,11 +74,13 @@ export default class ArticlePreview extends Vue {
 
 .article-preview .section-number {
   margin-right: 8px;
-  background-color: #333;
+  background-color: #666;
   border-radius: 2px;
   color: white;
   padding: 0 5px;
   box-sizing: border-box;
+  display: inline-block;
+  height: 80%;
 }
 
 .article-preview img {
