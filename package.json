@@ -13,7 +13,7 @@
     "date-fns": "^2.0.0-alpha.10",
     "element-ui": "^2.3.2",
     "jsdiff": "^1.1.1",
-    "orgpr": "^0.2.4",
+    "orgpr": "^0.2.5",
     "ramda": "^0.25.0",
     "register-service-worker": "^1.0.0",
     "rxjs": "^6.2.1",

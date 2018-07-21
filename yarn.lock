@@ -4896,9 +4896,9 @@ ora@^2.1.0:
     strip-ansi "^4.0.0"
     wcwidth "^1.0.1"
 
-orgpr@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/orgpr/-/orgpr-0.2.4.tgz#0fa6d3df85a8034a7b9907e38a93119c833a25f5"
+orgpr@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/orgpr/-/orgpr-0.2.5.tgz#813036cf28c2e188f9dc99d790671ca1b944e68a"
 
 original@>=0.0.5:
   version "1.0.1"
