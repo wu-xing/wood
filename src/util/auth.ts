@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { setupAxiosAuth } from './axios';
 
 export function setJwt(jwt: string) {
   window.localStorage.setItem('jwt', jwt);
-  axios.defaults.headers.common['jwt'] = jwt;
+  setupAxiosAuth();
 }
 
 export function readJwt() {

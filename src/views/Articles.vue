@@ -67,9 +67,13 @@ export default class Editor extends Vue {
   public created() {
     this.getArticles();
     this.foucsedArticleId = (<any>window.localStorage.getItem('foucsedArticleId'));
+
+    axios.get(`/api/auth/article/3/history`).then(resp => {
+      console.log(resp);
+    });
   }
 
-  public formatDate(date: number) {
+  public formatDate(date: number): string {
     return format(date, 'YYYY/MM/dd');
   }
 
