@@ -22,7 +22,12 @@
           <ul class="preview-operation">
             <li v-on:click="goEdit()">
               <el-tooltip class="item" effect="dark" content="编辑" placement="right">
-                <as-icon name="edit" size="30" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+                <as-icon name="edit" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+              </el-tooltip>
+            </li>
+            <li>
+              <el-tooltip class="item" effect="dark" content="编辑" placement="right">
+                <as-icon name="history" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
           </ul>
@@ -171,25 +176,28 @@ aside li:hover {
 
 .preview-contaier-toolbar {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 0;
-  opacity: 0;
+  /* opacity: 0; */
 }
 
 .preview-contaier-toolbar ul {
   list-style: none;
+  margin: 5px;
 }
 
 .preview-operation li {
   border-radius: 50%;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
   box-shadow: 0 2px 10px #ccc;
+  background-color: white;
+  margin-bottom: 10px;
 }
 
 .preview-operation li svg {
