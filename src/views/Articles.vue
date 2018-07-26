@@ -25,9 +25,14 @@
                 <as-icon name="edit" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
-            <li>
+            <li v-on:click="openHistoryCalendarModal()">
               <el-tooltip class="item" effect="dark" content="编辑" placement="right">
                 <as-icon name="history" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+              </el-tooltip>
+            </li>
+            <li v-on:click="lockArticle()">
+              <el-tooltip class="item" effect="dark" content="编辑" placement="right">
+                <as-icon name="lock" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
           </ul>
@@ -38,6 +43,10 @@
           v-if="articles.find(a => a.id === foucsedArticleId)"
           :html="parseOrgCode(articles.find(a => a.id === foucsedArticleId).content)"
         />
+
+        <div class="unlock-area" v-if="isEncryption()">
+          <input name="" type="text" value=""/>
+        </div>
       </div>
 
     </div>
@@ -51,6 +60,8 @@ import axios from 'axios';
 import * as org from 'orgpr';
 import format from 'date-fns/format';
 import * as values from 'ramda/src/values';
+import * as sort from 'ramda/src/sort';
+import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
 
 @Component({
@@ -60,9 +71,13 @@ import ArticlePreview from '../components/ArticlePreview.vue';
 })
 export default class Editor extends Vue {
   public foucsedArticleId: number | null = null;
+  public isLock = true;
 
   get articles() {
-    return values(this.$store.state.articles);
+    return compose(
+      sort((a: Article, b: Article) => (a.updatedAt || a.createdAt) < (b.updatedAt || b.createdAt)),
+      values
+    )(this.$store.state.articles);
   }
 
   goEdit() {
@@ -71,11 +86,28 @@ export default class Editor extends Vue {
 
   public created() {
     this.getArticles();
-    this.foucsedArticleId = (<any>window.localStorage.getItem('foucsedArticleId'));
+    this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
+  }
 
+  isEncryption() {
+    if (!this.foucsedArticleId) {
+      return false;
+    }
+    return (
+      this.$store.state.articles[this.foucsedArticleId] &&
+      this.$store.state.articles[this.foucsedArticleId].isEncryption &&
+      this.isLock
+    );
+  }
+
+  openHistoryCalendarModal() {
     /* axios.get(`/api/auth/article/3/history`).then(resp => {
      *   console.log(resp);
      * }); */
+  }
+
+  lockArticle() {
+    axios.post(`/api/auth/article/encryption/${this.foucsedArticleId}`).then(() => {});
   }
 
   public formatDate(date: number): string {
@@ -95,7 +127,7 @@ export default class Editor extends Vue {
 
   public onArticleItemClick(article: Article) {
     this.foucsedArticleId = article.id;
-    window.localStorage.setItem('foucsedArticleId', (<any>article.id));
+    window.localStorage.setItem('foucsedArticleId', <any>article.id);
   }
 
   public parseOrgCode(code: string): string {
@@ -203,5 +235,13 @@ aside li:hover {
 .preview-operation li svg {
   height: 20px;
   width: auto;
+}
+
+.unlock-area {
+  background-color: #999;
+  position: absolute;
+  height: 200px;
+  width: 40%;
+  top: 0;
 }
 </style>

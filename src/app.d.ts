@@ -1,7 +1,8 @@
-declare interface Article {
+export declare interface Article {
   id: number;
   content: string;
   createdAt: number;
+  isEncryption: boolean;
   updatedAt: number;
 }
 

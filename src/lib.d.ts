@@ -1,5 +1,7 @@
 /// <reference> node.d.ts
 declare module 'ramda/src/values';
+declare module 'ramda/src/sort';
+declare module 'ramda/src/compose';
 
 
 declare module "orgpr" {
