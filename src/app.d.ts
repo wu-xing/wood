@@ -1,4 +1,4 @@
-export declare interface Article {
+declare interface Article {
   id: number;
   content: string;
   createdAt: number;

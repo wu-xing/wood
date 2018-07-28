@@ -45,7 +45,7 @@
         />
 
         <div class="unlock-area" v-if="isEncryption()">
-          <input name="" type="text" value=""/>
+          <input name="" type="text" value="" placeholder="输入密码" />
         </div>
       </div>
 
