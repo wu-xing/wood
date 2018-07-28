@@ -17,8 +17,8 @@
         </ul>
       </aside>
 
-      <div class="preview-contaier">
-        <div class="preview-contaier-toolbar">
+      <div class="preview-contaier" v-bind:class="{ lock: isEncryption() }">
+        <div class="preview-contaier-toolbar" v-if="!isEncryption()">
           <ul class="preview-operation">
             <li v-on:click="goEdit()">
               <el-tooltip class="item" effect="dark" content="编辑" placement="right">
@@ -40,12 +40,12 @@
 
         <ArticlePreview
           ref="preview"
-          v-if="articles.find(a => a.id === foucsedArticleId)"
+          v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
           :html="parseOrgCode(articles.find(a => a.id === foucsedArticleId).content)"
         />
 
         <div class="unlock-area" v-if="isEncryption()">
-          <input name="" type="text" value="" placeholder="输入密码" />
+          <input name="wood-article-password" type="password" value="" placeholder="输入密码解锁" />
         </div>
       </div>
 
@@ -94,6 +94,7 @@ export default class Editor extends Vue {
       return false;
     }
     return (
+      this.$store.state.articles &&
       this.$store.state.articles[this.foucsedArticleId] &&
       this.$store.state.articles[this.foucsedArticleId].isEncryption &&
       this.isLock
@@ -200,6 +201,11 @@ aside li:hover {
   width: 100%;
   text-align: left;
   overflow-y: auto;
+  position: relative;
+}
+
+.preview-contaier.lock {
+  background-color: #ccc;
 }
 
 .preview-contaier:hover .preview-contaier-toolbar {
@@ -238,10 +244,25 @@ aside li:hover {
 }
 
 .unlock-area {
-  background-color: #999;
+  background-color: #f8f8f8;
   position: absolute;
   height: 200px;
   width: 40%;
-  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.unlock-area input {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 6px 12px;
+  margin-top: -10px;
+  text-align: center;
 }
 </style>
