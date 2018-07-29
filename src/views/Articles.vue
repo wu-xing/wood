@@ -45,7 +45,7 @@
         />
 
         <div class="unlock-area" v-if="isEncryption()">
-          <input name="wood-article-password" type="password" value="" placeholder="输入密码解锁" />
+          <input name="wood-article-password" type="password" value="" placeholder="输入密码解锁" v-bind:enter="onUnlock()" />
         </div>
       </div>
 
@@ -87,6 +87,10 @@ export default class Editor extends Vue {
   public created() {
     this.getArticles();
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
+  }
+
+  onUnlock() {
+    
   }
 
   isEncryption() {
