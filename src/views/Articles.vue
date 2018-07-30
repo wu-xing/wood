@@ -52,13 +52,13 @@
 
         <div class="unlock-area" v-if="isEncryption()">
           <form v-on:submit="onUnlock($event)">
-            <input name="木记" type="text" value="password" style="display: none" />
+            <input name="木记" type="text" value="木记" style="display: none" />
             <input
               name="wood-article-password"
               type="password"
               placeholder="输入密码解锁"
               autocomplete="off"
-              v-on:key.enter="onUnlock($event)"
+              v-on:keyup.enter="onUnlock($event)"
               v-model="lockPassword" />
           </form>
         </div>
@@ -81,6 +81,7 @@ import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
 import { LockServiceInstance } from '../service/lock';
+import * as JSZipUtils from 'jszip-utils';
 
 @Component({
   components: {
@@ -109,6 +110,7 @@ export default class Editor extends Vue {
   }
 
   onUnlock(event: Event) {
+    console.log('onUnlock');
     event.preventDefault();
     this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
@@ -131,12 +133,18 @@ export default class Editor extends Vue {
       this.$store.state.articles[this.foucsedArticleId as number].title + '.org',
       this.$store.state.articles[this.foucsedArticleId as number].content
     );
-    /* var img = zip.folder('images');
-     * img.file('smile.gif', imgData, { base64: true }); */
-    zip.generateAsync({ type: 'blob' }).then((content) => {
-      // see FileSaver.js
+    var img = zip.folder('images');
+    img.file('smile.gif', imgData, { base64: true });
+    zip.generateAsync({ type: 'blob' }).then(content => {
       saveAs(content, `${this.$store.state.articles[this.foucsedArticleId].title}.zip`);
     });
+    
+    const content: string = this.$store.state.articles[this.foucsedArticleId as number].content;
+    const x = [];
+    content.replace(/image-url:([\S]+)]]/g, (str, p) => {
+      x.push(p);
+    });
+
   }
 
   openHistoryCalendarModal() {
