@@ -35,6 +35,12 @@
                 <as-icon name="lock" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
+            <li v-on:click="downloadZip()">
+              <el-tooltip class="item" effect="dark" content="下载" placement="right">
+                <as-icon name="file-archive" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+              </el-tooltip>
+            </li>
+
           </ul>
         </div>
 
@@ -45,7 +51,16 @@
         />
 
         <div class="unlock-area" v-if="isEncryption()">
-          <input name="wood-article-password" type="password" value="" placeholder="输入密码解锁" v-bind:enter="onUnlock()" />
+          <form v-on:submit="onUnlock($event)">
+            <input name="木记" type="text" value="password" style="display: none" />
+            <input
+              name="wood-article-password"
+              type="password"
+              placeholder="输入密码解锁"
+              autocomplete="off"
+              v-on:key.enter="onUnlock($event)"
+              v-model="lockPassword" />
+          </form>
         </div>
       </div>
 
@@ -59,10 +74,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
 import format from 'date-fns/format';
+import * as JSZip from 'jszip';
+import { saveAs } from 'file-saver/FileSaver';
 import * as values from 'ramda/src/values';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
+import { LockServiceInstance } from '../service/lock';
 
 @Component({
   components: {
@@ -71,6 +89,7 @@ import ArticlePreview from '../components/ArticlePreview.vue';
 })
 export default class Editor extends Vue {
   public foucsedArticleId: number | null = null;
+  public lockPassword: string = '';
   public isLock = true;
 
   get articles() {
@@ -89,8 +108,9 @@ export default class Editor extends Vue {
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
   }
 
-  onUnlock() {
-    
+  onUnlock(event: Event) {
+    event.preventDefault();
+    this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
 
   isEncryption() {
@@ -103,6 +123,20 @@ export default class Editor extends Vue {
       this.$store.state.articles[this.foucsedArticleId].isEncryption &&
       this.isLock
     );
+  }
+
+  downloadZip() {
+    const zip = new JSZip();
+    zip.file(
+      this.$store.state.articles[this.foucsedArticleId as number].title + '.org',
+      this.$store.state.articles[this.foucsedArticleId as number].content
+    );
+    /* var img = zip.folder('images');
+     * img.file('smile.gif', imgData, { base64: true }); */
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      // see FileSaver.js
+      saveAs(content, `${this.$store.state.articles[this.foucsedArticleId].title}.zip`);
+    });
   }
 
   openHistoryCalendarModal() {
