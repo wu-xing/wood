@@ -97,4 +97,8 @@ code {
   border-radius: 3px;
   font-family: Monaco;
 }
+
+blockquote {
+  font-style: italic;
+}
 </style>

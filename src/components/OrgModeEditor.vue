@@ -22,6 +22,11 @@
             <as-icon name="terminal" style="color: #972a93"></as-icon>
           </el-tooltip>
         </li>
+        <li v-on:click="addQuoteCode()">
+          <el-tooltip class="item" effect="dark" content="引用" placement="right">
+            <as-icon name="quote-right" style="color: #169f43"></as-icon>
+          </el-tooltip>
+        </li>
         <li v-on:click="fullScreen()">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
             <as-icon name="expand" style="color: #8b6956"></as-icon>
@@ -155,6 +160,13 @@ export default class OrgModeEditor extends Vue {
     this.$emit('change', {
       ...this.document,
       content: this.getInsertValueToTextArea(`\n#+BEGIN_SRC\n\n#+END_SRC`)
+    });
+  }
+
+  addQuoteCode() {
+    this.$emit('change', {
+      ...this.document,
+      content: this.getInsertValueToTextArea(`#+BEGIN_QUOTE\n\n#+END_QUOTE`)
     });
   }
 
