@@ -2,6 +2,8 @@
 declare module 'ramda/src/values';
 declare module 'ramda/src/sort';
 declare module 'ramda/src/compose';
+declare module 'jszip-utils';
+declare module 'file-saver/FileSaver';
 
 
 declare module "orgpr" {
