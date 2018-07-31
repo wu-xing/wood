@@ -110,7 +110,7 @@ export default class Editor extends Vue {
   }
 
   onUnlock(event: Event) {
-    console.log('onUnlock');
+
     event.preventDefault();
     this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
@@ -133,18 +133,38 @@ export default class Editor extends Vue {
       this.$store.state.articles[this.foucsedArticleId as number].title + '.org',
       this.$store.state.articles[this.foucsedArticleId as number].content
     );
-    var img = zip.folder('images');
-    img.file('smile.gif', imgData, { base64: true });
-    zip.generateAsync({ type: 'blob' }).then(content => {
-      saveAs(content, `${this.$store.state.articles[this.foucsedArticleId].title}.zip`);
-    });
     
     const content: string = this.$store.state.articles[this.foucsedArticleId as number].content;
-    const x = [];
-    content.replace(/image-url:([\S]+)]]/g, (str, p) => {
-      x.push(p);
+    const imageUrls: string[] = [];
+    content.replace(/image-url:([\S]+)]]/g, (substring: string, imageurl: string) => {
+      imageUrls.push(imageurl);
+      return '';
     });
 
+
+    Promise.all(imageUrls.map((url, i) => {return this.addToZip(url, zip, i)})).then(() => {
+      zip.generateAsync({ type: 'blob' }).then(content => {
+        saveAs(content, `${this.$store.state.articles[this.foucsedArticleId as number].title}.zip`);
+      });
+    });
+  }
+
+
+  addToZip(imageUrl: string, zip: any, i: any) {
+    return new Promise((resolve, reject) => {
+      JSZipUtils.getBinaryContent(imageUrl, (err: any, data: any) => {
+          if(err) {
+            alert("Problem happened when download img: " + imageUrl);
+            console.error("Problem happened when download img: " + imageUrl);
+            resolve(zip); // ignore this error: just logging
+            // deferred.reject(zip); // or we may fail the download
+          } else {
+            console.log(data);
+            zip.file("picture"+i+".jpg", data, {binary:true});
+            resolve(zip);
+          }
+      });
+    })
   }
 
   openHistoryCalendarModal() {

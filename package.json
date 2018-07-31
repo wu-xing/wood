@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/jszip": "^3.1.4",
     "@types/ramda": "^0.25.33",
     "axios": "^0.18.0",
     "date-fns": "^2.0.0-alpha.10",
