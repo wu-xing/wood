@@ -15,6 +15,6 @@ export function extractUrlHash(url: string): string {
 export function replaceArticleImageUrl(title: string, content: string): string {
   return content.replace(/image-url:([\S]+)]]/g, (substring: string, imageurl: string) => {
     const hash: string = extractUrlHash(imageurl);
-    return './' + title + '/' + hash;
+    return './' + title + '/' + hash + ']]';
   });
 }
