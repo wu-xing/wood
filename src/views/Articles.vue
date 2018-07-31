@@ -68,7 +68,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
@@ -81,7 +80,8 @@ import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
 import { LockServiceInstance } from '../service/lock';
-import * as JSZipUtils from 'jszip-utils';
+import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../util/article';
+import { getBinaryContent } from '../util/zip';
 
 @Component({
   components: {
@@ -110,7 +110,6 @@ export default class Editor extends Vue {
   }
 
   onUnlock(event: Event) {
-
     event.preventDefault();
     this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
@@ -127,44 +126,25 @@ export default class Editor extends Vue {
     );
   }
 
-  downloadZip() {
+  public downloadZip() {
     const zip = new JSZip();
-    zip.file(
-      this.$store.state.articles[this.foucsedArticleId as number].title + '.org',
-      this.$store.state.articles[this.foucsedArticleId as number].content
-    );
-    
+    const articleTitle = this.$store.state.articles[this.foucsedArticleId as number].title;
+    const articleContent = this.$store.state.articles[this.foucsedArticleId as number].content;
+
     const content: string = this.$store.state.articles[this.foucsedArticleId as number].content;
-    const imageUrls: string[] = [];
-    content.replace(/image-url:([\S]+)]]/g, (substring: string, imageurl: string) => {
-      imageUrls.push(imageurl);
-      return '';
-    });
+    const imageUrls: string[] = extractImageUrls(articleContent);
 
+    zip.file(articleTitle + '.org', replaceArticleImageUrl(articleTitle, articleContent));
 
-    Promise.all(imageUrls.map((url, i) => {return this.addToZip(url, zip, i)})).then(() => {
+    Promise.all(imageUrls.map(getBinaryContent)).then(results => {
+      const assetsFolder = zip.folder(articleTitle);
+      (<Array<{ binary: any; url: string }>>results).map((result: { binary: any; url: string }) => {
+        assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
+      });
       zip.generateAsync({ type: 'blob' }).then(content => {
-        saveAs(content, `${this.$store.state.articles[this.foucsedArticleId as number].title}.zip`);
+        saveAs(content, `${articleTitle}.zip`);
       });
     });
-  }
-
-
-  addToZip(imageUrl: string, zip: any, i: any) {
-    return new Promise((resolve, reject) => {
-      JSZipUtils.getBinaryContent(imageUrl, (err: any, data: any) => {
-          if(err) {
-            alert("Problem happened when download img: " + imageUrl);
-            console.error("Problem happened when download img: " + imageUrl);
-            resolve(zip); // ignore this error: just logging
-            // deferred.reject(zip); // or we may fail the download
-          } else {
-            console.log(data);
-            zip.file("picture"+i+".jpg", data, {binary:true});
-            resolve(zip);
-          }
-      });
-    })
   }
 
   openHistoryCalendarModal() {
