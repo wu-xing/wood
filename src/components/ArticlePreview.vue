@@ -38,7 +38,7 @@ export default class ArticlePreview extends Vue {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  line-height: 1.1;
+  line-height: 1.6;
   letter-spacing: 1px;
 }
 
