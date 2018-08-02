@@ -137,10 +137,12 @@ export default class Editor extends Vue {
     zip.file(articleTitle + '.org', replaceArticleImageUrl(articleTitle, articleContent));
 
     Promise.all(imageUrls.map(getBinaryContent)).then(results => {
-      const assetsFolder = zip.folder(articleTitle);
-      (<Array<{ binary: any; url: string }>>results).map((result: { binary: any; url: string }) => {
-        assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
-      });
+      if (imageUrls.length) {
+        const assetsFolder = zip.folder(articleTitle);
+        (<Array<{ binary: any; url: string }>>results).map((result: { binary: any; url: string }) => {
+          assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
+        });
+      }
       zip.generateAsync({ type: 'blob' }).then(content => {
         saveAs(content, `${articleTitle}.zip`);
       });
