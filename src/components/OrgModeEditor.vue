@@ -22,6 +22,11 @@
             <as-icon name="terminal" style="color: #972a93"></as-icon>
           </el-tooltip>
         </li>
+        <li v-on:click="toggleFullEditor()">
+          <el-tooltip class="item" effect="dark" content="引用" placement="right">
+            <as-icon name="columns" style="color: #169f43"></as-icon>
+          </el-tooltip>
+        </li>
         <li v-on:click="addQuoteCode()">
           <el-tooltip class="item" effect="dark" content="引用" placement="right">
             <as-icon name="quote-right" style="color: #169f43"></as-icon>
@@ -137,6 +142,10 @@ export default class OrgModeEditor extends Vue {
     };
     this.$emit('input', document);
     this.$emit('change', document);
+  }
+
+  toggleFullEditor() {
+    
   }
 
   onTextAreaScroll(event: Event) {
