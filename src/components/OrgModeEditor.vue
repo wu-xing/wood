@@ -23,7 +23,7 @@
           </el-tooltip>
         </li>
         <li v-on:click="toggleFullEditor()">
-          <el-tooltip class="item" effect="dark" content="隐藏预览" placement="right">
+          <el-tooltip class="item" effect="dark" v-bind:content="!hiddenPreview? '隐藏预览' : '显示预览'" placement="right">
             <as-icon name="columns" style="color: #169f43"></as-icon>
           </el-tooltip>
         </li>
@@ -90,6 +90,9 @@ export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
   title: string = '';
 
+  @Prop()
+  articleId!: string;
+  
   @Prop({ default: () => false })
   isEdit!: boolean;
 
@@ -104,6 +107,7 @@ export default class OrgModeEditor extends Vue {
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
     window.addEventListener('beforeunload', this.handleBeforeunload);
+    this.hiddenPreview = window.localStorage.getItem(`article-${this.articleId}-preview`) !== 'true';
   }
 
   destroyed() {
@@ -150,6 +154,7 @@ export default class OrgModeEditor extends Vue {
 
   toggleFullEditor() {
     this.hiddenPreview = !this.hiddenPreview;
+    window.localStorage.setItem(`article-${this.articleId}-preview`, (!this.hiddenPreview).toString());
   }
 
   onTextAreaScroll(event: Event) {
