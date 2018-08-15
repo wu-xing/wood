@@ -1,5 +1,17 @@
 <template>
   <div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
     <div class="container-inner">
       <aside>
         <ul v-if="articles.length">
@@ -26,12 +38,12 @@
               </el-tooltip>
             </li>
             <li v-on:click="openHistoryCalendarModal()">
-              <el-tooltip class="item" effect="dark" content="编辑" placement="right">
+              <el-tooltip class="item" effect="dark" content="历史" placement="right">
                 <as-icon name="history" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
             <li v-on:click="lockArticle()">
-              <el-tooltip class="item" effect="dark" content="编辑" placement="right">
+              <el-tooltip class="item" effect="dark" content="加锁" placement="right">
                 <as-icon name="lock" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
@@ -88,10 +100,11 @@ import { getBinaryContent } from '../util/zip';
     ArticlePreview
   }
 })
-export default class Editor extends Vue {
+export default class Articles extends Vue {
   public foucsedArticleId: number | null = null;
   public lockPassword: string = '';
   public isLock = true;
+  public dialogVisible = false;
 
   get articles() {
     return compose(
@@ -149,10 +162,15 @@ export default class Editor extends Vue {
     });
   }
 
+  handleClose() {
+    this.dialogVisible = false;
+  }
+
   openHistoryCalendarModal() {
-    /* axios.get(`/api/auth/article/3/history`).then(resp => {
-     *   console.log(resp);
-     * }); */
+    this.dialogVisible = true;
+    axios.get(`/api/auth/article/3/history`).then(resp => {
+      console.log(resp);
+    });
   }
 
   lockArticle() {
@@ -169,8 +187,7 @@ export default class Editor extends Vue {
       this.$store.commit('articles', resp.data);
 
       if (!this.foucsedArticleId && this.articles[0]) {
-        this.foucsedArticleId = this.articles[0].id;
-      }
+        this.foucsedArticleId = this.articles[0].id;}
     });
   }
 
