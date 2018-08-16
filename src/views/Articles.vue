@@ -5,7 +5,9 @@
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
-      <span>这是一段信息</span>
+      <Calendar
+        v-on:choseDay="clickDay"
+      ></Calendar>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -94,10 +96,12 @@ import ArticlePreview from '../components/ArticlePreview.vue';
 import { LockServiceInstance } from '../service/lock';
 import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../util/article';
 import { getBinaryContent } from '../util/zip';
+import Calendar from 'vue-calendar-component';
 
 @Component({
   components: {
-    ArticlePreview
+    ArticlePreview,
+    Calendar
   }
 })
 export default class Articles extends Vue {
@@ -117,9 +121,13 @@ export default class Articles extends Vue {
     this.$router.push(`/article/${this.foucsedArticleId}`);
   }
 
-  public created() {
+  created() {
     this.getArticles();
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
+  }
+
+  clickDay(day) {
+    console.log('day', day);
   }
 
   onUnlock(event: Event) {
@@ -152,9 +160,11 @@ export default class Articles extends Vue {
     Promise.all(imageUrls.map(getBinaryContent)).then(results => {
       if (imageUrls.length) {
         const assetsFolder = zip.folder(articleTitle);
-        (<Array<{ binary: any; url: string }>>results).map((result: { binary: any; url: string }) => {
-          assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
-        });
+        (<Array<{ binary: any; url: string }>>results).map(
+          (result: { binary: any; url: string }) => {
+            assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
+          }
+        );
       }
       zip.generateAsync({ type: 'blob' }).then(content => {
         saveAs(content, `${articleTitle}.zip`);
@@ -187,7 +197,8 @@ export default class Articles extends Vue {
       this.$store.commit('articles', resp.data);
 
       if (!this.foucsedArticleId && this.articles[0]) {
-        this.foucsedArticleId = this.articles[0].id;}
+        this.foucsedArticleId = this.articles[0].id;
+      }
     });
   }
 
