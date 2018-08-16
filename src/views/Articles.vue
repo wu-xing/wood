@@ -126,7 +126,7 @@ export default class Articles extends Vue {
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
   }
 
-  clickDay(day) {
+  clickDay(day: any) {
     console.log('day', day);
   }
 

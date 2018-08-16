@@ -92,7 +92,7 @@ export default class OrgModeEditor extends Vue {
 
   @Prop()
   articleId!: string;
-  
+
   @Prop({ default: () => false })
   isEdit!: boolean;
 
