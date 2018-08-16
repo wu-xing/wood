@@ -1,13 +1,10 @@
 <template>
   <div>
     <el-dialog
-      title="提示"
+      title="选择"
       :visible.sync="dialogVisible"
-      width="30%"
       :before-close="handleClose">
-      <Calendar
-        v-on:choseDay="clickDay"
-      ></Calendar>
+      <datepicker :inline="true" :disabledDates="disabledDates"></datepicker>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -96,12 +93,12 @@ import ArticlePreview from '../components/ArticlePreview.vue';
 import { LockServiceInstance } from '../service/lock';
 import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../util/article';
 import { getBinaryContent } from '../util/zip';
-import Calendar from 'vue-calendar-component';
+import Datepicker from 'vuejs-datepicker';
 
 @Component({
   components: {
     ArticlePreview,
-    Calendar
+    Datepicker
   }
 })
 export default class Articles extends Vue {
@@ -109,6 +106,20 @@ export default class Articles extends Vue {
   public lockPassword: string = '';
   public isLock = true;
   public dialogVisible = false;
+  public historyDates = null;
+
+  disabledDates = {
+    customPredictor: (date: Date) => {
+      console.log(format(date, 'yyyy-MM-dd'));
+      console.log(this)
+      if (!this.historyDates) {
+        return true;
+      }
+      console.log(this.historyDates)
+      console.log(this.historyDates.indexOf(format(date, 'yyyy-MM-dd')))
+      return this.historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
+    }
+  }
 
   get articles() {
     return compose(
@@ -180,6 +191,8 @@ export default class Articles extends Vue {
     this.dialogVisible = true;
     axios.get(`/api/auth/article/3/history`).then(resp => {
       console.log(resp);
+      console.log(this)
+      this.historyDates = resp.data;
     });
   }
 
