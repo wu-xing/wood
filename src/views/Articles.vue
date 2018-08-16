@@ -1,10 +1,13 @@
 <template>
   <div>
     <el-dialog
-      title="选择"
+      title="选择历史日期"
       :visible.sync="dialogVisible"
       :before-close="handleClose">
-      <datepicker :inline="true" :disabledDates="disabledDates"></datepicker>
+      <datepicker
+        v-if="historyDates"
+        :inline="true"
+        :disabledDates="genDisabledDates(historyDates)"></datepicker>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -108,25 +111,24 @@ export default class Articles extends Vue {
   public dialogVisible = false;
   public historyDates = null;
 
-  disabledDates = {
-    customPredictor: (date: Date) => {
-      console.log(format(date, 'yyyy-MM-dd'));
-      console.log(this)
-      if (!this.historyDates) {
-        return true;
-      }
-      console.log(this.historyDates)
-      console.log(this.historyDates.indexOf(format(date, 'yyyy-MM-dd')))
-      return this.historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
-    }
-  }
-
   get articles() {
     return compose(
       sort((a: Article, b: Article) => (a.updatedAt || a.createdAt) < (b.updatedAt || b.createdAt)),
       values
     )(this.$store.state.articles);
   }
+
+  genDisabledDates(historyDates: string[]) {
+    return {
+      customPredictor: ((date: Date) => {
+        if (!historyDates) {
+          return true;
+        }
+        return historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
+      })
+    };
+  }
+
 
   goEdit() {
     this.$router.push(`/article/${this.foucsedArticleId}`);
@@ -138,7 +140,6 @@ export default class Articles extends Vue {
   }
 
   clickDay(day: any) {
-    console.log('day', day);
   }
 
   onUnlock(event: Event) {
@@ -190,8 +191,6 @@ export default class Articles extends Vue {
   openHistoryCalendarModal() {
     this.dialogVisible = true;
     axios.get(`/api/auth/article/3/history`).then(resp => {
-      console.log(resp);
-      console.log(this)
       this.historyDates = resp.data;
     });
   }
