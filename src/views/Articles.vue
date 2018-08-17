@@ -6,6 +6,7 @@
       :before-close="handleClose">
       <datepicker
         v-if="historyDates"
+        v-on:selected="onHistoryDateSelect"
         :inline="true"
         :disabledDates="genDisabledDates(historyDates)"></datepicker>
       <span slot="footer" class="dialog-footer">
@@ -110,6 +111,7 @@ export default class Articles extends Vue {
   public isLock = true;
   public dialogVisible = false;
   public historyDates = null;
+  public selectedDate = null;
 
   get articles() {
     return compose(
@@ -139,7 +141,9 @@ export default class Articles extends Vue {
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
   }
 
-  clickDay(day: any) {
+  onHistoryDateSelect(day: Date | null) {
+    console.log('selected day', day);
+    this.selectedDate = day;
   }
 
   onUnlock(event: Event) {
@@ -190,6 +194,7 @@ export default class Articles extends Vue {
 
   openHistoryCalendarModal() {
     this.dialogVisible = true;
+    this.selectedDate = null;
     axios.get(`/api/auth/article/3/history`).then(resp => {
       this.historyDates = resp.data;
     });
