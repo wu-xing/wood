@@ -3,6 +3,7 @@
     <el-dialog
       title="选择历史日期"
       :visible.sync="dialogVisible"
+      width="400px"
       :before-close="handleClose">
       <datepicker
         v-if="historyDates"
@@ -11,7 +12,7 @@
         :disabledDates="genDisabledDates(historyDates)"></datepicker>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="onConfirmSelectHistory">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -62,7 +63,8 @@
         <ArticlePreview
           ref="preview"
           v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
-          :html="parseOrgCode(articles.find(a => a.id === foucsedArticleId).content)"
+          :html="getPreviewHtml()"
+          :articleHistory="focusHistory"
         />
 
         <div class="unlock-area" v-if="isEncryption()">
@@ -112,6 +114,8 @@ export default class Articles extends Vue {
   public dialogVisible = false;
   public historyDates = null;
   public selectedDate = null;
+  /* public isHistoryPreview = false; */
+  public focusHistory: any = null
 
   get articles() {
     return compose(
@@ -120,17 +124,27 @@ export default class Articles extends Vue {
     )(this.$store.state.articles);
   }
 
+  getPreviewHtml() {
+    const article = this.articles.find(a => a.id === this.foucsedArticleId);
+    if (!article) {
+      return;
+    }
+    if (this.focusHistory) {
+      return this.parseOrgCode(this.focusHistory.content);
+    }
+    return this.parseOrgCode(article.content)
+  }
+
   genDisabledDates(historyDates: string[]) {
     return {
-      customPredictor: ((date: Date) => {
+      customPredictor: (date: Date) => {
         if (!historyDates) {
           return true;
         }
         return historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
-      })
+      }
     };
   }
-
 
   goEdit() {
     this.$router.push(`/article/${this.foucsedArticleId}`);
@@ -141,9 +155,17 @@ export default class Articles extends Vue {
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
   }
 
-  onHistoryDateSelect(day: Date | null) {
-    console.log('selected day', day);
+  onHistoryDateSelect(day: any) {
     this.selectedDate = day;
+  }
+
+  onConfirmSelectHistory() {
+    const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
+    axios.get(`/api/auth/article/${this.foucsedArticleId}/history/${date}`).then(resp => {
+      /* this.isHistoryPreview = true */
+      this.focusHistory = resp.data;
+      this.dialogVisible = false;
+    });
   }
 
   onUnlock(event: Event) {
@@ -195,7 +217,7 @@ export default class Articles extends Vue {
   openHistoryCalendarModal() {
     this.dialogVisible = true;
     this.selectedDate = null;
-    axios.get(`/api/auth/article/3/history`).then(resp => {
+    axios.get(`/api/auth/article/${this.foucsedArticleId}/history`).then(resp => {
       this.historyDates = resp.data;
     });
   }
@@ -221,6 +243,8 @@ export default class Articles extends Vue {
 
   public onArticleItemClick(article: Article) {
     this.foucsedArticleId = article.id;
+    this.focusHistory = null;
+    this.historyDates = null;
     window.localStorage.setItem('foucsedArticleId', <any>article.id);
   }
 
@@ -281,7 +305,7 @@ aside li:hover {
   white-space: nowrap;
   margin-top: 3px;
   font-weight: bolder;
-  color: #333;
+  color: #612e00;
 }
 
 .article-date {
@@ -357,5 +381,15 @@ aside li:hover {
   padding: 6px 12px;
   margin-top: -10px;
   text-align: center;
+}
+
+</style>
+
+
+<style>
+.vdp-datepicker__calendar {
+  margin: 0 auto;
+  border: 0;
+  transform: scale(1.1, 1.1);
 }
 </style>

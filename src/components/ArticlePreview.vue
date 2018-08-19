@@ -1,8 +1,11 @@
 <template>
-  <div
-    class="article-preview"
-    v-bind:class="{ 'show-outline': showOutline }"
-    v-html="html">
+  <div class="preview-container" v-bind:class="{ 'is-history': !!articleHistory }">
+    <div class="history-info" v-if="!!articleHistory">{{articleHistory.date}} 历史（不可编辑）</div>
+    <div
+      class="article-preview"
+      v-bind:class="{ 'show-outline': showOutline }"
+      v-html="html">
+    </div>
   </div>
 </template>
 
@@ -18,6 +21,8 @@ export default class ArticlePreview extends Vue {
   @Prop({ default: () => false })
   public showOutline!: boolean;
 
+  @Prop() public articleHistory!: any;
+
   updated(): void {
     this.hlCode();
   }
@@ -31,6 +36,22 @@ export default class ArticlePreview extends Vue {
 </script>
 
 <style>
+.preview-container.is-history {
+  background-color: #fffde9;
+  height: 100%;
+  padding-left: 5px;
+}
+.preview-container .history-info {
+  overflow: hidden;
+  margin-top: 10px;
+  padding: 5px 20px;
+  font-style: italic;
+  background-color: white;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid #eee;
+}
+
 .article-preview {
   margin: 0;
   padding: 10px;
