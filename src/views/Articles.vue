@@ -125,7 +125,7 @@ export default class Articles extends Vue {
   }
 
   getPreviewHtml() {
-    const article = this.articles.find(a => a.id === this.foucsedArticleId);
+    const article = this.articles.find((a: Article) => a.id === this.foucsedArticleId);
     if (!article) {
       return;
     }
