@@ -41,6 +41,10 @@ export default class ArticlePreview extends Vue {
   height: 100%;
   padding-left: 5px;
 }
+
+.preview-container {
+  height: 100%;
+}
 .preview-container .history-info {
   overflow: hidden;
   margin-top: 10px;
