@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>401</h1>
+
+    <a href="/signin">signin</a>
   </div>
 </template>
 
