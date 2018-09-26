@@ -56,6 +56,11 @@
                 <as-icon name="file-archive" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
+            <li v-on:click="downloadZip()">
+              <el-tooltip class="item" effect="dark" content="分享" placement="right">
+                <as-icon name="file-archive" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+              </el-tooltip>
+            </li>
 
           </ul>
         </div>

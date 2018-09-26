@@ -12,7 +12,7 @@ const Articles = async () => await require('./views/Articles.vue');
 const ArticleEdit = async () => await require('./views/ArticleEdit.vue');
 const ArticleCreate = async () => await require('./views/ArticleCreate.vue');
 const Unauthorized = async () => await require('./views/Unauthorized.vue');
-const ShareArticle = async () => await require('./views/shareArticle.vue');
+const ShareArticle = async () => await require('./views/ShareArticle.vue');
 
 export default new Router({
   mode: 'history',
