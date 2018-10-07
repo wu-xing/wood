@@ -193,7 +193,16 @@ export default class Articles extends Vue {
   }
 
   share() {
+    const host = window.location.hostname;
+    const protocol = location.protocol;
+    const port = location.port;
+    const url = `${protocol}//${host}${port === '80' ? '' : ':' + port}/p/${this.foucsedArticleId}`;
+
     
+    this.$alert(`<a href=${url} target="_blank">${url}</a>`, '已生成分享链接(此文章已被公开)', {
+      confirmButtonText: '确定',
+      dangerouslyUseHTMLString: true
+    });
   }
 
   public downloadZip() {
