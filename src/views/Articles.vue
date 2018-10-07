@@ -198,7 +198,9 @@ export default class Articles extends Vue {
     const port = location.port;
     const url = `${protocol}//${host}${port === '80' ? '' : ':' + port}/p/${this.foucsedArticleId}`;
 
-    
+    // TODO 报错
+    // TODO 成功才提示
+    axios.post(`/api/auth/article/share/${this.foucsedArticleId}`).then(() => {});
     this.$alert(`<a href=${url} target="_blank">${url}</a>`, '已生成分享链接(此文章已被公开)', {
       confirmButtonText: '确定',
       dangerouslyUseHTMLString: true
