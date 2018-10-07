@@ -158,6 +158,8 @@ export default class Articles extends Vue {
   created() {
     this.getArticles();
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
+    window.document.title = `文章 | 木记`;
+
   }
 
   onHistoryDateSelect(day: any) {
