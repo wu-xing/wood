@@ -43,22 +43,22 @@
             </li>
             <li v-on:click="openHistoryCalendarModal()">
               <el-tooltip class="item" effect="dark" content="历史" placement="right">
-                <as-icon name="history" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+                <as-icon name="history" size="25" style="color: #6ed2e6; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
             <li v-on:click="lockArticle()">
               <el-tooltip class="item" effect="dark" content="加锁" placement="right">
-                <as-icon name="lock" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+                <as-icon name="lock" size="25" style="color: #f86920; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
             <li v-on:click="downloadZip()">
               <el-tooltip class="item" effect="dark" content="下载" placement="right">
-                <as-icon name="file-archive" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+                <as-icon name="file-archive" size="25" style="color: #32ace1; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
-            <li v-on:click="downloadZip()">
+            <li v-on:click="share()">
               <el-tooltip class="item" effect="dark" content="分享" placement="right">
-                <as-icon name="file-archive" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
+                <as-icon name="share" size="25" style="color: #8b4647; padding-left: 3px;"></as-icon>
               </el-tooltip>
             </li>
 
@@ -188,6 +188,10 @@ export default class Articles extends Vue {
       this.$store.state.articles[this.foucsedArticleId].isEncryption &&
       this.isLock
     );
+  }
+
+  share() {
+    
   }
 
   public downloadZip() {

@@ -36,6 +36,8 @@ export default class ShareArticle extends Vue {
         suppressAutoLink: false
       });
       this.html = orgHTMLDocument.toString();
+
+      window.document.title = `${orgHTMLDocument.title} | 木记`;
     });
   }
 
@@ -44,3 +46,11 @@ export default class ShareArticle extends Vue {
   }
 }
 </script>
+
+
+<style scoped>
+.preview-container {
+  max-width: 1000px;
+  margin: auto;
+}
+</style>
