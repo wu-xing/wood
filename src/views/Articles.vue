@@ -196,7 +196,7 @@ export default class Articles extends Vue {
     const host = window.location.hostname;
     const protocol = location.protocol;
     const port = location.port;
-    const url = `${protocol}//${host}${port === '80' ? '' : ':' + port}/p/${this.foucsedArticleId}`;
+    const url = `${protocol}//${host}${port === '80' || !port ? '' : ':' + port}/p/${this.foucsedArticleId}`;
 
     // TODO 报错
     // TODO 成功才提示
