@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <ArticlePreview
       ref="preview"
       :html="html"
@@ -49,8 +49,13 @@ export default class ShareArticle extends Vue {
 
 
 <style scoped>
+.page {
+  overflow: auto;
+}
+
 .preview-container {
   max-width: 1000px;
   margin: auto;
+  height: auto;
 }
 </style>
