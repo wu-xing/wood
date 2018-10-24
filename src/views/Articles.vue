@@ -1,20 +1,5 @@
 <template>
   <div>
-    <el-dialog
-      title="选择历史日期"
-      :visible.sync="dialogVisible"
-      width="400px"
-      :before-close="handleClose">
-      <datepicker
-        v-if="historyDates"
-        v-on:selected="onHistoryDateSelect"
-        :inline="true"
-        :disabledDates="genDisabledDates(historyDates)"></datepicker>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onConfirmSelectHistory">确 定</el-button>
-      </span>
-    </el-dialog>
 
     <div class="container-inner">
       <aside>
@@ -33,59 +18,31 @@
         </ul>
       </aside>
 
-      <div class="preview-contaier" v-bind:class="{ lock: isEncryption() }">
-        <div class="preview-contaier-toolbar" v-if="!isEncryption()">
-          <ul class="preview-operation">
-            <li v-on:click="goEdit()">
-              <el-tooltip class="item" effect="dark" content="编辑" placement="right">
-                <as-icon name="edit" size="25" style="color: #dc4e52; padding-left: 3px;"></as-icon>
-              </el-tooltip>
-            </li>
-            <li v-on:click="openHistoryCalendarModal()">
-              <el-tooltip class="item" effect="dark" content="历史" placement="right">
-                <as-icon name="history" size="25" style="color: #6ed2e6; padding-left: 3px;"></as-icon>
-              </el-tooltip>
-            </li>
-            <li v-on:click="lockArticle()">
-              <el-tooltip class="item" effect="dark" content="加锁" placement="right">
-                <as-icon name="lock" size="25" style="color: #f86920; padding-left: 3px;"></as-icon>
-              </el-tooltip>
-            </li>
-            <li v-on:click="downloadZip()">
-              <el-tooltip class="item" effect="dark" content="下载" placement="right">
-                <as-icon name="file-archive" size="25" style="color: #32ace1; padding-left: 3px;"></as-icon>
-              </el-tooltip>
-            </li>
-            <li v-on:click="share()">
-              <el-tooltip class="item" effect="dark" content="分享" placement="right">
-                <as-icon name="share" size="25" style="color: #8b4647; padding-left: 3px;"></as-icon>
-              </el-tooltip>
-            </li>
-          </ul>
-        </div>
+      <ArticlePreviewOperation
+        :foucsedArticleId="foucsedArticleId"
+      />
 
-        <ArticlePreview
-          ref="preview"
-          v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
-          :html="getPreviewHtml()"
-          :articleHistory="focusHistory"
-        />
+      <ArticlePreview
+        ref="preview"
+        v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
+        :html="getPreviewHtml()"
+        :articleHistory="focusHistory"
+      />
 
-        <div class="unlock-area" v-if="isEncryption()">
-          <form v-on:submit="onUnlock($event)">
-            <input name="木记" type="text" value="木记" style="display: none" />
-            <input
-              name="wood-article-password"
-              type="password"
-              placeholder="输入密码解锁"
-              autocomplete="off"
-              v-on:keyup.enter="onUnlock($event)"
-              v-model="lockPassword" />
-          </form>
-        </div>
+      <div class="unlock-area" v-if="isEncryption()">
+        <form v-on:submit="onUnlock($event)">
+          <input name="木记" type="text" value="木记" style="display: none" />
+          <input
+            name="wood-article-password"
+            type="password"
+            placeholder="输入密码解锁"
+            autocomplete="off"
+            v-on:keyup.enter="handleUnlock($event)"
+            v-model="lockPassword" />
+        </form>
       </div>
-
     </div>
+
   </div>
 </template>
 
@@ -93,31 +50,24 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
-import format from 'date-fns/format';
-import * as JSZip from 'jszip';
-import { saveAs } from 'file-saver/FileSaver';
 import * as values from 'ramda/src/values';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
+import ArticlePreviewOperation from '../components/ArticlePreviewOperation.vue';
 import { LockServiceInstance } from '../service/lock';
-import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../util/article';
-import { getBinaryContent } from '../util/zip';
-import Datepicker from 'vuejs-datepicker';
+import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreview,
-    Datepicker
+    ArticlePreviewOperation,
   }
 })
 export default class Articles extends Vue {
   public foucsedArticleId: number | null = null;
   public lockPassword: string = '';
   public isLock = true;
-  public dialogVisible = false;
-  public historyDates = null;
-  public selectedDate = null;
   /* public isHistoryPreview = false; */
   public focusHistory: any = null
 
@@ -139,47 +89,19 @@ export default class Articles extends Vue {
     return this.parseOrgCode(article.content)
   }
 
-  genDisabledDates(historyDates: string[]) {
-    return {
-      customPredictor: (date: Date) => {
-        if (!historyDates) {
-          return true;
-        }
-        return historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
-      }
-    };
-  }
-
-  goEdit() {
-    this.$router.push(`/article/${this.foucsedArticleId}`);
-  }
-
   created() {
     this.getArticles();
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
     window.document.title = `文章 | 木记`;
-
   }
 
-  onHistoryDateSelect(day: any) {
-    this.selectedDate = day;
-  }
 
-  onConfirmSelectHistory() {
-    const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
-    axios.get(`/api/auth/article/${this.foucsedArticleId}/history/${date}`).then(resp => {
-      /* this.isHistoryPreview = true */
-      this.focusHistory = resp.data;
-      this.dialogVisible = false;
-    });
-  }
-
-  onUnlock(event: Event) {
+  handleUnlock(event: Event) {
     event.preventDefault();
     this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
 
-  isEncryption() {
+  public isEncryption() {
     if (!this.foucsedArticleId) {
       return false;
     }
@@ -189,62 +111,6 @@ export default class Articles extends Vue {
       this.$store.state.articles[this.foucsedArticleId].isEncryption &&
       this.isLock
     );
-  }
-
-  share() {
-    const host = window.location.hostname;
-    const protocol = location.protocol;
-    const port = location.port;
-    const url = `${protocol}//${host}${port === '80' || !port ? '' : ':' + port}/p/${this.foucsedArticleId}`;
-
-    // TODO 报错
-    // TODO 成功才提示
-    axios.post(`/api/auth/article/share/${this.foucsedArticleId}`).then(() => {});
-    this.$alert(`<a href=${url} target="_blank">${url}</a>`, '已生成分享链接(此文章已被公开)', {
-      confirmButtonText: '确定',
-      dangerouslyUseHTMLString: true
-    });
-  }
-
-  public downloadZip() {
-    const zip = new JSZip();
-    const articleTitle = this.$store.state.articles[this.foucsedArticleId as number].title;
-    const articleContent = this.$store.state.articles[this.foucsedArticleId as number].content;
-
-    const content: string = this.$store.state.articles[this.foucsedArticleId as number].content;
-    const imageUrls: string[] = extractImageUrls(articleContent);
-
-    zip.file(articleTitle + '.org', replaceArticleImageUrl(articleTitle, articleContent));
-
-    Promise.all(imageUrls.map(getBinaryContent)).then(results => {
-      if (imageUrls.length) {
-        const assetsFolder = zip.folder(articleTitle);
-        (<Array<{ binary: any; url: string }>>results).map(
-          (result: { binary: any; url: string }) => {
-            assetsFolder.file(extractUrlHash(result.url), result.binary, { binary: true });
-          }
-        );
-      }
-      zip.generateAsync({ type: 'blob' }).then(content => {
-        saveAs(content, `${articleTitle}.zip`);
-      });
-    });
-  }
-
-  handleClose() {
-    this.dialogVisible = false;
-  }
-
-  openHistoryCalendarModal() {
-    this.dialogVisible = true;
-    this.selectedDate = null;
-    axios.get(`/api/auth/article/${this.foucsedArticleId}/history`).then(resp => {
-      this.historyDates = resp.data;
-    });
-  }
-
-  lockArticle() {
-    axios.post(`/api/auth/article/encryption/${this.foucsedArticleId}`).then(() => {});
   }
 
   public formatDate(date: number): string {
@@ -334,52 +200,6 @@ aside li:hover {
   margin-top: 3px;
 }
 
-.preview-contaier {
-  height: 100%;
-  width: 100%;
-  text-align: left;
-  overflow-y: auto;
-  position: relative;
-}
-
-.preview-contaier.lock {
-  background-color: #ccc;
-}
-
-.preview-contaier:hover .preview-contaier-toolbar {
-  opacity: 1;
-}
-
-.preview-contaier-toolbar {
-  position: absolute;
-  right: 10px;
-  top: 0;
-  /* opacity: 0; */
-}
-
-.preview-contaier-toolbar ul {
-  list-style: none;
-  margin: 5px;
-}
-
-.preview-operation li {
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  box-shadow: 0 2px 10px #ccc;
-  background-color: white;
-  margin-bottom: 10px;
-}
-
-.preview-operation li svg {
-  height: 20px;
-  width: auto;
-}
 
 .unlock-area {
   background-color: #f8f8f8;
