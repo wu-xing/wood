@@ -3,6 +3,12 @@
 
     <div class="container-inner">
       <aside>
+        <ul>
+          <li></li>
+        </ul>
+      </aside>
+
+      <aside class="article-list">
         <ul v-if="articles.length">
           <li v-on:click="onArticleItemClick(article)"
               v-bind:key="article.id"
@@ -155,20 +161,20 @@ export default class Articles extends Vue {
   height: 100%;
 }
 
-aside {
+.article-list {
   width: 35%;
   max-width: 300px;
   border-right: 1px solid #f8f8f8;
   overflow-y: auto;
 }
 
-aside ul {
+.article-list ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-aside li {
+.article-list li {
   padding-left: 20px;
   cursor: pointer;
   text-align: left;
@@ -178,11 +184,11 @@ aside li {
   overflow: hidden;
 }
 
-aside li.active {
+.article-list li.active {
   background-color: #e8e8e8;
 }
 
-aside li:hover {
+.article-list li:hover {
   background-color: #f8f8f8;
 }
 

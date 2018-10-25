@@ -16,14 +16,21 @@
       </ul>
     </nav>
 
+    <ArticleSearcher />
+
     <router-view/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import ArticleSearcher from './components/ArticleSearcher.vue';
 
-@Component({})
+@Component({
+  components: {
+    ArticleSearcher
+  }
+})
 export default class App extends Vue {
   public hideMenu = false;
 
