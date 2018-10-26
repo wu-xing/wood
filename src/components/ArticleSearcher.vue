@@ -7,11 +7,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component()
+@Component({})
 export default class ArticleSearcher extends Vue {
   /* @Prop() private msg: string; */
 
-  public handleInput(seartchStr: string) {
+  public handleInput(searchStr: string) {
     this.$eventHub.$emit('searchStr', searchStr);
   }
 }

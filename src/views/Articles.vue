@@ -1,10 +1,9 @@
 <template>
   <div>
-
     <div class="container-inner">
       <aside>
         <ul>
-          <li></li>
+          <li>默认</li>
         </ul>
       </aside>
 
@@ -24,7 +23,7 @@
         </ul>
       </aside>
 
-      <ArticlePreviewOperation
+      <ArticlePreviewOperationTools
         :foucsedArticleId="foucsedArticleId"
       />
 
@@ -60,14 +59,14 @@ import * as values from 'ramda/src/values';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
-import ArticlePreviewOperation from '../components/ArticlePreviewOperation.vue';
+import ArticlePreviewOperationTools from '../components/ArticlePreviewOperationTools.vue';
 import { LockServiceInstance } from '../service/lock';
 import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreview,
-    ArticlePreviewOperation,
+    ArticlePreviewOperationTools,
   }
 })
 export default class Articles extends Vue {
