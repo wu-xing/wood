@@ -36,6 +36,8 @@ export default class ArticleHistoryOperation extends Vue {
   @Prop() public foucsedArticleId!: string;
   public dialogVisible = false;
   public selectedDate = null;
+  public focusHistory: any = null
+  public historyDates = null;
 
   public handleOpenHistoryCalendarModal() {
     this.dialogVisible = true;

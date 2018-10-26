@@ -74,7 +74,6 @@ export default class Articles extends Vue {
   public lockPassword: string = '';
   public isLock = true;
   /* public isHistoryPreview = false; */
-  public focusHistory: any = null
 
   get articles() {
     return compose(

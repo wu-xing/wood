@@ -1,5 +1,5 @@
 <template>
-  <div class="preview-contaier" v-bind:class="{ lock: isEncryption() }">
+  <div class="preview-contaier">
     <div class="preview-contaier-toolbar" v-if="!isEncryption()">
       <ul class="preview-operation">
 
@@ -8,7 +8,6 @@
         <ArticleHistoryOperation :foucsedArticleId="foucsedArticleId" />
 
         <ArticleLockOperation :foucsedArticleId="foucsedArticleId"/>
-
 
         <ArticleDownloadOperation :foucsedArticleId="foucsedArticleId" />
 
@@ -41,31 +40,11 @@ import ArticleLockOperation from './ArticleLockOperation.vue';
 })
 export default class ArticlePreviewOperationTools extends Vue {
   @Prop() public foucsedArticleId!: string;
-  public dialogVisible = false;
-  public historyDates = null;
-  public selectedDate = null;
-
-  // TODO rename isFocusArticeEncryption
-  public isEncryption() {
-    if (!this.foucsedArticleId) {
-      return false;
-    }
-    return (
-      this.$store.state.articles &&
-      this.$store.state.articles[this.foucsedArticleId] &&
-      this.$store.state.articles[this.foucsedArticleId].isEncryption &&
-      this.isLock
-    );
-  }
 }
 </script>
 
 <style>
 .preview-contaier {
-}
-
-.preview-contaier.lock {
-  background-color: #ccc;
 }
 
 .preview-contaier:hover .preview-contaier-toolbar {
