@@ -12,7 +12,7 @@ import axios from 'axios';
 
 @Component
 export default class ArticleShareOperation extends Vue {
-  @Prop() public foucsedArticleId: number | null = null;
+  @Prop() public foucsedArticleId!: string;
 
   public handleShare() {
     const host = window.location.hostname;

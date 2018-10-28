@@ -16,7 +16,7 @@ import * as JSZip from 'jszip';
 @Component
 export default class ArticleDownloadOperation extends Vue {
   @Prop()
-  public foucsedArticleId!: number;
+  public foucsedArticleId!: string;
 
   public handleDownloadZip() {
     const zip = new JSZip();

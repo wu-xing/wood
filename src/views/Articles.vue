@@ -70,10 +70,11 @@ import format from 'date-fns/format';
   }
 })
 export default class Articles extends Vue {
-  public foucsedArticleId: number | null = null;
+  public foucsedArticleId: string | null = null;
   public lockPassword: string = '';
   public isLock = true;
   /* public isHistoryPreview = false; */
+  public focusHistory: any = null
 
   get articles() {
     return compose(
@@ -87,9 +88,9 @@ export default class Articles extends Vue {
     if (!article) {
       return;
     }
-    if (this.focusHistory) {
-      return this.parseOrgCode(this.focusHistory.content);
-    }
+    /* if (this.focusHistory) {
+     *   return this.parseOrgCode(this.focusHistory.content);
+     * } */
     return this.parseOrgCode(article.content)
   }
 

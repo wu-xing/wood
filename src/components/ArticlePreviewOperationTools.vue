@@ -1,6 +1,6 @@
 <template>
   <div class="preview-contaier">
-    <div class="preview-contaier-toolbar" v-if="!isEncryption()">
+    <div class="preview-contaier-toolbar">
       <ul class="preview-operation">
 
         <ArticleGoEditOperation :foucsedArticleId="foucsedArticleId" />

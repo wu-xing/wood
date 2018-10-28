@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ArticleGoEditOperation extends Vue {
-  @Prop() public foucsedArticleId: string;
+  @Prop() public foucsedArticleId!: string;
 
   public handleGoEdit() {
     this.$router.push(`/article/${this.foucsedArticleId}`);
