@@ -2,8 +2,8 @@
   <div>
     <el-dialog
       title="选择历史日期"
-      :visible.sync="dialogVisible"
       width="400px"
+      :visible.sync="dialogVisible"
       :before-close="handleCloseHisotyDateSelect">
 
       <datepicker
@@ -12,10 +12,6 @@
         :inline="true"
         :disabledDates="genDisabledDates(historyDates)"></datepicker>
 
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleConfirmSelectHistory">确 定</el-button>
-      </span>
     </el-dialog>
 
     <li v-on:click="handleOpenHistoryCalendarModal()">
@@ -69,11 +65,7 @@ export default class ArticleHistoryOperation extends Vue {
 
   public handleConfirmSelectHistory() {
     const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
-    axios.get(`/api/auth/article/${this.foucsedArticleId}/history/${date}`).then(resp => {
-      /* this.isHistoryPreview = true */
-      this.focusHistory = resp.data;
-      this.dialogVisible = false;
-    });
+    window.open(`/h/${this.focusHistory}/${date}`, '_blank');
   }
 }
 </script>

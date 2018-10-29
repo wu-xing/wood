@@ -27,7 +27,7 @@ export default class HistoryArticle extends Vue {
   }
 
   getHistoryArticle() {
-    const aritcleId = this.$route.params.id;
+    const aritcleId = this.$route.params.articleId;
     const date = this.$route.params.date;
     axios.get(`/api/auth/article/${aritcleId}/history/${date}`).then(resp => {
       this.historyArticle = resp.data;
