@@ -2,9 +2,7 @@
   <div>
     <div class="container-inner">
       <aside>
-        <ul>
-          <li>默认</li>
-        </ul>
+        <ArticleCategory />
       </aside>
 
       <aside class="article-list">
@@ -59,13 +57,15 @@ import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreview from '../components/ArticlePreview.vue';
 import ArticlePreviewOperationTools from '../components/ArticlePreviewOperationTools.vue';
+import ArticleCategory from '../components/ArticlesCategoary.vue';
 import { LockServiceInstance } from '../service/lock';
 import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreview,
-    ArticlePreviewOperationTools
+    ArticlePreviewOperationTools,
+    ArticleCategory
   }
 })
 export default class Articles extends Vue {
@@ -88,14 +88,22 @@ export default class Articles extends Vue {
     )(this.$store.state.articles);
   }
 
+  public getArticles() {
+    const userId = window.localStorage.getItem('userId');
+    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
+      this.$store.commit('articles', resp.data);
+
+      if (!this.foucsedArticleId && this.articles[0]) {
+        this.foucsedArticleId = this.articles[0].id;
+      }
+    });
+  }
+
   getPreviewHtml() {
     const article = this.articles.find((a: Article) => a.id === this.foucsedArticleId);
     if (!article) {
       return;
     }
-    /* if (this.focusHistory) {
-     *   return this.parseOrgCode(this.focusHistory.content);
-     * } */
     return this.parseOrgCode(article.content);
   }
 
@@ -118,17 +126,6 @@ export default class Articles extends Vue {
 
   public formatDate(date: number): string {
     return format(date, 'YYYY/MM/dd');
-  }
-
-  public getArticles() {
-    const userId = window.localStorage.getItem('userId');
-    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
-      this.$store.commit('articles', resp.data);
-
-      if (!this.foucsedArticleId && this.articles[0]) {
-        this.foucsedArticleId = this.articles[0].id;
-      }
-    });
   }
 
   public onArticleItemClick(article: Article) {

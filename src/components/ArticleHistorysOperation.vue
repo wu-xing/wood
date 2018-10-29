@@ -27,12 +27,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import format from 'date-fns/format';
 
-@Component
+@Component({})
 export default class ArticleHistoryOperation extends Vue {
-  @Prop() public foucsedArticleId!: string;
+  @Prop()
+  public foucsedArticleId!: string;
   public dialogVisible = false;
   public selectedDate = null;
-  public focusHistory: any = null
+  public focusHistory: any = null;
   public historyDates = null;
 
   public handleOpenHistoryCalendarModal() {
@@ -46,7 +47,6 @@ export default class ArticleHistoryOperation extends Vue {
   public handleHistoryDateSelect(day: any) {
     this.selectedDate = day;
   }
-
 
   public handleCloseHisotyDateSelect() {
     this.dialogVisible = false;
@@ -72,5 +72,4 @@ export default class ArticleHistoryOperation extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
