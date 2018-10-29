@@ -66,7 +66,7 @@ import format from 'date-fns/format';
 @Component({
   components: {
     ArticlePreview,
-    ArticlePreviewOperationTools,
+    ArticlePreviewOperationTools
   }
 })
 export default class Articles extends Vue {
@@ -74,7 +74,13 @@ export default class Articles extends Vue {
   public lockPassword: string = '';
   public isLock = true;
   /* public isHistoryPreview = false; */
-  public focusHistory: any = null
+  public focusHistory: any = null;
+
+  created() {
+    this.getArticles();
+    this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
+    window.document.title = `文章 | 木记`;
+  }
 
   get articles() {
     return compose(
@@ -91,15 +97,8 @@ export default class Articles extends Vue {
     /* if (this.focusHistory) {
      *   return this.parseOrgCode(this.focusHistory.content);
      * } */
-    return this.parseOrgCode(article.content)
+    return this.parseOrgCode(article.content);
   }
-
-  created() {
-    this.getArticles();
-    this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
-    window.document.title = `文章 | 木记`;
-  }
-
 
   handleUnlock(event: Event) {
     event.preventDefault();
@@ -205,7 +204,6 @@ export default class Articles extends Vue {
   margin-top: 3px;
 }
 
-
 .unlock-area {
   background-color: #f8f8f8;
   position: absolute;
@@ -228,7 +226,6 @@ export default class Articles extends Vue {
   margin-top: -10px;
   text-align: center;
 }
-
 </style>
 
 
