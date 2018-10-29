@@ -47,7 +47,6 @@
         </form>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -134,8 +133,8 @@ export default class Articles extends Vue {
 
   public onArticleItemClick(article: Article) {
     this.foucsedArticleId = article.id;
-    this.focusHistory = null;
-    this.historyDates = null;
+    /* this.focusHistory = null; */
+    /* this.historyDates = null; */
     window.localStorage.setItem('foucsedArticleId', <any>article.id);
   }
 

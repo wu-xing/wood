@@ -1,5 +1,5 @@
 declare interface Article {
-  id: number;
+  id: string;
   content: string;
   createdAt: number;
   isEncryption: boolean;
