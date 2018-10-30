@@ -21,29 +21,9 @@
         </ul>
       </aside>
 
-      <ArticlePreviewOperationTools
-        :foucsedArticleId="foucsedArticleId"
-      />
 
-      <ArticlePreview
-        ref="preview"
-        v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
-        :html="getPreviewHtml()"
-        :articleHistory="focusHistory"
-      />
+      <ArticlePreviwContainer/>
 
-      <div class="unlock-area" v-if="isEncryption()">
-        <form v-on:submit="onUnlock($event)">
-          <input name="木记" type="text" value="木记" style="display: none" />
-          <input
-            name="wood-article-password"
-            type="password"
-            placeholder="输入密码解锁"
-            autocomplete="off"
-            v-on:keyup.enter="handleUnlock($event)"
-            v-model="lockPassword" />
-        </form>
-      </div>
     </div>
   </div>
 </template>
@@ -55,7 +35,7 @@ import * as org from 'orgpr';
 import * as values from 'ramda/src/values';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
-import ArticlePreview from '../components/ArticlePreview.vue';
+import ArticlePreviwContainer from '../components/ArticlePreviwContainer.vue';
 import ArticlePreviewOperationTools from '../components/ArticlePreviewOperationTools.vue';
 import ArticleCategory from '../components/ArticlesCategoary.vue';
 import { LockServiceInstance } from '../service/lock';
@@ -63,7 +43,7 @@ import format from 'date-fns/format';
 
 @Component({
   components: {
-    ArticlePreview,
+    ArticlePreviwContainer,
     ArticlePreviewOperationTools,
     ArticleCategory
   }
@@ -107,22 +87,6 @@ export default class Articles extends Vue {
     return this.parseOrgCode(article.content);
   }
 
-  handleUnlock(event: Event) {
-    event.preventDefault();
-    this.isLock = LockServiceInstance.unlock(this.lockPassword);
-  }
-
-  public isEncryption() {
-    if (!this.foucsedArticleId) {
-      return false;
-    }
-    return (
-      this.$store.state.articles &&
-      this.$store.state.articles[this.foucsedArticleId] &&
-      this.$store.state.articles[this.foucsedArticleId].isEncryption &&
-      this.isLock
-    );
-  }
 
   public formatDate(date: number): string {
     return format(date, 'YYYY/MM/dd');
