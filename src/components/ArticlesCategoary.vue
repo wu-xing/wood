@@ -30,15 +30,27 @@ export default class ArticleCategory extends Vue {
 
 ul {
   padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 li {
-  display: block;
+  padding-left: 20px;
+  cursor: pointer;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  border-bottom: 1px solid #f8f8f8;
+  height: 50px;
+  line-height: 48px;
 }
+
+li:hover {
+  background-color: #f8f8f8;
+
+}
+
 a {
   color: #42b983;
 }
