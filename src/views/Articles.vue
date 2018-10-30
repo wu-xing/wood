@@ -22,7 +22,7 @@
       </aside>
 
 
-      <ArticlePreviwContainer/>
+      <ArticlePreviwContainer :article="getFocustArticle()" />
 
     </div>
   </div>
@@ -31,12 +31,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import * as org from 'orgpr';
 import * as values from 'ramda/src/values';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreviwContainer from '../components/ArticlePreviwContainer.vue';
-import ArticlePreviewOperationTools from '../components/ArticlePreviewOperationTools.vue';
 import ArticleCategory from '../components/ArticlesCategoary.vue';
 import { LockServiceInstance } from '../service/lock';
 import format from 'date-fns/format';
@@ -44,19 +42,15 @@ import format from 'date-fns/format';
 @Component({
   components: {
     ArticlePreviwContainer,
-    ArticlePreviewOperationTools,
     ArticleCategory
   }
 })
 export default class Articles extends Vue {
   public foucsedArticleId: string | null = null;
-  public lockPassword: string = '';
-  public isLock = true;
-  /* public isHistoryPreview = false; */
   public focusHistory: any = null;
 
   created() {
-    this.getArticles();
+    this.getArticlesAndSave();
     this.foucsedArticleId = <any>window.localStorage.getItem('foucsedArticleId');
     window.document.title = `文章 | 木记`;
   }
@@ -68,7 +62,7 @@ export default class Articles extends Vue {
     )(this.$store.state.articles);
   }
 
-  public getArticles() {
+  public getArticlesAndSave() {
     const userId = window.localStorage.getItem('userId');
     axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
       this.$store.commit('articles', resp.data);
@@ -79,13 +73,11 @@ export default class Articles extends Vue {
     });
   }
 
-  getPreviewHtml() {
+  public getFocustArticle(): Article {
     const article = this.articles.find((a: Article) => a.id === this.foucsedArticleId);
-    if (!article) {
-      return;
-    }
-    return this.parseOrgCode(article.content);
+    return article;
   }
+
 
 
   public formatDate(date: number): string {
@@ -94,22 +86,9 @@ export default class Articles extends Vue {
 
   public onArticleItemClick(article: Article) {
     this.foucsedArticleId = article.id;
-    /* this.focusHistory = null; */
-    /* this.historyDates = null; */
     window.localStorage.setItem('foucsedArticleId', <any>article.id);
   }
 
-  public parseOrgCode(code: string): string {
-    const parser = new org.Parser();
-    const orgDocument = parser.parse(code);
-    const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
-      headerOffset: 1,
-      exportFromLineNumber: false,
-      suppressSubScriptHandling: false,
-      suppressAutoLink: false
-    });
-    return orgHTMLDocument.toString();
-  }
 }
 </script>
 

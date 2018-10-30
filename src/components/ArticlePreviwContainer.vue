@@ -1,26 +1,31 @@
 <template>
-  <div class="hello">
-    <ArticlePreview
-      ref="preview"
-      v-if="articles.find(a => a.id === foucsedArticleId) && !isEncryption()"
-      :html="html"
-    />
+  <div class="container">
+    <div v-if="!!article">
+      <ArticlePreview
+        ref="preview"
+        :html="getPreviewHtml()"
+      />
 
-    <ArticlePreviewOperationTools
-      :foucsedArticleId="foucsedArticleId"
-    />
+      <ArticlePreviewOperationTools
+        :foucsedArticleId="article.id"
+      />
 
-    <div class="unlock-area" v-if="isEncryption()">
-      <form v-on:submit="onUnlock($event)">
-        <input name="木记" type="text" value="木记" style="display: none" />
-        <input
-          name="wood-article-password"
-          type="password"
-          placeholder="输入密码解锁"
-          autocomplete="off"
-          v-on:keyup.enter="handleUnlock($event)"
-          v-model="lockPassword" />
-      </form>
+      <div class="unlock-area" v-if="isEncryption()">
+        <form v-on:submit="onUnlock($event)">
+          <input name="木记" type="text" value="木记" style="display: none" />
+          <input
+            name="wood-article-password"
+            type="password"
+            placeholder="输入密码解锁"
+            autocomplete="off"
+            v-on:keyup.enter="handleUnlock($event)"
+            v-model="lockPassword" />
+        </form>
+      </div>
+    </div>
+
+    <div v-if="!article">
+      empty
     </div>
 
   </div>
@@ -29,25 +34,30 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArticlePreview from './ArticlePreview.vue';
+import ArticlePreviewOperationTools from './ArticlePreviewOperationTools.vue';
+import * as org from 'orgpr';
 
 @Component({
   components: {
+    ArticlePreviewOperationTools,
     ArticlePreview
   }
 })
 export default class ArticlePreviwContainer extends Vue {
-  @Prop() public html!: string;
+  @Prop() public article: Article;
+  public isLock = true;
+  public lockPassword: string = '';
 
   public isEncryption() {
-    if (!this.foucsedArticleId) {
-      return false;
-    }
     return (
-      this.$store.state.articles &&
-      this.$store.state.articles[this.foucsedArticleId] &&
-      this.$store.state.articles[this.foucsedArticleId].isEncryption &&
+      this.article &&
+      this.article.isEncryption &&
       this.isLock
     );
+  }
+
+  getPreviewHtml() {
+    return this.parseOrgCode(this.article.content);
   }
 
   handleUnlock(event: Event) {
@@ -55,6 +65,17 @@ export default class ArticlePreviwContainer extends Vue {
     this.isLock = LockServiceInstance.unlock(this.lockPassword);
   }
 
+  public parseOrgCode(code: string): string {
+    const parser = new org.Parser();
+    const orgDocument = parser.parse(code);
+    const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
+      headerOffset: 1,
+      exportFromLineNumber: false,
+      suppressSubScriptHandling: false,
+      suppressAutoLink: false
+    });
+    return orgHTMLDocument.toString();
+  }
 }
 </script>
 
