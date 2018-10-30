@@ -24,12 +24,20 @@ export default class ArticleCategory extends Vue {
 </script>
 
 <style scoped>
+.container {
+  width: 180px;
+}
+
 ul {
   padding: 0;
 }
+
 li {
   display: block;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 a {
   color: #42b983;

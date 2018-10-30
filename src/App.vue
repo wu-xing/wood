@@ -1,6 +1,8 @@
 <template>
   <div id="app" v-bind:class="{ hide: hideMenu }">
     <nav>
+      <img class="logo" alt="logo" src="/logo.png"/>
+
       <ul>
         <li>
           <router-link to="/">
@@ -14,9 +16,10 @@
           </router-link>
         </li>
       </ul>
+
+      <ArticleSearcher />
     </nav>
 
-    <ArticleSearcher />
 
     <router-view/>
   </div>
@@ -100,9 +103,17 @@ nav {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: auto;
-  /* height: 37px; */
-  flex: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+nav .logo {
+  height: 20px;
+  width: 20px;
+  margin-left: 12px;
+  margin-right: 6px;
+  border-radius: 3px;
 }
 
 nav ul {
@@ -110,6 +121,8 @@ nav ul {
   padding: 7px 10px;
   display: block;
   text-align: left;
+  position: relative;
+  top: 1.5px;
 }
 
 nav ul li {
@@ -121,6 +134,7 @@ nav ul li {
   background-color: #f8f8f8;
   box-sizing: border-box;
   height: 20px;
+  padding: 0 8px;
   box-shadow: 0 1px 6px #999;
 }
 
@@ -138,5 +152,6 @@ nav ul li a {
 nav ul li a svg {
   vertical-align: middle;
   margin-top: -6px;
+  color: #666;
 }
 </style>
