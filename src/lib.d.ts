@@ -2,6 +2,7 @@
 declare module 'ramda/src/values';
 declare module 'ramda/src/sort';
 declare module 'ramda/src/compose';
+declare module 'ramda/src/map';
 declare module 'jszip-utils';
 declare module 'file-saver/FileSaver';
 declare module 'vuejs-datepicker';

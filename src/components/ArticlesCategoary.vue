@@ -5,20 +5,59 @@
       <li>搜索：“{{searchStr}}”</li>
     </ul>
 
+    <button v-on:click="handleCreateButtonClick()">+</button>
+
+    <el-dialog
+      title="选择历史日期"
+      width="400px"
+      :visible.sync="dialogVisible"
+      :before-close="handleClose">
+
+      <el-form :model="createForm">
+        <el-form-item label="活动名称">
+          <el-input v-model="createForm.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <button v-on:click="handleCreateBox">create</button>
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import axios from 'axios';
 
 @Component
 export default class ArticleCategory extends Vue {
-  searchStr: string = '';
+  public searchStr: string = '';
+  public dialogVisible = false;
+  public createForm = {
+    name: ''
+  };
 
   created() {
     this.$eventHub.$on('searchStr', (searchStr: string) => {
       this.searchStr = searchStr;
     });
+  }
+
+  handleCreateBox(event: Event) {
+    event.preventDefault();
+    axios
+      .post(`/api/auth/article-box`, {
+        name: this.createForm.name
+      })
+      .then();
+  }
+
+  handleClose() {
+    this.dialogVisible = false;
+  }
+
+  handleCreateButtonClick() {
+    this.dialogVisible = true;
   }
 }
 </script>
@@ -47,7 +86,6 @@ li {
 
 li:hover {
   background-color: #f8f8f8;
-
 }
 
 a {
