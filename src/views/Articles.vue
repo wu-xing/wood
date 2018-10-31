@@ -5,7 +5,8 @@
         <ArticleCategory />
       </aside>
 
-      <aside class="article-list">
+      <aside class="article-list"
+             v-loading="loading">
         <ul v-if="articles.length">
           <li v-on:click="onArticleItemClick(article)"
               v-bind:key="article.id"
@@ -47,6 +48,7 @@ import format from 'date-fns/format';
 export default class Articles extends Vue {
   public foucsedArticleId: string | null = null;
   public focusHistory: any = null;
+  public loading = false;
 
   created() {
     this.getArticlesAndSave();
@@ -56,20 +58,27 @@ export default class Articles extends Vue {
 
   get articles() {
     return compose(
-      sort((a: Article, b: Article) => (a.updatedAt || a.createdAt) < (b.updatedAt || b.createdAt)),
+      sort((a: Article, b: Article) => a.updatedAt < b.updatedAt),
       values
     )(this.$store.state.articles);
   }
 
   public getArticlesAndSave() {
     const userId = window.localStorage.getItem('userId');
-    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
-      this.$store.commit('articles', resp.data);
+    this.loading = true;
+    axios.get(`/api/auth/articles?userId=${userId}`).then(
+      resp => {
+        this.$store.commit('articles', resp.data);
 
-      if (!this.foucsedArticleId && this.articles[0]) {
-        this.foucsedArticleId = this.articles[0].id;
+        if (!this.foucsedArticleId && this.articles[0]) {
+          this.foucsedArticleId = this.articles[0].id;
+        }
+        this.loading = true;
+      },
+      () => {
+        this.loading = true;
       }
-    });
+    );
   }
 
   public getFocustArticle(): Article {
