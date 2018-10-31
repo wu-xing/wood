@@ -77,8 +77,6 @@ export default class Articles extends Vue {
     return article;
   }
 
-
-
   public formatDate(date: number): string {
     return format(date, 'YYYY/MM/dd');
   }
@@ -87,7 +85,6 @@ export default class Articles extends Vue {
     this.foucsedArticleId = article.id;
     window.localStorage.setItem('foucsedArticleId', <any>article.id);
   }
-
 }
 </script>
 
@@ -141,7 +138,6 @@ export default class Articles extends Vue {
   font-size: 12px;
   margin-top: 3px;
 }
-
 </style>
 
 

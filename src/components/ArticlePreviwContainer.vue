@@ -1,14 +1,16 @@
 <template>
   <div class="container">
     <div v-if="!!article">
-      <ArticlePreview
-        ref="preview"
-        :html="getPreviewHtml()"
-      />
+      <div v-if="!isEncryption()">
+        <ArticlePreview
+          ref="preview"
+          :html="getPreviewHtml()"
+        />
 
-      <ArticlePreviewOperationTools
-        :foucsedArticleId="article.id"
-      />
+        <ArticlePreviewOperationTools
+          :foucsedArticleId="article.id"
+        />
+      </div>
 
       <div class="unlock-area" v-if="isEncryption()">
         <form v-on:submit="onUnlock($event)">
@@ -45,16 +47,13 @@ import * as org from 'orgpr';
   }
 })
 export default class ArticlePreviwContainer extends Vue {
-  @Prop() public article: Article;
+  @Prop()
+  public article: Article | null;
   public isLock = true;
   public lockPassword: string = '';
 
   public isEncryption() {
-    return (
-      this.article &&
-      this.article.isEncryption &&
-      this.isLock
-    );
+    return this.article && this.article.isEncryption && this.isLock;
   }
 
   getPreviewHtml() {
@@ -82,6 +81,11 @@ export default class ArticlePreviwContainer extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  position: relative;
+  width: 100%;
+}
+
 .unlock-area {
   background-color: #f8f8f8;
   position: absolute;
@@ -104,5 +108,4 @@ export default class ArticlePreviwContainer extends Vue {
   margin-top: -10px;
   text-align: center;
 }
-
 </style>

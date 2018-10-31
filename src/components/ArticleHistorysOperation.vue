@@ -26,8 +26,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import format from 'date-fns/format';
+import Datepicker from 'vuejs-datepicker';
 
-@Component({})
+@Component({
+  components: {
+    Datepicker
+  }
+})
 export default class ArticleHistoryOperation extends Vue {
   @Prop()
   public foucsedArticleId!: string;
@@ -46,6 +51,8 @@ export default class ArticleHistoryOperation extends Vue {
 
   public handleHistoryDateSelect(day: any) {
     this.selectedDate = day;
+    const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
+    window.open(`/h/${this.focusHistory}/${date}`, '_blank');
   }
 
   public handleCloseHisotyDateSelect() {
@@ -61,11 +68,6 @@ export default class ArticleHistoryOperation extends Vue {
         return historyDates.indexOf(format(date, 'yyyy-MM-dd')) < 0;
       }
     };
-  }
-
-  public handleConfirmSelectHistory() {
-    const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
-    window.open(`/h/${this.focusHistory}/${date}`, '_blank');
   }
 }
 </script>

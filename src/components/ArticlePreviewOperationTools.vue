@@ -21,7 +21,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import Datepicker from 'vuejs-datepicker';
 import ArticleHistoryOperation from './ArticleHistorysOperation.vue';
 import ArticleGoEditOperation from './ArticleGoEditOperation.vue';
 import ArticleDownloadOperation from './ArticleDownloadOperation.vue';
@@ -30,7 +29,6 @@ import ArticleLockOperation from './ArticleLockOperation.vue';
 
 @Component({
   components: {
-    Datepicker,
     ArticleHistoryOperation,
     ArticleGoEditOperation,
     ArticleDownloadOperation,
