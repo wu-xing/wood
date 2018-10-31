@@ -35,6 +35,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArticlePreview from './ArticlePreview.vue';
 import ArticlePreviewOperationTools from './ArticlePreviewOperationTools.vue';
+import { LockServiceInstance } from '../service/lock';
 import * as org from 'orgpr';
 
 @Component({
@@ -81,4 +82,27 @@ export default class ArticlePreviwContainer extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.unlock-area {
+  background-color: #f8f8f8;
+  position: absolute;
+  height: 200px;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.unlock-area input {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 6px 12px;
+  margin-top: -10px;
+  text-align: center;
+}
+
 </style>
