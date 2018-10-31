@@ -52,7 +52,7 @@ export default class ArticleHistoryOperation extends Vue {
   public handleHistoryDateSelect(day: any) {
     this.selectedDate = day;
     const date = format(<any>this.selectedDate, 'yyyy-MM-dd');
-    window.open(`/h/${this.focusHistory}/${date}`, '_blank');
+    window.open(`/h/${this.foucsedArticleId}/${date}`, '_blank');
   }
 
   public handleCloseHisotyDateSelect() {

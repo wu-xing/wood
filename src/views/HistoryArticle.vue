@@ -13,6 +13,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
 import ArticlePreview from '../components/ArticlePreview.vue';
+import { parseOrgCode } from '../util/article';
 
 @Component({
   components: {
@@ -20,17 +21,18 @@ import ArticlePreview from '../components/ArticlePreview.vue';
   }
 })
 export default class HistoryArticle extends Vue {
-  public historyArticle: Article;
+  public html: string = '';
 
   created() {
     this.getHistoryArticle();
   }
 
   getHistoryArticle() {
-    const aritcleId = this.$route.params.articleId;
+    const articleId = this.$route.params.articleId;
     const date = this.$route.params.date;
-    axios.get(`/api/auth/article/${aritcleId}/history/${date}`).then(resp => {
-      this.historyArticle = resp.data;
+    axios.get(`/api/auth/article/${articleId}/history/${date}`).then(resp => {
+      const { html, title } = parseOrgCode(resp.data);
+      this.html = html;
     });
   }
 }

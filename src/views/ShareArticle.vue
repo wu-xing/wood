@@ -13,6 +13,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as org from 'orgpr';
 import ArticlePreview from '../components/ArticlePreview.vue';
+import { parseOrgCode } from '../util/article';
 
 @Component({
   components: {
@@ -23,21 +24,14 @@ export default class ShareArticle extends Vue {
   public html: string = '';
 
   getArticle() {
-    const aritcleId = this.$route.params.id;
-    axios.get(`/api/share/article/${aritcleId}`).then(resp => {
+    const articleId = this.$route.params.id;
+    axios.get(`/api/share/article/${articleId}`).then(resp => {
       const article = resp.data;
 
-      const parser = new org.Parser();
-      const orgDocument = parser.parse(article.content);
-      const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
-        headerOffset: 1,
-        exportFromLineNumber: false,
-        suppressSubScriptHandling: false,
-        suppressAutoLink: false
-      });
-      this.html = orgHTMLDocument.toString();
+      const { html, title } = parseOrgCode(article);
+      this.html = html;
 
-      window.document.title = `${orgHTMLDocument.title} | 木记`;
+      window.document.title = `${title} | 木记`;
     });
   }
 
