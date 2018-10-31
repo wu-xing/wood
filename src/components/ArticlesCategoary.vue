@@ -25,7 +25,6 @@ export default class ArticleCategory extends Vue {
 
 <style scoped>
 .container {
-  width: 180px;
 }
 
 ul {

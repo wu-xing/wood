@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container-inner">
-      <aside>
+      <aside class="category-list">
         <ArticleCategory />
       </aside>
 
@@ -137,6 +137,11 @@ export default class Articles extends Vue {
 .article-date {
   font-size: 12px;
   margin-top: 3px;
+}
+
+.category-list {
+  width: 35%;
+  max-width: 180px;
 }
 </style>
 

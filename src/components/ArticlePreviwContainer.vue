@@ -48,7 +48,7 @@ import * as org from 'orgpr';
 })
 export default class ArticlePreviwContainer extends Vue {
   @Prop()
-  public article: Article | null;
+  public article: Article;
   public isLock = true;
   public lockPassword: string = '';
 
