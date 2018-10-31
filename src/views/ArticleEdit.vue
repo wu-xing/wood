@@ -2,7 +2,7 @@
   <div>
     <OrgModeEditor
       is-edit
-      v-bind:articleId="$route.params.id"
+      v-bind:articleId="$route.params.id + ''"
       :waitPush="waitPush"
       v-on:change="onChange"
       v-bind:document="document" />
@@ -29,19 +29,16 @@ export default class ArticleEdit extends Vue {
   private uploadingContent?: string;
   private waitPush = false;
 
-  constructor() {
-    super();
-  }
-
   get document(): ArticleDocument {
-    const id = this.$route.params.id;
+    const id: string = this.$route.params.id;
     return this.$store.state.articles[id];
   }
 
   created() {
     const userId = window.localStorage.getItem('userId');
-    axios.get(`/api/auth/articles?userId=${userId}`).then(resp => {
-      this.$store.commit('articles', resp.data);
+    this.$store.dispatch('getArticles', {
+      userId,
+      boxId: '@DEFAULT'
     });
 
     this.sync$

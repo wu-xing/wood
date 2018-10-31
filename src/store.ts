@@ -1,19 +1,30 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { getArticles } from './resouce/articles';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store<any>({
   state: {
-    articles: {}
+    articles: {},
+    boxs: {}
   },
   mutations: {
-    articles(state: any, payload: any) {
-      const articles = {...state.articles}
-      payload.forEach((article: any) => {
-        articles[article.id] = article;
+    articles(state: any, { boxId, userId, articles }) {
+      const stateArticles = { ...state.articles };
+
+      articles.forEach((article: any) => {
+        stateArticles[article.id] = article;
       });
-      state.articles = articles;
+
+      state.articles = stateArticles;
+      state.boxs = {
+        ...state.boxs,
+        [boxId]: {
+          ...state.boxs[boxId],
+          articleIds: articles.map((a: any) => a.id)
+        }
+      }
     },
     article(state: any, payload: any) {
       state.articles[payload.id] = payload;
@@ -22,9 +33,17 @@ export default new Vuex.Store<any>({
       state.articles = {
         ...state.articles,
         [payload.id]: payload
-      }
+      };
     }
   },
   actions: {
+    getArticles({ commit }, { boxId, userId }) {
+      getArticles(userId, boxId).then(
+        (articles: Article[]) => {
+          commit('articles', { boxId, userId, articles });
+        },
+        () => {}
+      );
+    }
   }
-})
+});

@@ -7,7 +7,7 @@
 
       <aside class="article-list"
              v-loading="loading">
-        <ul v-if="articles.length">
+        <ul v-if="!!articles">
           <li v-on:click="onArticleItemClick(article)"
               v-bind:key="article.id"
               v-bind:class="{ active: foucsedArticleId === article.id }"
@@ -22,8 +22,7 @@
         </ul>
       </aside>
 
-
-      <ArticlePreviwContainer :article="getFocustArticle()" />
+      <ArticlePreviwContainer v-if="getFocustArticle()" :article="getFocustArticle()" />
 
     </div>
   </div>
@@ -33,6 +32,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import * as values from 'ramda/src/values';
+import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreviwContainer from '../components/ArticlePreviwContainer.vue';
@@ -57,31 +57,28 @@ export default class Articles extends Vue {
   }
 
   get articles() {
+    if (!this.$store.state.boxs['@DEFAULT']) {
+      return null;
+    }
     return compose(
       sort((a: Article, b: Article) => a.updatedAt < b.updatedAt),
-      values
-    )(this.$store.state.articles);
+      map(id => this.$store.state.articles[id])
+    )(this.$store.state.boxs['@DEFAULT'].articleIds)
   }
 
   public getArticlesAndSave() {
     const userId = window.localStorage.getItem('userId');
-    this.loading = true;
-    axios.get(`/api/auth/articles?userId=${userId}`).then(
-      resp => {
-        this.$store.commit('articles', resp.data);
-
-        if (!this.foucsedArticleId && this.articles[0]) {
-          this.foucsedArticleId = this.articles[0].id;
-        }
-        this.loading = true;
-      },
-      () => {
-        this.loading = true;
-      }
-    );
+    /* this.loading = true; */
+    this.$store.dispatch('getArticles', {
+      userId,
+      boxId: '@DEFAULT'
+    });
   }
 
-  public getFocustArticle(): Article {
+  public getFocustArticle(): Article | null {
+    if (!this.articles) {
+      return null;
+    }
     const article = this.articles.find((a: Article) => a.id === this.foucsedArticleId);
     return article;
   }
@@ -139,8 +136,8 @@ export default class Articles extends Vue {
   overflow: hidden;
   white-space: nowrap;
   margin-top: 3px;
-  font-weight: bolder;
-  color: #612e00;
+  color: #555;
+  cursor: pointer;
 }
 
 .article-date {
