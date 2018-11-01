@@ -11,7 +11,6 @@
         v-on:selected="handleHistoryDateSelect"
         :inline="true"
         :disabledDates="genDisabledDates(historyDates)"></datepicker>
-
     </el-dialog>
 
     <li v-on:click="handleOpenHistoryCalendarModal()">
