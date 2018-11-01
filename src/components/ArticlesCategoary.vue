@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <ul>
-      <li>默认</li>
-      <li>搜索：“{{searchStr}}”</li>
+      <li v-for="box of boxs">{{ box.name }}</li>
     </ul>
 
     <button v-on:click="handleCreateButtonClick()">+</button>
@@ -28,8 +27,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
+import * as values from 'ramda/src/values';
+import * as compose from 'ramda/src/compose';
 
-@Component
+@Component({})
 export default class ArticleCategory extends Vue {
   public searchStr: string = '';
   public dialogVisible = false;
@@ -41,8 +42,12 @@ export default class ArticleCategory extends Vue {
     this.$eventHub.$on('searchStr', (searchStr: string) => {
       this.searchStr = searchStr;
     });
-
     this.$store.dispatch('getArticleBoxs');
+  }
+
+  get boxs() {
+    const boxMap = this.$store.state.boxs;
+    return compose(values)(boxMap);
   }
 
   handleCreateBox(event: Event) {

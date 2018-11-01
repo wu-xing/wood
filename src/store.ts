@@ -9,7 +9,16 @@ export default new Vuex.Store<any>({
   state: {
     articles: {},
     getArticlesLoading: false,
-    boxs: {}
+    boxs: {
+      '@DEFAULT': {
+        id: '@DEFAULT',
+        name: '默认'
+      },
+      '@SEARCH': {
+        id: '@SEARCH',
+        name: '搜索'
+      }
+    }
   },
   mutations: {
     articles(state: any, { boxId, userId, articles }) {
@@ -40,10 +49,15 @@ export default new Vuex.Store<any>({
         [payload.id]: payload
       };
     },
-    articleBoxs(state: any, payload: ArticleBox[]) {
+    articleBoxs(state: any, articleBoxs: ArticleBox[]) {
       state.boxs = {
         ...state.boxs,
-        payload
+        ...articleBoxs.reduce((collection: any, box: ArticleBox) => {
+          return {
+            ...collection,
+            [box.id]: box
+          }
+        }, {})
       };
     }
   },

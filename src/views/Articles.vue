@@ -6,7 +6,7 @@
       </aside>
 
       <aside class="article-list"
-             v-loading="loading">
+             v-loading="$store.state.getArticlesLoading">
         <ul v-if="!!articles">
           <li v-on:click="onArticleItemClick(article)"
               v-bind:key="article.id"
@@ -48,7 +48,6 @@ import format from 'date-fns/format';
 export default class Articles extends Vue {
   public foucsedArticleId: string | null = null;
   public focusHistory: any = null;
-  public loading = false;
 
   created() {
     this.getArticlesAndSave();
@@ -57,7 +56,8 @@ export default class Articles extends Vue {
   }
 
   get articles() {
-    if (!this.$store.state.boxs['@DEFAULT']) {
+    const box =this.$store.state.boxs['@DEFAULT'];
+    if (!box || !box.articleIds) {
       return null;
     }
     return compose(
@@ -68,7 +68,6 @@ export default class Articles extends Vue {
 
   public getArticlesAndSave() {
     const userId = window.localStorage.getItem('userId');
-    /* this.loading = true; */
     this.$store.dispatch('getArticles', {
       userId,
       boxId: '@DEFAULT'
