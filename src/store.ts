@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { getArticles } from './resouce/articles';
+import { getArticleBoxs } from './resouce/article-box';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store<any>({
   state: {
     articles: {},
+    getArticlesLoading: false,
     boxs: {}
   },
   mutations: {
@@ -24,7 +26,10 @@ export default new Vuex.Store<any>({
           ...state.boxs[boxId],
           articleIds: articles.map((a: any) => a.id)
         }
-      }
+      };
+    },
+    getArticlesLoading(state: any, payload: any) {
+      state.getArticlesLoading = payload;
     },
     article(state: any, payload: any) {
       state.articles[payload.id] = payload;
@@ -34,15 +39,30 @@ export default new Vuex.Store<any>({
         ...state.articles,
         [payload.id]: payload
       };
+    },
+    articleBoxs(state: any, payload: ArticleBox[]) {
+      state.boxs = {
+        ...state.boxs,
+        payload
+      };
     }
   },
   actions: {
+    getArticleBoxs({ commit }) {
+      getArticleBoxs().then((boxs: ArticleBox[]) => {
+        commit('articleBoxs', boxs);
+      });
+    },
     getArticles({ commit }, { boxId, userId }) {
+      commit('getArticlesLoading', true);
       getArticles(userId, boxId).then(
         (articles: Article[]) => {
           commit('articles', { boxId, userId, articles });
+          commit('getArticlesLoading', false);
         },
-        () => {}
+        () => {
+          commit('getArticlesLoading', false);
+        }
       );
     }
   }

@@ -10,3 +10,10 @@ declare interface ArticleDocument {
   title: string;
   content: string;
 }
+
+declare interface ArticleBox {
+  id: string;
+  name: string;
+  createdAt: number;
+  updatedAt: number;
+}

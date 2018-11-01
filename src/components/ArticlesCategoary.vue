@@ -41,6 +41,8 @@ export default class ArticleCategory extends Vue {
     this.$eventHub.$on('searchStr', (searchStr: string) => {
       this.searchStr = searchStr;
     });
+
+    this.$store.dispatch('getArticleBoxs');
   }
 
   handleCreateBox(event: Event) {
