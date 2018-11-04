@@ -9,3 +9,8 @@ a notes/wiki write system.
 
 ### test
 > no test now 
+
+### about local proxy
+it need setup backend on localhost when in development.
+
+the proxy config is in `vue.config.`
