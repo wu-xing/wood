@@ -4,7 +4,9 @@
       <li v-for="box of boxs">{{ box.name }}</li>
     </ul>
 
-    <add-button :onClick="handleCreateButtonClick"></add-button>
+    <div class="button-container">
+      <add-button :onClick="handleCreateButtonClick"></add-button>
+    </div>
 
     <el-dialog
       title="Create new article category"
@@ -17,7 +19,7 @@
           <el-input v-model="createForm.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <button v-on:click="handleCreateBox">create</button>
+        <el-button native-type="submit" type="primary" @click="handleCreateBox($event)">create</el-button>
       </el-form>
     </el-dialog>
 
@@ -56,7 +58,9 @@ export default class ArticleCategory extends Vue {
       .post(`/api/auth/article-box`, {
         name: this.createForm.name
       })
-      .then();
+      .then(() => {
+        this.dialogVisible = false;
+      });
   }
 
   handleClose() {
@@ -97,5 +101,10 @@ li:hover {
 
 a {
   color: #42b983;
+}
+
+.button-container {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>
