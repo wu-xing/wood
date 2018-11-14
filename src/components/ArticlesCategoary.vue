@@ -4,20 +4,20 @@
       <li v-for="box of boxs">{{ box.name }}</li>
     </ul>
 
-    <button v-on:click="handleCreateButtonClick()">+</button>
+    <add-button :onClick="handleCreateButtonClick"></add-button>
 
     <el-dialog
-      title="选择历史日期"
+      title="Create new article category"
       width="400px"
       :visible.sync="dialogVisible"
       :before-close="handleClose">
 
       <el-form :model="createForm">
-        <el-form-item label="活动名称">
+        <el-form-item>
           <el-input v-model="createForm.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <add-button v-on:click="handleCreateBox">create</add-button>
+        <button v-on:click="handleCreateBox">create</button>
       </el-form>
     </el-dialog>
 
@@ -87,7 +87,7 @@ li {
   text-overflow: ellipsis;
   white-space: nowrap;
   border-bottom: 1px solid #f8f8f8;
-  height: 50px;
+  height: 40px;
   line-height: 48px;
 }
 

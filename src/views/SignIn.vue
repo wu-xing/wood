@@ -1,31 +1,35 @@
 <template>
   <div class="signin-page">
-    <h1>Wood</h1>
-    <h2>- Sign In</h2>
-    <form v-on:submit="signIn($event)">
-      <div class="form-item">
-        <label>
-          <span>Username</span>
-          <el-input v-model="username" name="tnki-username" type="text" placeholder="Username"></el-input>
-        </label>
-      </div>
+    <div class="signin-container">
+      <h2>
+        <img class="logo" alt="logo" src="/logo.png"/>
+        Sign In
+      </h2>
+      <form v-on:submit="signIn($event)">
+        <div class="form-item">
+          <label>
+            <span>Username</span>
+            <el-input v-model="username" name="tnki-username" type="text" placeholder="Username"></el-input>
+          </label>
+        </div>
 
-      <div class="form-item">
-        <label>
-          <span>Password</span>
-          <el-input v-model="password" name="tnki-password" type="password" placeholder="Password"></el-input>
-        </label>
-      </div>
+        <div class="form-item">
+          <label>
+            <span>Password</span>
+            <el-input v-model="password" name="tnki-password" type="password" placeholder="Password"></el-input>
+          </label>
+        </div>
 
-      <div class="button-container">
-        <el-button native-type="submit" type="primary" plain>Sign In</el-button>
-      </div>
+        <div class="button-container">
+          <el-button native-type="submit" type="primary" plain>Go</el-button>
+        </div>
 
-      <div class="tip">
-        Do not have account? <router-link to="/signup">Sign Up</router-link>
-      </div>
+        <div class="tip">
+          Do not have account? <router-link to="/signup">Sign Up</router-link>
+        </div>
 
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -46,13 +50,10 @@ export default class SignIn extends Vue {
   public async signIn(event: Event) {
     event.preventDefault();
     try {
-      const response: AxiosResponse<{ token: string; id: string }> = await axios.post(
-        '/api/signin',
-        {
-          username: this.username,
-          password: this.password
-        }
-      );
+      const response: AxiosResponse<{ token: string; id: string }> = await axios.post('/api/signin', {
+        username: this.username,
+        password: this.password
+      });
 
       setJwt(response.data.token);
       setUserId(response.data.id);
@@ -68,15 +69,27 @@ export default class SignIn extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
-h1, h2 {
-  color: #409EFF;
-  font-family: "Verdana";
+<style scoped>
+h2 {
+  text-align: left;
+  color: #383838;
 }
 
-h2 {
-  margin-top: -1.5rem;
-  white-space: pre;
+.logo {
+  position: relative;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.signin-container {
+  position: relative;
+  top: 86px;
+  width: 400px;
+  padding: 20px;
+  margin: auto;
+  border-radius: 6px;
+  border: 1px solid #eee;
 }
 
 form {
@@ -96,20 +109,20 @@ form {
   display: inline-block;
   width: 110px;
   text-align: left;
-  color: #409EFF;
+  color: #383838;
   font-weight: bolder;
 }
 
 .tip {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .tip a {
-  color: #409EFE
+  color: #383838;
 }
 
 .button-container {
   margin-top: 10px;
+  text-align: right;
 }
-
 </style>

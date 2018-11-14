@@ -39,7 +39,7 @@ export default class App extends Vue {
 
   @Watch('$route')
   watchRouter() {
-    if (this.$route.name === 'share-article') {
+    if (this.$route.name === 'share-article' || this.$route.name === 'signin' || this.$route.name === 'signup') {
       this.hideMenu = true;
     } else {
       this.hideMenu = false;
@@ -70,7 +70,8 @@ body,
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'brown', -apple-system, BlinkMacSystemFont, 'avenir', 'lucida grande', 'gill sans', 'helvetica neue',
+    'helvetica', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -93,10 +94,15 @@ body,
 #app.hide nav {
   display: none;
 }
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
 </style>
 
 <style scoped>
 nav {
+  height: 40px;
   transition: margin-top ease-in-out 200ms;
   color: white;
   background-color: #333;
@@ -118,11 +124,11 @@ nav .logo {
 
 nav ul {
   margin: 0;
-  padding: 7px 10px;
   display: block;
   text-align: left;
   position: relative;
-  top: 1.5px;
+  padding: 0;
+  margin-left: 8px;
 }
 
 nav ul li {
@@ -134,8 +140,8 @@ nav ul li {
   background-color: #f8f8f8;
   box-sizing: border-box;
   height: 20px;
-  padding: 0 8px;
-  box-shadow: 0 1px 6px #999;
+  padding: 0 2px;
+  box-shadow: 0 1px 3px #999;
 }
 
 nav ul li a {
@@ -151,7 +157,7 @@ nav ul li a {
 
 nav ul li a svg {
   vertical-align: middle;
-  margin-top: -6px;
+  margin-top: -3px;
   color: #666;
 }
 </style>

@@ -17,6 +17,8 @@ import Icon from 'vue-awesome/components/Icon.vue'
 import AddButton from './components/AddButton.vue';
 
 
+import './element-variables.scss';
+
 declare module 'vue/types/vue' {
   interface Vue {
     $eventHub: Vue
