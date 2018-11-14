@@ -4,37 +4,37 @@
       <ul class="operation-list">
         <li v-if="!isEdit" v-on:click="$emit('save')">
           <el-tooltip class="item" effect="dark" content="保存" placement="right">
-            <as-icon name="save" style="color: #999"></as-icon>
+            <as-icon name="save" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="addTitle()">
           <el-tooltip class="item" effect="dark" content="标题" placement="right">
-            <as-icon name="heading" style="color: #999"></as-icon>
+            <as-icon name="heading" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="addSrcBlock()">
           <el-tooltip class="item" effect="dark" content="代码" placement="right">
-            <as-icon name="code" style="color: #999"></as-icon>
+            <as-icon name="code" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="addInlineCode()">
           <el-tooltip class="item" effect="dark" content="行内代码" placement="right">
-            <as-icon name="terminal" style="color: #999"></as-icon>
+            <as-icon name="terminal" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="toggleFullEditor()">
           <el-tooltip class="item" effect="dark" v-bind:content="!hiddenPreview? '隐藏预览' : '显示预览'" placement="right">
-            <as-icon name="columns" style="color: #999"></as-icon>
+            <as-icon name="columns" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="addQuoteCode()">
           <el-tooltip class="item" effect="dark" content="引用" placement="right">
-            <as-icon name="quote-right" style="color: #999"></as-icon>
+            <as-icon name="quote-right" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li v-on:click="fullScreen()">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
-            <as-icon name="expand" style="color: #999"></as-icon>
+            <as-icon name="expand" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
         <li>
@@ -46,7 +46,7 @@
             :http-request="uploadImage"
             :on-change="handleImageUploadChange">
             <el-tooltip class="item" effect="dark" content="上传图片" placement="right">
-              <as-icon name="image" style="color: #999"></as-icon>
+              <as-icon name="image" style="color: #777"></as-icon>
             </el-tooltip>
           </el-upload>
 
