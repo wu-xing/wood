@@ -17,7 +17,7 @@
           <el-input v-model="createForm.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <button v-on:click="handleCreateBox">create</button>
+        <add-button v-on:click="handleCreateBox">create</add-button>
       </el-form>
     </el-dialog>
 

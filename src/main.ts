@@ -14,6 +14,8 @@ import store from './store'
 import 'vue-awesome/icons';
 import Icon from 'vue-awesome/components/Icon.vue'
 
+import AddButton from './components/AddButton.vue';
+
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -22,6 +24,7 @@ declare module 'vue/types/vue' {
 }
 
 Vue.component('as-icon', Icon)
+Vue.component('add-button', AddButton)
 
 Vue.prototype.$eventHub = new Vue();
 
