@@ -83,7 +83,7 @@ export default class ArticlePreviwContainer extends Vue {
 <style scoped>
 .container {
   position: relative;
-  width: 100%;
+  width: 70%;
 }
 
 .unlock-area {

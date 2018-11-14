@@ -269,6 +269,7 @@ export default class OrgModeEditor extends Vue {
 .operation-list {
   padding: 0;
   margin: 0;
+  text-align: center;
 }
 
 .operation-list li {
