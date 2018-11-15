@@ -64,6 +64,8 @@
         ></textarea>
       </div>
 
+      <div class="border"></div>
+
       <div
         class="org-preview-container"
         v-if="!hiddenPreview">
@@ -260,10 +262,15 @@ export default class OrgModeEditor extends Vue {
   background-color: #f8f8f8;
 }
 
+.border {
+  height: 100;
+  width: 1px;
+  background-color: black;
+}
+
 .org-code-container {
   width: 100%;
   height: 100%;
-  border-right: 1px solid #e8e8e8;
 }
 
 .operation-list {
