@@ -64,7 +64,7 @@
         ></textarea>
       </div>
 
-      <div class="border"></div>
+      <div class="border" ref="border"></div>
 
       <div
         class="org-preview-container"
@@ -83,6 +83,8 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
 import axios from 'axios';
 import ArticlePreview from './ArticlePreview.vue';
+import { fromEvent, merge } from 'rxjs';
+import { concatMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   components: {
@@ -102,7 +104,7 @@ export default class OrgModeEditor extends Vue {
   @Prop({ default: () => ({ content: '', title: '' }) })
   document!: any;
 
-  @Prop({ default: () => false})
+  @Prop({ default: () => false })
   public waitPush?: boolean;
 
   public hiddenPreview = false;
@@ -111,10 +113,32 @@ export default class OrgModeEditor extends Vue {
     this.parseHtmlFromOrgCode(this.document.content);
     window.addEventListener('beforeunload', this.handleBeforeunload);
     this.hiddenPreview = window.localStorage.getItem(`article-${this.articleId}-preview`) !== 'true';
+
+    this.setupBorderReactive();
   }
 
   destroyed() {
     window.removeEventListener('beforeunload', this.handleBeforeunload);
+  }
+
+  setupBorderReactive() {
+    const el: HTMLElement = <HTMLElement>this.$refs.border;
+    const start$ = fromEvent(el, 'mousedown');
+    const move$ = fromEvent(window.document, 'mousemove');
+    const end$ = merge(
+      fromEvent(window.document, 'mouseup'),
+      fromEvent(window, 'blur'),
+      fromEvent(window, 'contextmenu')
+    );
+
+    start$
+      .pipe(
+        concatMap(() => move$),
+        takeUntil(end$)
+      )
+      .subscribe((event) => {
+        console.log(event);
+      });
   }
 
   @Watch('document')
@@ -123,11 +147,11 @@ export default class OrgModeEditor extends Vue {
   }
 
   handleBeforeunload = (event: any) => {
-    const confirmationMessage = '\o/';
+    const confirmationMessage = 'o/';
     if (this.waitPush) {
       (event || window.event).returnValue = confirmationMessage;
     }
-  }
+  };
 
   parseHtmlFromOrgCode(code: any) {
     try {
@@ -162,8 +186,7 @@ export default class OrgModeEditor extends Vue {
 
   onTextAreaScroll(event: Event) {
     const textareaScrollRatio =
-      (<HTMLElement>this.$refs.textarea).scrollTop /
-    (<HTMLElement>this.$refs.textarea).scrollHeight;
+      (<HTMLElement>this.$refs.textarea).scrollTop / (<HTMLElement>this.$refs.textarea).scrollHeight;
     const preview: Vue = <any>this.$refs.preview;
     window.requestAnimationFrame(() => {
       preview.$el.scrollTop = preview.$el.scrollHeight * textareaScrollRatio;
@@ -227,11 +250,7 @@ export default class OrgModeEditor extends Vue {
     if (myField.selectionStart || myField.selectionStart === 0) {
       const startPos = myField.selectionStart;
       const endPos = myField.selectionEnd;
-      return (
-        myField.value.substring(0, startPos) +
-        myValue +
-        myField.value.substring(endPos, myField.value.length)
-      );
+      return myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
     } else {
       return myField.value + myValue;
     }
