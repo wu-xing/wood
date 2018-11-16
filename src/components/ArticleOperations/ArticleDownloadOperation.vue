@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../util/article';
-import { getBinaryContent } from '../util/zip';
+import { extractImageUrls, replaceArticleImageUrl, extractUrlHash } from '../../util/article';
+import { getBinaryContent } from '../../util/zip';
 import { saveAs } from 'file-saver/FileSaver';
 import * as JSZip from 'jszip';
 

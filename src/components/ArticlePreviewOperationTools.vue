@@ -21,11 +21,11 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import ArticleHistoryOperation from './ArticleHistorysOperation.vue';
-import ArticleGoEditOperation from './ArticleGoEditOperation.vue';
-import ArticleDownloadOperation from './ArticleDownloadOperation.vue';
-import ArticleShareOperation from './ArticleShareOperation.vue';
-import ArticleLockOperation from './ArticleLockOperation.vue';
+import ArticleHistoryOperation from './ArticleOperations/ArticleHistorysOperation.vue';
+import ArticleGoEditOperation from './ArticleOperations/ArticleGoEditOperation.vue';
+import ArticleDownloadOperation from './ArticleOperations/ArticleDownloadOperation.vue';
+import ArticleShareOperation from './ArticleOperations/ArticleShareOperation.vue';
+import ArticleLockOperation from './ArticleOperations/ArticleLockOperation.vue';
 
 @Component({
   components: {
