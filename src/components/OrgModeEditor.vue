@@ -54,8 +54,14 @@
       </ul>
     </div>
 
-    <div class="edit-container">
-      <div class="org-code-container">
+    <div 
+      class="edit-container"
+      
+      ref="editContainer">
+      <div
+        class="org-code-container" 
+        v-bind:style="{ width: editAreaWidth }"
+        >
         <textarea
           ref="textarea"
           v-on:input="onContentChanged"
@@ -84,7 +90,7 @@ import * as org from 'orgpr';
 import axios from 'axios';
 import ArticlePreview from './ArticlePreview.vue';
 import { fromEvent, merge } from 'rxjs';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { concatMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   components: {
@@ -94,6 +100,7 @@ import { concatMap, takeUntil } from 'rxjs/operators';
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
   title: string = '';
+  editAreaWidth: any = '50%'
 
   @Prop()
   articleId!: string;
@@ -113,7 +120,9 @@ export default class OrgModeEditor extends Vue {
     this.parseHtmlFromOrgCode(this.document.content);
     window.addEventListener('beforeunload', this.handleBeforeunload);
     this.hiddenPreview = window.localStorage.getItem(`article-${this.articleId}-preview`) !== 'true';
+  }
 
+  mounted() {
     this.setupBorderReactive();
   }
 
@@ -121,7 +130,13 @@ export default class OrgModeEditor extends Vue {
     window.removeEventListener('beforeunload', this.handleBeforeunload);
   }
 
+  getEditAreaOffsetX(): number {
+    return (<HTMLElement>this.$refs.editContainer).offsetLeft;
+  }
+
   setupBorderReactive() {
+    const editOffsetX = this.getEditAreaOffsetX();
+
     const el: HTMLElement = <HTMLElement>this.$refs.border;
     const start$ = fromEvent(el, 'mousedown');
     const move$ = fromEvent(window.document, 'mousemove');
@@ -133,11 +148,17 @@ export default class OrgModeEditor extends Vue {
 
     start$
       .pipe(
-        concatMap(() => move$),
-        takeUntil(end$)
+        tap(event => event.preventDefault()),
+        concatMap(() => move$.pipe(takeUntil(end$))),
       )
-      .subscribe((event) => {
+      .subscribe((event: any) => {
         console.log(event);
+        console.log(event.offsetX, editOffsetX);
+        // TODO remove flex
+        const borderOffsetLeft = event.clientX - editOffsetX;
+        console.log(borderOffsetLeft);
+        this.editAreaWidth = borderOffsetLeft + 'px';
+        
       });
   }
 
@@ -267,9 +288,8 @@ export default class OrgModeEditor extends Vue {
 
 .edit-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: flex-start;
-  width: calc(100vw - 50px);
   height: 100%;
   width: 100%;
 }
@@ -283,12 +303,13 @@ export default class OrgModeEditor extends Vue {
 
 .border {
   height: 100;
-  width: 1px;
-  background-color: black;
+  width: 10px;
+  background-color: #999;
+  cursor: ew-resize;
+  user-select: none;
 }
 
 .org-code-container {
-  width: 100%;
   height: 100%;
 }
 
@@ -322,7 +343,7 @@ export default class OrgModeEditor extends Vue {
 .org-preview-container {
   margin: 0;
   text-align: left;
-  width: 100%;
+  width: 50%;
   height: 100%;
   position: relative;
 }
