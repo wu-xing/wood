@@ -2,41 +2,28 @@
   <div class="container">
     <div class="operation-container">
       <ul class="operation-list">
-        <li v-if="!isEdit" v-on:click="$emit('save')">
+        <li v-if="!isEdit" v-on:click="$emit('save');">
           <el-tooltip class="item" effect="dark" content="保存" placement="right">
             <as-icon name="save" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
-        <li v-on:click="addTitle()">
-          <el-tooltip class="item" effect="dark" content="标题" placement="right">
-            <as-icon name="heading" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <li v-on:click="addSrcBlock()">
-          <el-tooltip class="item" effect="dark" content="代码" placement="right">
-            <as-icon name="code" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <li v-on:click="addInlineCode()">
-          <el-tooltip class="item" effect="dark" content="行内代码" placement="right">
-            <as-icon name="terminal" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <li v-on:click="toggleFullEditor()">
-          <el-tooltip class="item" effect="dark" v-bind:content="!hiddenPreview? '隐藏预览' : '显示预览'" placement="right">
-            <as-icon name="columns" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <li v-on:click="addQuoteCode()">
-          <el-tooltip class="item" effect="dark" content="引用" placement="right">
-            <as-icon name="quote-right" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <li v-on:click="fullScreen()">
+        
+        <AddTitleTool v-on:action="onToolAction" />
+        
+        <AddSrcBlockTool v-on:action="onToolAction" />
+
+        <AddInlineCodeTool v-on:action="onToolAction" />
+
+        <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event" />
+       
+        <AddQuoteCodeTool v-on:action="onToolAction" />
+
+        <li v-on:click="fullScreen();">
           <el-tooltip class="item" effect="dark" content="全屏" placement="right">
             <as-icon name="expand" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
+
         <li>
           <el-upload
             class="upload-demo"
@@ -44,24 +31,18 @@
             action="/api/auth/image"
             :multiple="true"
             :http-request="uploadImage"
-            :on-change="handleImageUploadChange">
+            :on-change="handleImageUploadChange"
+          >
             <el-tooltip class="item" effect="dark" content="上传图片" placement="right">
               <as-icon name="image" style="color: #777"></as-icon>
             </el-tooltip>
           </el-upload>
-
         </li>
       </ul>
     </div>
 
-    <div 
-      class="edit-container"
-      
-      ref="editContainer">
-      <div
-        class="org-code-container" 
-        v-bind:style="{ width: editAreaWidth }"
-        >
+    <div class="edit-container" ref="editContainer">
+      <div class="org-code-container" v-bind:style="{ width: editAreaWidth }">
         <textarea
           ref="textarea"
           v-on:input="onContentChanged"
@@ -72,14 +53,7 @@
 
       <div class="border" ref="border"></div>
 
-      <div
-        class="org-preview-container"
-        v-if="!hiddenPreview">
-        <ArticlePreview
-          ref="preview"
-          :html="orgHtml"
-        />
-      </div>
+      <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
     </div>
   </div>
 </template>
@@ -91,16 +65,26 @@ import axios from 'axios';
 import ArticlePreview from './ArticlePreview.vue';
 import { fromEvent, merge } from 'rxjs';
 import { concatMap, takeUntil, tap } from 'rxjs/operators';
+import AddInlineCodeTool from './EditorTool/AddInlineCodeTool.vue';
+import ToggleFullEditorTool from './EditorTool/ToggleFullEditorTool.vue';
+import AddQuoteCodeTool from './EditorTool/AddQuoteCodeTool.vue';
+import AddSrcBlockTool from './EditorTool/AddSrcBlockTool.vue';
+import AddTitleTool from './EditorTool/AddTitleTool.vue';
 
 @Component({
   components: {
-    ArticlePreview
+    ArticlePreview,
+    AddInlineCodeTool,
+    ToggleFullEditorTool,
+    AddQuoteCodeTool,
+    AddSrcBlockTool,
+    AddTitleTool
   }
 })
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
   title: string = '';
-  editAreaWidth: any = '50%'
+  editAreaWidth: any = '50%';
 
   @Prop()
   articleId!: string;
@@ -130,6 +114,27 @@ export default class OrgModeEditor extends Vue {
     window.removeEventListener('beforeunload', this.handleBeforeunload);
   }
 
+  onToolAction({content, position}: {content: string, position: 'CURRENT' | 'BEGIN' | 'END'}) {
+    if (position === 'CURRENT') {
+      this.$emit('change', {
+        ...this.document,
+        content: this.getInsertValueToTextArea(content)
+      });
+    }
+    if (position === 'BEGIN') {
+      this.$emit('change', {
+        ...this.document,
+        content: content + this.document.content
+      });
+    }
+    if (position === 'END') {
+      this.$emit('change', {
+        ...this.document,
+        content: this.document.content + content
+      });
+    }
+  }
+
   getEditAreaOffsetX(): number {
     return (<HTMLElement>this.$refs.editContainer).offsetLeft;
   }
@@ -149,7 +154,7 @@ export default class OrgModeEditor extends Vue {
     start$
       .pipe(
         tap(event => event.preventDefault()),
-        concatMap(() => move$.pipe(takeUntil(end$))),
+        concatMap(() => move$.pipe(takeUntil(end$)))
       )
       .subscribe((event: any) => {
         console.log(event);
@@ -158,7 +163,6 @@ export default class OrgModeEditor extends Vue {
         const borderOffsetLeft = event.clientX - editOffsetX;
         console.log(borderOffsetLeft);
         this.editAreaWidth = borderOffsetLeft + 'px';
-        
       });
   }
 
@@ -215,31 +219,7 @@ export default class OrgModeEditor extends Vue {
   }
 
   addTitle() {
-    this.$emit('change', {
-      ...this.document,
-      content: `#+TITLE: \n#+AUTHOR:\n` + this.document.content
-    });
-  }
-
-  addSrcBlock() {
-    this.$emit('change', {
-      ...this.document,
-      content: this.getInsertValueToTextArea(`\n#+BEGIN_SRC\n\n#+END_SRC`)
-    });
-  }
-
-  addQuoteCode() {
-    this.$emit('change', {
-      ...this.document,
-      content: this.getInsertValueToTextArea(`#+BEGIN_QUOTE\n\n#+END_QUOTE`)
-    });
-  }
-
-  addInlineCode() {
-    this.$emit('change', {
-      ...this.document,
-      content: this.getInsertValueToTextArea(`= [code] =`)
-    });
+    
   }
 
   fullScreen() {
