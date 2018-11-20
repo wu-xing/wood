@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { getArticles } from './resouce/articles';
+import { getArticles, searchArticles } from './resouce/articles';
 import { getArticleBoxs } from './resouce/article-box';
 
 Vue.use(Vuex);
@@ -10,6 +10,7 @@ export default new Vuex.Store<any>({
     articles: {},
     getArticlesLoading: false,
     searchStr: '',
+    currentBoxId: '@DEFAULT',
     boxs: {
       '@DEFAULT': {
         id: '@DEFAULT',
@@ -22,7 +23,7 @@ export default new Vuex.Store<any>({
     }
   },
   mutations: {
-    articles(state: any, { boxId, userId, articles }) {
+    articles(state: any, { boxId, articles }) {
       const stateArticles = { ...state.articles };
 
       articles.forEach((article: any) => {
@@ -37,6 +38,9 @@ export default new Vuex.Store<any>({
           articleIds: articles.map((a: any) => a.id)
         }
       };
+    },
+    currentBoxId(state: any, currentBoxId) {
+      state.currentBoxId = currentBoxId;
     },
     searchStr(state: any, searchStr) {
       state.searchStr = searchStr;
@@ -85,6 +89,9 @@ export default new Vuex.Store<any>({
     },
     searchArticles({commit}, {searchStr}) {
       commit('searchStr', searchStr);
+      searchArticles(searchStr).then((articles: any) => {
+        commit('articles', { boxId: '@SEARCH', articles });
+      });
     }
   }
 });

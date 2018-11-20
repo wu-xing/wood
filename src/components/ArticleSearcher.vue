@@ -7,13 +7,24 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Subject } from 'rxjs';
+import { filter, debounceTime } from 'rxjs/operators';
 
 @Component({})
 export default class ArticleSearcher extends Vue {
+  searchStr$ = new Subject();
+
+  constructor() {
+    super();
+    // TODO takeUntil
+    this.searchStr$.pipe(filter(s => !!s), debounceTime(300)).subscribe((searchStr) => {
+      this.$store.dispatch('searchArticles', {searchStr});
+    });
+  }
 
   public handleInput(searchStr: string) {
     // this.$eventHub.$emit('searchStr', searchStr);
-    this.$store.dispatch('searchArticles', {searchStr});
+    this.searchStr$.next(searchStr);
   }
 }
 </script>

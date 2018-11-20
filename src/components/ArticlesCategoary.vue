@@ -1,7 +1,13 @@
 <template>
   <div class="container">
     <ul>
-      <li v-for="box of boxs">{{ box.name }}</li>
+      <li 
+        v-bind:key="box.id" 
+        v-for="box of boxs"
+        v-on:click="handleBoxClick(box)"
+      >
+        {{ box.name }}
+      </li>
     </ul>
 
     <div class="button-container">
@@ -50,6 +56,10 @@ export default class ArticleCategory extends Vue {
   get boxs() {
     const boxMap = this.$store.state.boxs;
     return compose(values)(boxMap);
+  }
+
+  handleBoxClick(box: any) {
+    this.$store.commit('currentBoxId', box.id);
   }
 
   handleCreateBox(event: Event) {

@@ -25,6 +25,6 @@ export function getArticles(userId: string, boxId: string) {
   return getUserDefaultArticles(userId);
 }
 
-export function searchArticles() {
-  
+export function searchArticles(searchStr: string) {
+  return axios.get(`/api/auth/articles/search/${searchStr}`).then(resp => resp.data.items);
 }

@@ -56,21 +56,23 @@ export default class Articles extends Vue {
   }
 
   get articles() {
-    const box =this.$store.state.boxs['@DEFAULT'];
+    const boxId = this.$store.state.currentBoxId;
+    const box = this.$store.state.boxs[boxId];
     if (!box || !box.articleIds) {
       return null;
     }
     return compose(
       sort((a: Article, b: Article) => a.updatedAt < b.updatedAt),
       map((id: string) => this.$store.state.articles[id])
-    )(this.$store.state.boxs['@DEFAULT'].articleIds)
+    )(this.$store.state.boxs[boxId].articleIds)
   }
 
   public getArticlesAndSave() {
+    const boxId = this.$store.state.currentBoxId;
     const userId = window.localStorage.getItem('userId');
     this.$store.dispatch('getArticles', {
       userId,
-      boxId: '@DEFAULT'
+      boxId
     });
   }
 
