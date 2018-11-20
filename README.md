@@ -14,3 +14,6 @@ a notes/wiki write system.
 it need setup backend on localhost when in development.
 
 the proxy config is in `vue.config.`
+
+### env
+- node 8.10.0
