@@ -83,7 +83,7 @@ export default class Articles extends Vue {
   }
 
   public formatDate(date: number): string {
-    return format(date, 'YYYY/MM/dd');
+    return format(date, 'yyyy/MM/dd');
   }
 
   public onArticleItemClick(article: Article) {

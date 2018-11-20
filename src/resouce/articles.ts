@@ -24,3 +24,7 @@ export function getArticles(userId: string, boxId: string) {
   }
   return getUserDefaultArticles(userId);
 }
+
+export function searchArticles() {
+  
+}

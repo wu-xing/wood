@@ -9,6 +9,7 @@ export default new Vuex.Store<any>({
   state: {
     articles: {},
     getArticlesLoading: false,
+    searchStr: '',
     boxs: {
       '@DEFAULT': {
         id: '@DEFAULT',
@@ -36,6 +37,9 @@ export default new Vuex.Store<any>({
           articleIds: articles.map((a: any) => a.id)
         }
       };
+    },
+    searchStr(state: any, searchStr) {
+      state.searchStr = searchStr;
     },
     getArticlesLoading(state: any, payload: any) {
       state.getArticlesLoading = payload;
@@ -78,6 +82,9 @@ export default new Vuex.Store<any>({
           commit('getArticlesLoading', false);
         }
       );
+    },
+    searchArticles({commit}, {searchStr}) {
+      commit('searchStr', searchStr);
     }
   }
 });
