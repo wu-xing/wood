@@ -24,20 +24,8 @@
           </el-tooltip>
         </li>
 
-        <li>
-          <el-upload
-            class="upload-demo"
-            accept="image/*"
-            action="/api/auth/image"
-            :multiple="true"
-            :http-request="uploadImage"
-            :on-change="handleImageUploadChange"
-          >
-            <el-tooltip class="item" effect="dark" content="上传图片" placement="right">
-              <as-icon name="image" style="color: #777"></as-icon>
-            </el-tooltip>
-          </el-upload>
-        </li>
+        <UploadImageTool v-on:action="onToolAction" />
+        
       </ul>
     </div>
 
@@ -61,7 +49,6 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
-import axios from 'axios';
 import ArticlePreview from './ArticlePreview.vue';
 import { fromEvent, merge } from 'rxjs';
 import { concatMap, takeUntil, tap } from 'rxjs/operators';
@@ -70,6 +57,7 @@ import ToggleFullEditorTool from './EditorTool/ToggleFullEditorTool.vue';
 import AddQuoteCodeTool from './EditorTool/AddQuoteCodeTool.vue';
 import AddSrcBlockTool from './EditorTool/AddSrcBlockTool.vue';
 import AddTitleTool from './EditorTool/AddTitleTool.vue';
+import UploadImageTool from './EditorTool/UploadImageTool.vue';
 
 @Component({
   components: {
@@ -78,7 +66,8 @@ import AddTitleTool from './EditorTool/AddTitleTool.vue';
     ToggleFullEditorTool,
     AddQuoteCodeTool,
     AddSrcBlockTool,
-    AddTitleTool
+    AddTitleTool,
+    UploadImageTool
   }
 })
 export default class OrgModeEditor extends Vue {
@@ -218,32 +207,8 @@ export default class OrgModeEditor extends Vue {
     });
   }
 
-  addTitle() {
-    
-  }
-
   fullScreen() {
     this.$eventHub.$emit('full-screen');
-  }
-
-  handleImageUploadChange() {}
-
-  uploadImage(uploadObject: any) {
-    const fileReader = new FileReader();
-    fileReader.addEventListener('load', (e: any) => {
-      axios
-        .post('/api/auth/image/base64', {
-          image: e.target.result
-        })
-        .then((resp: any) => {
-          this.$emit('change', {
-            ...this.document,
-            content: this.getInsertValueToTextArea(`\n[[image-url:/${resp.data.image}]]`)
-          });
-        });
-    });
-
-    fileReader.readAsDataURL(uploadObject.file);
   }
 
   getInsertValueToTextArea(myValue: string): string {
