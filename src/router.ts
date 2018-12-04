@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import About from './views/About.vue';
 import Editor from './views/Editor.vue';
 
@@ -53,9 +52,12 @@ export default new Router({
       name: 'history-article',
       component: HistoryArticle
     },
-
     {
       path: '/',
+      redirect: '/articles'
+    },
+    {
+      path: '/home',
       redirect: '/articles'
     },
     {
