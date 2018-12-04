@@ -11,7 +11,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AddInlineCodeTool extends Vue {
-
   handleClick() {
     this.$emit('action', {
       content: '= [code] =',
