@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div v-if="!!article">
-      <div v-if="!isEncryption()">
+    <div class="article-exist-dog" v-if="!!article">
+      <div class="article-encryption-dog" v-if="!isEncryption()">
         <ArticlePreview
           ref="preview"
           :html="getPreviewHtml()"
@@ -84,6 +84,14 @@ export default class ArticlePreviwContainer extends Vue {
 .container {
   position: relative;
   width: 70%;
+}
+
+.article-exist-dog {
+  height: 100%;
+}
+
+.article-encryption-dog {
+  height: 100%;
 }
 
 .unlock-area {
