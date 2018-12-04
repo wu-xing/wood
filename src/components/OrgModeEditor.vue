@@ -244,6 +244,7 @@ export default class OrgModeEditor extends Vue {
   height: 100%;
   border-right: 1px solid #e8e8e8;
   background-color: #f8f8f8;
+  flex-shrink: 0;
 }
 
 .border {
