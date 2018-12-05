@@ -2,34 +2,27 @@
   <div class="container">
     <div class="article-exist-dog" v-if="!!article">
       <div class="article-encryption-dog" v-if="!isEncryption()">
-        <ArticlePreview
-          ref="preview"
-          :html="getPreviewHtml()"
-        />
+        <ArticlePreview ref="preview" :html="getPreviewHtml()" />
 
-        <ArticlePreviewOperationTools
-          :foucsedArticleId="article.id"
-        />
+        <ArticlePreviewOperationTools :foucsedArticleId="article.id" />
       </div>
 
       <div class="unlock-area" v-if="isEncryption()">
-        <form v-on:submit="onUnlock($event)">
+        <form v-on:submit="onUnlock($event);">
           <input name="木记" type="text" value="木记" style="display: none" />
           <input
             name="wood-article-password"
             type="password"
             placeholder="输入密码解锁"
             autocomplete="off"
-            v-on:keyup.enter="handleUnlock($event)"
-            v-model="lockPassword" />
+            v-on:keyup.enter="handleUnlock($event);"
+            v-model="lockPassword"
+          />
         </form>
       </div>
     </div>
 
-    <div v-if="!article">
-      empty
-    </div>
-
+    <div v-if="!article">empty</div>
   </div>
 </template>
 
@@ -46,9 +39,8 @@ import * as org from 'orgpr';
     ArticlePreview
   }
 })
-export default class ArticlePreviwContainer extends Vue {
-  @Prop()
-  public article: Article;
+export default class ArticlePreviwWorkContainer extends Vue {
+  @Prop() public article: Article;
   public isLock = true;
   public lockPassword: string = '';
 
