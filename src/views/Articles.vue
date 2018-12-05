@@ -1,29 +1,23 @@
 <template>
   <div>
     <div class="container-inner">
-      <aside class="category-list">
-        <ArticleCategory />
-      </aside>
+      <aside class="category-list"><ArticleCategory /></aside>
 
-      <aside class="article-list"
-             v-loading="$store.state.getArticlesLoading">
+      <aside class="article-list" v-loading="$store.state.getArticlesLoading">
         <ul v-if="!!articles">
-          <li v-on:click="onArticleItemClick(article)"
-              v-bind:key="article.id"
-              v-bind:class="{ active: foucsedArticleId === article.id }"
-              v-for="article in articles">
-            <div class="article-title">
-              {{article.title}}
-            </div>
-            <div class="article-date">
-              {{formatDate(article.updatedAt || article.createdAt)}}
-            </div>
+          <li
+            v-on:click="onArticleItemClick(article);"
+            v-bind:key="article.id"
+            v-bind:class="{ active: foucsedArticleId === article.id }"
+            v-for="article in articles"
+          >
+            <div class="article-title">{{ article.title }}</div>
+            <div class="article-date">{{ formatDate(article.updatedAt || article.createdAt) }}</div>
           </li>
         </ul>
       </aside>
 
-      <ArticlePreviwContainer v-if="getFocustArticle()" :article="getFocustArticle()" />
-
+      <ArticlePreviwWorkContainer v-if="getFocustArticle()" :article="getFocustArticle()" />
     </div>
   </div>
 </template>
@@ -35,13 +29,13 @@ import * as values from 'ramda/src/values';
 import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
-import ArticlePreviwContainer from '../components/ArticlePreviwContainer.vue';
+import ArticlePreviwWorkContainer from '../components/ArticlePreviwWorkContainer.vue';
 import ArticleCategory from '../components/ArticlesCategoary.vue';
 import format from 'date-fns/format';
 
 @Component({
   components: {
-    ArticlePreviwContainer,
+    ArticlePreviwWorkContainer,
     ArticleCategory
   }
 })
@@ -64,7 +58,7 @@ export default class Articles extends Vue {
     return compose(
       sort((a: Article, b: Article) => a.updatedAt < b.updatedAt),
       map((id: string) => this.$store.state.articles[id])
-    )(this.$store.state.boxs[boxId].articleIds)
+    )(this.$store.state.boxs[boxId].articleIds);
   }
 
   public getArticlesAndSave() {
@@ -151,7 +145,6 @@ export default class Articles extends Vue {
   max-width: 180px;
 }
 </style>
-
 
 <style>
 .vdp-datepicker__calendar {

@@ -17,9 +17,14 @@ export default class ArticleSearcher extends Vue {
   constructor() {
     super();
     // TODO takeUntil
-    this.searchStr$.pipe(filter(s => !!s), debounceTime(300)).subscribe((searchStr) => {
-      this.$store.dispatch('searchArticles', {searchStr});
-    });
+    this.searchStr$
+      .pipe(
+        filter(s => !!s),
+        debounceTime(300)
+      )
+      .subscribe(searchStr => {
+        this.$store.dispatch('searchArticles', { searchStr });
+      });
   }
 
   public handleInput(searchStr: string) {
@@ -55,4 +60,3 @@ export default class ArticleSearcher extends Vue {
   color: #666;
 }
 </style>
-
