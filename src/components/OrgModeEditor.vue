@@ -7,15 +7,14 @@
             <as-icon name="save" style="color: #777"></as-icon>
           </el-tooltip>
         </li>
-        
         <AddTitleTool v-on:action="onToolAction" />
-        
+
         <AddSrcBlockTool v-on:action="onToolAction" />
 
         <AddInlineCodeTool v-on:action="onToolAction" />
 
         <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event" />
-       
+
         <AddQuoteCodeTool v-on:action="onToolAction" />
 
         <li v-on:click="fullScreen();">
@@ -25,7 +24,7 @@
         </li>
 
         <UploadImageTool v-on:action="onToolAction" />
-        
+
       </ul>
     </div>
 
@@ -39,7 +38,9 @@
         ></textarea>
       </div>
 
-      <div class="border" ref="border"></div>
+      <div class="border" ref="border">
+        <as-icon name="arrows-alt-h" />
+      </div>
 
       <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
     </div>

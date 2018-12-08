@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <aside class="container">
     <ul>
       <li 
         v-bind:key="box.id" 
@@ -29,7 +29,7 @@
       </el-form>
     </el-dialog>
 
-  </div>
+  </aside>
 </template>
 
 <script lang="ts">
@@ -85,6 +85,8 @@ export default class ArticleCategory extends Vue {
 
 <style scoped>
 .container {
+  width: 35%;
+  max-width: 180px;
 }
 
 ul {

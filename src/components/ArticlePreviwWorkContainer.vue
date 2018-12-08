@@ -4,7 +4,9 @@
       <div class="article-encryption-dog" v-if="!isEncryption()">
         <ArticlePreview ref="preview" :html="getPreviewHtml()" />
 
-        <ArticlePreviewOperationTools :foucsedArticleId="article.id" />
+        <!-- <ArticlePreviewOperationTools :foucsedArticleId="article.id" /> -->
+        <PreviewWorkFloatPanel></PreviewWorkFloatPanel>
+
       </div>
 
       <div class="unlock-area" v-if="isEncryption()">
@@ -30,12 +32,14 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArticlePreview from './ArticlePreview.vue';
 import ArticlePreviewOperationTools from './ArticlePreviewOperationTools.vue';
+import PreviewWorkFloatPanel from './PreviewWorkFloatPanel.vue';
 import { LockServiceInstance } from '../service/lock';
 import * as org from 'orgpr';
 
 @Component({
   components: {
     ArticlePreviewOperationTools,
+    PreviewWorkFloatPanel,
     ArticlePreview
   }
 })

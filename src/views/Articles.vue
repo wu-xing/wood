@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container-inner">
-      <aside class="category-list"><ArticleCategory /></aside>
+      <ArticleCategory />
 
       <aside class="article-list" v-loading="$store.state.getArticlesLoading">
         <ul v-if="!!articles">
@@ -140,10 +140,6 @@ export default class Articles extends Vue {
   margin-top: 3px;
 }
 
-.category-list {
-  width: 35%;
-  max-width: 180px;
-}
 </style>
 
 <style>
