@@ -39,7 +39,7 @@ import * as values from 'ramda/src/values';
 import * as compose from 'ramda/src/compose';
 
 @Component({})
-export default class ArticleCategory extends Vue {
+export default class Category extends Vue {
   public searchStr: string = '';
   public dialogVisible = false;
   public createForm = {
@@ -87,6 +87,8 @@ export default class ArticleCategory extends Vue {
 .container {
   width: 35%;
   max-width: 180px;
+  background-color: #555;
+  color: white;
 }
 
 ul {
@@ -108,7 +110,7 @@ li {
 }
 
 li:hover {
-  background-color: #f8f8f8;
+  background-color: #999;
 }
 
 a {

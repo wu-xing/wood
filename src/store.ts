@@ -12,6 +12,14 @@ export default new Vuex.Store<any>({
     searchStr: '',
     currentBoxId: '@DEFAULT',
     boxs: {
+      '@ALL': {
+        id: '@ALL',
+        name: '所有笔记'
+      },
+      '@BOOK': {
+        id: '@BOOK',
+        name: '笔记本'
+      },
       '@DEFAULT': {
         id: '@DEFAULT',
         name: '默认'

@@ -2,11 +2,16 @@
   <div class="container">
     <div class="article-exist-dog" v-if="!!article">
       <div class="article-encryption-dog" v-if="!isEncryption()">
-        <ArticlePreview ref="preview" :html="getPreviewHtml()" />
+        <h1>{{ article.title }}</h1>
+
+        <div class="info-container">
+
+          <PreviewWorkFloatPanel />
+        </div>
+
+        <ArticlePreview ref="preview" :hideTitle="true" :html="getPreviewHtml()" />
 
         <!-- <ArticlePreviewOperationTools :foucsedArticleId="article.id" /> -->
-        <PreviewWorkFloatPanel></PreviewWorkFloatPanel>
-
       </div>
 
       <div class="unlock-area" v-if="isEncryption()">
@@ -80,6 +85,10 @@ export default class ArticlePreviwWorkContainer extends Vue {
 .container {
   position: relative;
   width: 70%;
+}
+
+.info-container {
+  border-bottom: 1px solid #999;
 }
 
 .article-exist-dog {

@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <div class="container-inner">
-      <ArticleCategory />
+  <div class="container-inner">
+    <Category />
 
-      <aside class="article-list" v-loading="$store.state.getArticlesLoading">
-        <ul v-if="!!articles">
-          <li
-            v-on:click="onArticleItemClick(article);"
-            v-bind:key="article.id"
-            v-bind:class="{ active: foucsedArticleId === article.id }"
-            v-for="article in articles"
-          >
-            <div class="article-title">{{ article.title }}</div>
-            <div class="article-date">{{ formatDate(article.updatedAt || article.createdAt) }}</div>
-          </li>
-        </ul>
-      </aside>
+    <aside class="article-list" v-loading="$store.state.getArticlesLoading">
+      <ul v-if="!!articles">
+        <li
+          v-on:click="onArticleItemClick(article)"
+          v-bind:key="article.id"
+          v-bind:class="{ active: foucsedArticleId === article.id }"
+          v-for="article in articles"
+        >
+          <div class="article-title">{{ article.title }}</div>
+          <div class="article-date">{{ formatDate(article.updatedAt || article.createdAt) }}</div>
+        </li>
+      </ul>
+    </aside>
 
-      <ArticlePreviwWorkContainer v-if="getFocustArticle()" :article="getFocustArticle()" />
-    </div>
+    <ArticlePreviwWorkContainer v-if="getFocustArticle()" :article="getFocustArticle()" />
   </div>
 </template>
 
@@ -30,13 +28,13 @@ import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreviwWorkContainer from '../components/ArticlePreviwWorkContainer.vue';
-import ArticleCategory from '../components/ArticlesCategoary.vue';
+import Category from '../components/Category.vue';
 import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreviwWorkContainer,
-    ArticleCategory
+    Category
   }
 })
 export default class Articles extends Vue {
