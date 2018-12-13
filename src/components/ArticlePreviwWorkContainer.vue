@@ -15,14 +15,14 @@
       </div>
 
       <div class="unlock-area" v-if="isEncryption()">
-        <form v-on:submit="onUnlock($event);">
+        <form v-on:submit="onUnlock($event)">
           <input name="木记" type="text" value="木记" style="display: none" />
           <input
             name="wood-article-password"
             type="password"
             placeholder="输入密码解锁"
             autocomplete="off"
-            v-on:keyup.enter="handleUnlock($event);"
+            v-on:keyup.enter="handleUnlock($event)"
             v-model="lockPassword"
           />
         </form>
