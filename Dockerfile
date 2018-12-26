@@ -1,17 +1,21 @@
-FROM node:9.11.1-alpine as builder
+FROM node:8.14.1-jessie as builder
+
+RUN npm -v
 
 COPY package.json package-lock.json ./
 
-RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
+RUN npm set registry https://registry.npm.taobao.org
+RUN npm set sass_binary_site https://npm.taobao.org/mirrors/node-sass
 
-RUN npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
+# RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
+
+RUN npm install && mkdir /ng-app && cp -R ./node_modules ./ng-app
 
 WORKDIR /ng-app
 
 COPY . .
 
 RUN npm run build
-
 
 FROM nginx:1.13.3-alpine
 
