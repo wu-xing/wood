@@ -28,7 +28,6 @@
         <el-button native-type="submit" type="primary" @click="handleCreateBox($event)">create</el-button>
       </el-form>
     </el-dialog>
-
   </aside>
 </template>
 

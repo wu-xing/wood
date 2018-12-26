@@ -42,9 +42,6 @@ export default class ArticlePreviewOperationTools extends Vue {
 </script>
 
 <style>
-.preview-contaier {
-}
-
 .preview-contaier:hover .preview-contaier-toolbar {
   opacity: 1;
 }
