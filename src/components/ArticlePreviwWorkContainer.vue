@@ -2,6 +2,8 @@
   <div class="container">
     <div class="article-exist-dog" v-if="!!article">
       <div class="article-encryption-dog" v-if="!isEncryption()">
+
+        <PreviewHeaderPanel :article="article" />
         <h1>{{ article.title }}</h1>
 
         <div class="info-container">
@@ -37,14 +39,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArticlePreview from './ArticlePreview.vue';
 import ArticlePreviewOperationTools from './ArticlePreviewOperationTools.vue';
-import PreviewWorkFloatPanel from './PreviewWorkFloatPanel.vue';
+// import PreviewWorkFloatPanel from './PreviewWorkFloatPanel.vue';
+import PreviewHeaderPanel from './previw/PreviewHeaderPanel.vue';
 import { LockServiceInstance } from '../service/lock';
 import * as org from 'orgpr';
 
 @Component({
   components: {
     ArticlePreviewOperationTools,
-    PreviewWorkFloatPanel,
+    PreviewHeaderPanel,
     ArticlePreview
   }
 })
