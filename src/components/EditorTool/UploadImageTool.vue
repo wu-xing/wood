@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <div>
     <el-upload
       class="upload-demo"
       accept="image/*"
@@ -12,7 +12,7 @@
         <as-icon name="image" style="color: #777"></as-icon>
       </el-tooltip>
     </el-upload>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">

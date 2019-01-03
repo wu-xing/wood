@@ -1,9 +1,9 @@
 <template>
-  <li v-on:click="handleClick();">
+  <div v-on:click="handleClick();">
     <el-tooltip class="item" effect="dark" content="行内代码" placement="right">
       <as-icon name="terminal" style="color: #777"></as-icon>
     </el-tooltip>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">
