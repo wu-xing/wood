@@ -4,16 +4,9 @@
       <div class="article-encryption-dog" v-if="!isEncryption()">
 
         <PreviewHeaderPanel :article="article" />
-        <h1>{{ article.title }}</h1>
-
-        <div class="info-container">
-
-          <PreviewWorkFloatPanel />
-        </div>
 
         <ArticlePreview ref="preview" :hideTitle="true" :html="getPreviewHtml()" />
 
-        <!-- <ArticlePreviewOperationTools :foucsedArticleId="article.id" /> -->
       </div>
 
       <div class="unlock-area" v-if="isEncryption()">
@@ -40,7 +33,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ArticlePreview from './ArticlePreview.vue';
 import ArticlePreviewOperationTools from './ArticlePreviewOperationTools.vue';
 // import PreviewWorkFloatPanel from './PreviewWorkFloatPanel.vue';
-import PreviewHeaderPanel from './previw/PreviewHeaderPanel.vue';
+import PreviewHeaderPanel from './preview/PreviewHeaderPanel.vue';
 import { LockServiceInstance } from '../service/lock';
 import * as org from 'orgpr';
 
@@ -88,10 +81,11 @@ export default class ArticlePreviwWorkContainer extends Vue {
 .container {
   position: relative;
   width: 70%;
+  overflow: auto;
 }
 
-.info-container {
-  border-bottom: 1px solid #999;
+.preview-container {
+  height: calc(100% - 100px);
 }
 
 .article-exist-dog {

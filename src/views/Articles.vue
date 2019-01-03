@@ -11,7 +11,7 @@
           v-for="article in articles"
         >
           <div class="article-title">{{ article.title }}</div>
-          <div class="article-date">{{ formatDate(article.updatedAt || article.createdAt) }}</div>
+          <div class="article-date">{{ formatDate(article.updatedAt) }}</div>
         </li>
       </ul>
     </aside>
@@ -98,6 +98,7 @@ export default class Articles extends Vue {
   max-width: 300px;
   border-right: 1px solid #f8f8f8;
   overflow-y: auto;
+  background-color: #555;
 }
 
 .article-list ul {
@@ -117,23 +118,24 @@ export default class Articles extends Vue {
 }
 
 .article-list li.active {
-  background-color: #e8e8e8;
+  background-color: #666;
 }
 
 .article-list li:hover {
-  background-color: #f8f8f8;
+  background-color: #666;
 }
 
 .article-title {
+  color: #eee;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   margin-top: 3px;
-  color: #555;
   cursor: pointer;
 }
 
 .article-date {
+  color: #ccc;
   font-size: 12px;
   margin-top: 3px;
 }

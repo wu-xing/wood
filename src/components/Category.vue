@@ -86,7 +86,7 @@ export default class Category extends Vue {
 .container {
   width: 35%;
   max-width: 180px;
-  background-color: #555;
+  background-color: #333;
   color: white;
 }
 
@@ -103,7 +103,7 @@ li {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-bottom: 1px solid #f8f8f8;
+  border-bottom: 1px solid #777;
   height: 40px;
   line-height: 48px;
 }

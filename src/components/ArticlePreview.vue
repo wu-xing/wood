@@ -42,16 +42,12 @@ export default class ArticlePreview extends Vue {
 </script>
 
 <style>
-.preview-container.is-history {
-  background-color: #fffde9;
-  height: 100%;
-  padding-left: 5px;
-}
 
 .preview-container {
-  height: 100%;
   text-align: left;
+  padding: 10px;
 }
+
 .preview-container .history-info {
   overflow: hidden;
   margin-top: 10px;
@@ -65,7 +61,6 @@ export default class ArticlePreview extends Vue {
 
 .article-preview {
   margin: 0;
-  padding: 10px;
   overflow-y: auto;
   width: 100%;
   height: 100%;
