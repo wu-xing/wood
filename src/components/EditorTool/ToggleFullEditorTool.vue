@@ -1,14 +1,14 @@
 <template>
-   <div v-on:click="handleClick();">
+  <li v-on:click="handleClick();">
     <el-tooltip
       class="item"
       effect="dark"
       v-bind:content="!hiddenPreview ? '隐藏预览' : '显示预览'"
       placement="right"
-      >
-        <as-icon name="columns" style="color: #777"></as-icon>
-    </el-tooltip>
-  </div>
+    >
+      <as-icon name="columns" style="color: #777"></as-icon>
+     </el-tooltip>
+  </li>
 </template>
 
 <script lang="ts">

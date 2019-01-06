@@ -1,9 +1,9 @@
 <template>
-  <li v-on:click="handleShare()">
+  <div v-on:click="handleShare()">
     <el-tooltip class="item" effect="dark" content="分享" placement="right">
       <as-icon name="share" size="25" style="color: #8b4647; padding-left: 3px;"></as-icon>
     </el-tooltip>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 
 @Component
-export default class ArticleShareOperation extends Vue {
+export default class ShareOperation extends Vue {
   @Prop() public foucsedArticleId!: string;
 
   public handleShare() {

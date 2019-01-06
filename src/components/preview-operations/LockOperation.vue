@@ -1,9 +1,9 @@
 <template>
-  <li v-on:click="handleLockArticle()">
+  <div v-on:click="handleLockArticle()">
     <el-tooltip class="item" effect="dark" content="加锁" placement="right">
       <as-icon name="lock" size="25" style="color: #f86920; padding-left: 3px;"></as-icon>
     </el-tooltip>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 
 @Component({})
-export default class ArticleLockOperation extends Vue {
+export default class LockOperation extends Vue {
   @Prop() public foucsedArticleId!: string;
 
   public handleLockArticle() {

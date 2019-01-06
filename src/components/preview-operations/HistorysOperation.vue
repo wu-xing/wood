@@ -13,11 +13,11 @@
         :disabledDates="genDisabledDates(historyDates)"></datepicker>
     </el-dialog>
 
-    <li v-on:click="handleOpenHistoryCalendarModal()">
+    <div v-on:click="handleOpenHistoryCalendarModal()">
       <el-tooltip class="item" effect="dark" content="历史" placement="right">
         <as-icon name="history" size="25" style="color: #6ed2e6; padding-left: 3px;"></as-icon>
       </el-tooltip>
-    </li>
+    </div>
   </div>
 </template>
 
@@ -32,7 +32,7 @@ import Datepicker from 'vuejs-datepicker';
     Datepicker
   }
 })
-export default class ArticleHistoryOperation extends Vue {
+export default class HistoryOperation extends Vue {
   @Prop()
   public foucsedArticleId!: string;
   public dialogVisible = false;

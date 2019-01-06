@@ -9,15 +9,15 @@
     </div>
 
     <div>
-      <ArticleGoEditOperation :foucsedArticleId="article.id" />
+      <GoEditOperation :foucsedArticleId="article.id" />
 
-      <ArticleHistoryOperation :foucsedArticleId="article.id" />
+      <HistoryOperation :foucsedArticleId="article.id" />
 
-      <ArticleLockOperation :foucsedArticleId="article.id"/>
+      <LockOperation :foucsedArticleId="article.id"/>
 
-      <ArticleDownloadOperation :foucsedArticleId="article.id" />
+      <DownloadOperation :foucsedArticleId="article.id" />
 
-      <ArticleShareOperation :foucsedArticleId="article.id" />
+      <ShareOperation :foucsedArticleId="article.id" />
     </div>
 
   </div>
@@ -26,19 +26,19 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import format from 'date-fns/format';
-import ArticleHistoryOperation from '../ArticleOperations/ArticleHistorysOperation.vue';
-import ArticleGoEditOperation from '../ArticleOperations/ArticleGoEditOperation.vue';
-import ArticleDownloadOperation from '../ArticleOperations/ArticleDownloadOperation.vue';
-import ArticleShareOperation from '../ArticleOperations/ArticleShareOperation.vue';
-import ArticleLockOperation from '../ArticleOperations/ArticleLockOperation.vue';
+import HistoryOperation from '../preview-operations/HistorysOperation.vue';
+import GoEditOperation from '../preview-operations/GoEditOperation.vue';
+import DownloadOperation from '../preview-operations/DownloadOperation.vue';
+import ShareOperation from '../preview-operations/ShareOperation.vue';
+import LockOperation from '../preview-operations/LockOperation.vue';
 
 @Component({
   components: {
-    ArticleHistoryOperation,
-    ArticleGoEditOperation,
-    ArticleDownloadOperation,
-    ArticleShareOperation,
-    ArticleLockOperation
+    HistoryOperation,
+    GoEditOperation,
+    DownloadOperation,
+    ShareOperation,
+    LockOperation
   }
 })
 export default class PreviewHeaderPanel extends Vue {
