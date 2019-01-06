@@ -16,7 +16,6 @@ export default class ArticleSearcher extends Vue {
 
   constructor() {
     super();
-    // TODO takeUntil
     this.searchStr$
       .pipe(
         filter(s => !!s),
@@ -25,6 +24,10 @@ export default class ArticleSearcher extends Vue {
       .subscribe(searchStr => {
         this.$store.dispatch('searchArticles', { searchStr });
       });
+  }
+
+  destroyed() {
+    this.searchStr$.complete();
   }
 
   public handleInput(searchStr: string) {
