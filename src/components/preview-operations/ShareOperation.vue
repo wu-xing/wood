@@ -1,7 +1,7 @@
 <template>
   <div v-on:click="handleShare()">
     <el-tooltip class="item" effect="dark" content="分享" placement="right">
-      <as-icon name="share" size="25" style="color: #8b4647; padding-left: 3px;"></as-icon>
+      <as-icon name="share" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div v-on:click="handleDownloadZip()">
     <el-tooltip class="item" effect="dark" content="下载" placement="right">
-      <as-icon name="file-archive" size="25" style="color: #32ace1; padding-left: 3px;"></as-icon>
+      <as-icon name="file-archive" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
   </div>
 </template>

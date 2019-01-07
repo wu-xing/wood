@@ -1,7 +1,7 @@
 <template>
   <div v-on:click="handleLockArticle()">
     <el-tooltip class="item" effect="dark" content="加锁" placement="right">
-      <as-icon name="lock" size="25" style="color: #f86920; padding-left: 3px;"></as-icon>
+      <as-icon name="lock" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
   </div>
 </template>
