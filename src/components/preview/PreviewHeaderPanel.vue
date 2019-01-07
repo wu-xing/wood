@@ -1,5 +1,8 @@
 <template>
   <div class="header-container">
+    <div>
+      <CategorySwitcher />
+    </div>
     <h1>{{ article.title }}</h1>
   
     <div class="under-title-container">
@@ -19,10 +22,8 @@
         <DownloadOperation :foucsedArticleId="article.id" />
 
         <ShareOperation :foucsedArticleId="article.id" />
+      </div>
     </div>
-    </div>
-
-    
 
   </div>
 </template>
@@ -35,6 +36,7 @@ import GoEditOperation from '../preview-operations/GoEditOperation.vue';
 import DownloadOperation from '../preview-operations/DownloadOperation.vue';
 import ShareOperation from '../preview-operations/ShareOperation.vue';
 import LockOperation from '../preview-operations/LockOperation.vue';
+import CategorySwitcher from '../CategorySwitcher.vue';
 
 @Component({
   components: {
@@ -42,7 +44,8 @@ import LockOperation from '../preview-operations/LockOperation.vue';
     GoEditOperation,
     DownloadOperation,
     ShareOperation,
-    LockOperation
+    LockOperation,
+    CategorySwitcher
   }
 })
 export default class PreviewHeaderPanel extends Vue {
@@ -64,8 +67,9 @@ export default class PreviewHeaderPanel extends Vue {
 
 h1 {
   font-size: 20px;
-  padding-bottom: 12px;
-  
+  padding-bottom: 10px;
+  margin: 4px 0 0px;
+  height: 26px;
 }
 
 .date-info {
@@ -74,15 +78,22 @@ h1 {
 }
 
 .date-info span:first-child {
-  margin-right: 16px;
+  margin-right: 12px;
 }
 
 .operator-container {
   display: flex;
   justify-content: flex-end;
+  color: #555;
+}
+
+.operator-container > div {
+  cursor: pointer;
+  margin-left: 5px;
 }
 
 .under-title-container {
   display: flex;
+  justify-content: space-between;
 }
 </style>
