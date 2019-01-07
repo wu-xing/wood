@@ -42,7 +42,6 @@ export default class ArticlePreview extends Vue {
 </script>
 
 <style>
-
 .preview-container {
   text-align: left;
   padding: 10px;
@@ -67,6 +66,7 @@ export default class ArticlePreview extends Vue {
   box-sizing: border-box;
   line-height: 1.6;
   letter-spacing: 1px;
+  padding-bottom: 50px;
 }
 
 .article-preview .outline {

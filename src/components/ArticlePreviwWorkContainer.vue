@@ -85,7 +85,7 @@ export default class ArticlePreviwWorkContainer extends Vue {
 }
 
 .preview-container {
-  height: calc(100% - 100px);
+  max-height: calc(100% - 100px);
 }
 
 .article-exist-dog {
