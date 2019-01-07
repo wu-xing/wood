@@ -10,8 +10,13 @@
           v-bind:class="{ active: foucsedArticleId === article.id }"
           v-for="article in articles"
         >
-          <div class="article-title">{{ article.title }}</div>
-          <div class="article-date">{{ formatDate(article.updatedAt) }}</div>
+          <div class="left">
+            <as-icon v-if="article.isEncryption" name="lock" scale="0.75" style=""></as-icon>
+          </div>
+          <div class="right">
+            <div class="article-title">{{ article.title }}</div>
+            <div class="article-date">{{ formatDate(article.updatedAt) }}</div>
+          </div>
         </li>
       </ul>
     </aside>
@@ -108,13 +113,21 @@ export default class Articles extends Vue {
 }
 
 .article-list li {
-  padding-left: 20px;
   cursor: pointer;
   text-align: left;
-  border-bottom: 1px solid #f8f8f8;
+  border-bottom: 1px solid #4c4c4c;
   height: 50px;
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+}
+
+.article-list li .left {
+  padding-top: 7px;
+  width: 20px;
+  display: flex;
+  color: #bbb;
+  justify-content: center;
 }
 
 .article-list li.active {
