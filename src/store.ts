@@ -14,7 +14,7 @@ export default new Vuex.Store<any>({
     boxs: {
       '@ALL': {
         id: '@ALL',
-        name: '所有笔记'
+        name: '全部笔记'
       },
       '@BOOK': {
         id: '@BOOK',
