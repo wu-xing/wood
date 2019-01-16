@@ -1,6 +1,6 @@
 <template>
   <div v-on:click="handleGoEdit()">
-    <el-tooltip class="item" effect="dark" content="编辑" placement="bottom">
+    <el-tooltip class="item" effect="dark" content="编辑" placement="top">
       <as-icon name="edit" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
   </div>

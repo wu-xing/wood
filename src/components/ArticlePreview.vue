@@ -120,9 +120,6 @@ export default class ArticlePreview extends Vue {
   overflow: hidden;
 }
 
-.article-preview pre {
-}
-
 code {
   padding: 8px 8px;
   border-radius: 3px;

@@ -1,6 +1,6 @@
 <template>
   <div v-on:click="handleLockArticle()">
-    <el-tooltip class="item" effect="dark" content="加锁" placement="bottom">
+    <el-tooltip class="item" effect="dark" content="加锁" placement="top">
       <as-icon name="lock" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
   </div>
