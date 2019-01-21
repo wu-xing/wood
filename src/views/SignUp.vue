@@ -105,7 +105,7 @@ export default class SignUp extends Vue {
       if (this.password !== this.confirm) {
         return this.$message.error('Password not match!');
       }
-      const resp: AxiosResponse<{}> = await axios.post('/api/signup', {
+      const resp: AxiosResponse<{}> = await axios.post('/api/v2/signup', {
         username: this.username,
         password: this.password,
         confrim: this.confirm,

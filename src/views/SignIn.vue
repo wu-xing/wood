@@ -50,7 +50,7 @@ export default class SignIn extends Vue {
   public async signIn(event: Event) {
     event.preventDefault();
     try {
-      const response: AxiosResponse<{ token: string; id: string }> = await axios.post('/api/signin', {
+      const response: AxiosResponse<{ token: string; id: string }> = await axios.post('/api/v2/signin', {
         username: this.username,
         password: this.password
       });
