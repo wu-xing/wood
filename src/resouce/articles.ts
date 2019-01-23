@@ -5,15 +5,9 @@ function getArticlesByArticleBoxId(userId: string, boxId: string): Promise<any> 
 }
 
 function getUserDefaultArticles(userId: string): Promise<Article[]> {
-  return axios.get(`/api/auth/articles?userId=${userId}`).then(
+  return axios.get(`/api/auth/v2/articles?userId=${userId}`).then(
     resp => {
       return resp.data;
-      // this.$store.commit('articles', resp.data);
-
-      // if (!this.foucsedArticleId && this.articles[0]) {
-      //   this.foucsedArticleId = this.articles[0].id;
-      // }
-      // this.loading = true;
     },
   );
 }

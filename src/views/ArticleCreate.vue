@@ -46,7 +46,7 @@ export default class ArticleEdit extends Vue {
       createdAt: new Date().getTime()
     }
     axios
-      .post('/api/auth/article', document)
+      .post('/api/auth/v2/article', document)
       .then(resp => {
         this.$store.commit('article', {
           id: resp.data.id,
