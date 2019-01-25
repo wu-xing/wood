@@ -15,7 +15,7 @@ export default class LockOperation extends Vue {
   @Prop() public foucsedArticleId!: string;
 
   public handleLockArticle() {
-    axios.post(`/api/auth/article/encryption/${this.foucsedArticleId}`).then(() => {});
+    axios.post(`/api/auth/v2/article/encryption/${this.foucsedArticleId}`).then(() => {});
   }
 }
 </script>

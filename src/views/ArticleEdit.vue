@@ -50,7 +50,7 @@ export default class ArticleEdit extends Vue {
         switchMap(() => {
           this.waitPush = false;
           this.uploadingContent = this.document.content;
-          return axios.put(`/api/auth/article/${this.$route.params.id}`, {
+          return axios.put(`/api/auth/v2/article/${this.$route.params.id}`, {
             ...this.document
           });
         })
