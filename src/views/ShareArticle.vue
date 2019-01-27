@@ -25,7 +25,7 @@ export default class ShareArticle extends Vue {
 
   getArticle() {
     const articleId = this.$route.params.id;
-    axios.get(`/api/share/article/${articleId}`).then(resp => {
+    axios.get(`/api/v2/share/article/${articleId}`).then(resp => {
       const article = resp.data;
 
       const { html, title } = parseOrgCode(article);

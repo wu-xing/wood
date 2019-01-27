@@ -61,6 +61,7 @@ export default class HistoryOperation extends Vue {
   public genDisabledDates(historyDates: string[]) {
     return {
       customPredictor: (date: Date) => {
+        console.log(format(date, 'yyyy-MM-dd'), historyDates);
         if (!historyDates) {
           return true;
         }
