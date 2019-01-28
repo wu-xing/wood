@@ -128,6 +128,12 @@ export default class Articles extends Vue {
   display: flex;
   color: #bbb;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.article-list li .right {
+  width: 90%;
+  flex-grow: 0;
 }
 
 .article-list li.active {
