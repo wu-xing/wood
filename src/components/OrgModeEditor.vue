@@ -39,7 +39,9 @@
       </div>
 
       <div class="border" ref="border">
-        <as-icon name="arrows-alt-h" />
+        <div class="border-indicator-wrapper" ref="borderIndicator">
+          <as-icon name="arrows-alt-h" />
+        </div>
       </div>
 
       <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
@@ -129,8 +131,13 @@ export default class OrgModeEditor extends Vue {
     return (<HTMLElement>this.$refs.editContainer).offsetLeft;
   }
 
+  getEditAreaOffsetY(): number {
+    return (<HTMLElement>this.$refs.editContainer).parentElement!.parentElement!.offsetTop;
+  }
+
   setupBorderReactive() {
     const editOffsetX = this.getEditAreaOffsetX();
+    const editOffsetY = this.getEditAreaOffsetY();
 
     const el: HTMLElement = <HTMLElement>this.$refs.border;
     const start$ = fromEvent(el, 'mousedown');
@@ -147,11 +154,9 @@ export default class OrgModeEditor extends Vue {
         concatMap(() => move$.pipe(takeUntil(end$)))
       )
       .subscribe((event: any) => {
-        console.log(event);
-        console.log(event.offsetX, editOffsetX);
-        // TODO remove flex
         const borderOffsetLeft = event.clientX - editOffsetX;
-        console.log(borderOffsetLeft);
+        
+        (<HTMLElement>this.$refs.borderIndicator).style.top = event.clientY - editOffsetY + 'px';
         this.editAreaWidth = borderOffsetLeft + 'px';
       });
   }
@@ -256,9 +261,14 @@ export default class OrgModeEditor extends Vue {
   user-select: none;
 }
 
+.border-indicator-wrapper {
+  position: absolute;
+}
+
 .org-code-container {
   height: 100%;
 }
+
 
 .operation-list {
   padding: 0;
