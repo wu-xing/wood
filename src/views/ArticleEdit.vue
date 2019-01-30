@@ -15,7 +15,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Message } from 'element-ui';
 import axios from 'axios';
 import router from '../router';
-import OrgModeEditor from '@/components/OrgModeEditor.vue';
+import OrgModeEditor from '@/components/editor/OrgModeEditor.vue';
 import { Subject } from 'rxjs';
 import { switchMap, debounceTime, tap } from 'rxjs/operators';
 

@@ -49,15 +49,15 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
-import ArticlePreview from './ArticlePreview.vue';
 import { fromEvent, merge } from 'rxjs';
 import { concatMap, takeUntil, tap } from 'rxjs/operators';
-import AddInlineCodeTool from './EditorTool/AddInlineCodeTool.vue';
-import ToggleFullEditorTool from './EditorTool/ToggleFullEditorTool.vue';
-import AddQuoteCodeTool from './EditorTool/AddQuoteCodeTool.vue';
-import AddSrcBlockTool from './EditorTool/AddSrcBlockTool.vue';
-import AddTitleTool from './EditorTool/AddTitleTool.vue';
-import UploadImageTool from './EditorTool/UploadImageTool.vue';
+import AddInlineCodeTool from './editor-tools/AddInlineCodeTool.vue';
+import ToggleFullEditorTool from './editor-tools/ToggleFullEditorTool.vue';
+import AddQuoteCodeTool from './editor-tools/AddQuoteCodeTool.vue';
+import AddSrcBlockTool from './editor-tools/AddSrcBlockTool.vue';
+import AddTitleTool from './editor-tools/AddTitleTool.vue';
+import UploadImageTool from './editor-tools/UploadImageTool.vue';
+import ArticlePreview from '../ArticlePreview.vue';
 
 @Component({
   components: {
