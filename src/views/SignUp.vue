@@ -2,7 +2,7 @@
   <div class="signup-page">
     <h1>Wood</h1>
     <h2>Sign Up</h2>
-    <form v-on:submit="signUp($event)">
+    <form v-on:submit="signUp($event);">
       <div class="form-item">
         <label>
           <span>Username</span>
@@ -13,12 +13,7 @@
       <div class="form-item">
         <label>
           <span>Password</span>
-          <el-input
-            v-model="password"
-            name="tnki-password"
-            type="password"
-            placeholder="Password"
-            :minlength="6">
+          <el-input v-model="password" name="tnki-password" type="password" placeholder="Password" :minlength="6">
           </el-input>
         </label>
       </div>
@@ -31,7 +26,8 @@
             name="tnki-password-confirm"
             type="password"
             placeholder="Password Confirm"
-            :minlength="6">
+            :minlength="6"
+          >
           </el-input>
         </label>
       </div>
@@ -39,31 +35,14 @@
       <div class="form-item">
         <label>
           <span>Captcha</span>
-          <el-input
-            v-model="captcha"
-            name="captcha"
-            type="text"
-            placeholder="Captch"
-            :minlength="6">
-          </el-input>
-          <img
-            class="captcha-image"
-            v-on:click="refreshCaptcha"
-            v-bind:src="data.captchaUrl"
-            alt="验证码"
-          />
+          <el-input v-model="captcha" name="captcha" type="text" placeholder="Captch" :minlength="6"> </el-input>
+          <img class="captcha-image" v-on:click="refreshCaptcha" v-bind:src="data.captchaUrl" alt="验证码" />
         </label>
       </div>
 
+      <div class="button-container"><el-button native-type="submit" type="primary" plain>Sign Up</el-button></div>
 
-      <div class="button-container">
-        <el-button native-type="submit" type="primary" plain>Sign Up</el-button>
-      </div>
-
-      <div class="tip">
-        Already have an account? <router-link to="/signin">Sign In</router-link>
-      </div>
-
+      <div class="tip">Already have an account? <router-link to="/signin">Sign In</router-link></div>
     </form>
   </div>
 </template>

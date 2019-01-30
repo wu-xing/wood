@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="handleShare()">
+  <div v-on:click="handleShare();">
     <el-tooltip class="item" effect="dark" content="分享" placement="top">
       <as-icon name="share" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
@@ -32,6 +32,4 @@ export default class ShareOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<style scoped></style>

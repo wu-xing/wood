@@ -1,15 +1,12 @@
 <template>
   <div class="header-container">
-    <div>
-      <CategorySwitcher />
-    </div>
+    <div><CategorySwitcher /></div>
     <h1>{{ article.title }}</h1>
-  
+
     <div class="under-title-container">
-      
       <div class="date-info">
-        <span>创建日期 {{ formatDate(article.createdAt) }}</span> 
-        <span>更新日期 {{ formatDate(article.updatedAt) }}</span> 
+        <span>创建日期 {{ formatDate(article.createdAt) }}</span>
+        <span>更新日期 {{ formatDate(article.updatedAt) }}</span>
       </div>
 
       <div class="operator-container">
@@ -17,14 +14,13 @@
 
         <HistoryOperation :foucsedArticleId="article.id" />
 
-        <LockOperation :foucsedArticleId="article.id"/>
+        <LockOperation :foucsedArticleId="article.id" />
 
         <DownloadOperation :foucsedArticleId="article.id" />
 
         <ShareOperation :foucsedArticleId="article.id" />
       </div>
     </div>
-
   </div>
 </template>
 

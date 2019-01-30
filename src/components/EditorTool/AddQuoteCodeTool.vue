@@ -11,7 +11,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AddQuoteCodeTool extends Vue {
-
   handleClick() {
     this.$emit('action', {
       content: '\n#+BEGIN_QUOTE\n\n#+END_QUOTE',

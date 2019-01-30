@@ -13,7 +13,7 @@
 
         <AddInlineCodeTool v-on:action="onToolAction" />
 
-        <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event" />
+        <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event;" />
 
         <AddQuoteCodeTool v-on:action="onToolAction" />
 
@@ -24,7 +24,6 @@
         </li>
 
         <UploadImageTool v-on:action="onToolAction" />
-
       </ul>
     </div>
 
@@ -39,9 +38,7 @@
       </div>
 
       <div class="border" ref="border">
-        <div class="border-indicator-wrapper" ref="borderIndicator">
-          <as-icon name="arrows-alt-h" />
-        </div>
+        <div class="border-indicator-wrapper" ref="borderIndicator"><as-icon name="arrows-alt-h" /></div>
       </div>
 
       <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
@@ -106,7 +103,7 @@ export default class OrgModeEditor extends Vue {
     window.removeEventListener('beforeunload', this.handleBeforeunload);
   }
 
-  onToolAction({content, position}: {content: string, position: 'CURRENT' | 'BEGIN' | 'END'}) {
+  onToolAction({ content, position }: { content: string; position: 'CURRENT' | 'BEGIN' | 'END' }) {
     if (position === 'CURRENT') {
       this.$emit('change', {
         ...this.document,
@@ -155,8 +152,10 @@ export default class OrgModeEditor extends Vue {
       )
       .subscribe((event: any) => {
         const borderOffsetLeft = event.clientX - editOffsetX;
-        
-        (<HTMLElement>this.$refs.borderIndicator).style.top = event.clientY - editOffsetY + 'px';
+
+        (<HTMLElement>this.$refs.borderIndicator).style.top =
+          event.clientY - editOffsetY - (<HTMLElement>this.$refs.borderIndicator).offsetHeight / 2 + 'px';
+
         this.editAreaWidth = borderOffsetLeft + 'px';
       });
   }
@@ -268,7 +267,6 @@ export default class OrgModeEditor extends Vue {
 .org-code-container {
   height: 100%;
 }
-
 
 .operation-list {
   padding: 0;

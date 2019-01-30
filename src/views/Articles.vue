@@ -5,14 +5,12 @@
     <aside class="article-list" v-loading="$store.state.getArticlesLoading">
       <ul v-if="!!articles">
         <li
-          v-on:click="onArticleItemClick(article)"
+          v-on:click="onArticleItemClick(article);"
           v-bind:key="article.id"
           v-bind:class="{ active: foucsedArticleId === article.id }"
           v-for="article in articles"
         >
-          <div class="left">
-            <as-icon v-if="article.isEncryption" name="lock" scale="0.75" style=""></as-icon>
-          </div>
+          <div class="left"><as-icon v-if="article.isEncryption" name="lock" scale="0.75" style=""></as-icon></div>
           <div class="right">
             <div class="article-title">{{ article.title }}</div>
             <div class="article-date">{{ formatDate(article.updatedAt) }}</div>
@@ -158,7 +156,6 @@ export default class Articles extends Vue {
   font-size: 12px;
   margin-top: 3px;
 }
-
 </style>
 
 <style>

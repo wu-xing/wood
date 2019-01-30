@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <OrgModeEditor/>
-  </div>
+  <div><OrgModeEditor /></div>
 </template>
 
 <script lang="ts">

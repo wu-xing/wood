@@ -1,27 +1,22 @@
 <template>
   <div id="app" v-bind:class="{ hide: hideMenu }">
     <nav>
-      <img class="logo" alt="logo" src="/logo.png"/>
+      <img class="logo" alt="logo" src="/logo.png" />
 
       <ul>
         <li>
-          <router-link to="/">
-            <as-icon name="list-alt"></as-icon>
-          </router-link>
+          <router-link to="/"> <as-icon name="list-alt"></as-icon> </router-link>
         </li>
 
         <li>
-          <router-link to="/create">
-            <as-icon name="plus-square"></as-icon>
-          </router-link>
+          <router-link to="/create"> <as-icon name="plus-square"></as-icon> </router-link>
         </li>
       </ul>
 
       <ArticleSearcher />
     </nav>
 
-
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -53,7 +48,6 @@ export default class App extends Vue {
   }
 }
 </script>
-
 
 <style>
 html,

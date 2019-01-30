@@ -21,7 +21,6 @@ import axios from 'axios';
 
 @Component({})
 export default class UploadImageTool extends Vue {
-
   handleImageUploadChange() {}
 
   uploadImage(uploadObject: any) {

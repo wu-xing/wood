@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="handleLockArticle()">
+  <div v-on:click="handleLockArticle();">
     <el-tooltip class="item" effect="dark" content="加锁" placement="top">
       <as-icon name="lock" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
@@ -21,6 +21,4 @@ export default class LockOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
+<style scoped></style>

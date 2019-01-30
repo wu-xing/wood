@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="handleDownloadZip()">
+  <div v-on:click="handleDownloadZip();">
     <el-tooltip class="item" effect="dark" content="下载" placement="top">
       <as-icon name="file-archive" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
@@ -44,5 +44,4 @@ export default class DownloadOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

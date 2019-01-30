@@ -1,31 +1,21 @@
 <template>
   <aside class="container">
     <ul>
-      <li 
-        v-bind:key="box.id" 
-        v-for="box of boxs"
-        v-on:click="handleBoxClick(box)"
-      >
-        {{ box.name }}
-      </li>
+      <li v-bind:key="box.id" v-for="box of boxs" v-on:click="handleBoxClick(box);">{{ box.name }}</li>
     </ul>
 
-    <div class="button-container">
-      <add-button :onClick="handleCreateButtonClick"></add-button>
-    </div>
+    <div class="button-container"><add-button :onClick="handleCreateButtonClick"></add-button></div>
 
     <el-dialog
       title="Create new article category"
       width="400px"
       :visible.sync="dialogVisible"
-      :before-close="handleClose">
-
+      :before-close="handleClose"
+    >
       <el-form :model="createForm">
-        <el-form-item>
-          <el-input v-model="createForm.name" autocomplete="off"></el-input>
-        </el-form-item>
+        <el-form-item> <el-input v-model="createForm.name" autocomplete="off"></el-input> </el-form-item>
 
-        <el-button native-type="submit" type="primary" @click="handleCreateBox($event)">create</el-button>
+        <el-button native-type="submit" type="primary" @click="handleCreateBox($event);">create</el-button>
       </el-form>
     </el-dialog>
   </aside>

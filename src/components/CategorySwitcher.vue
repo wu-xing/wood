@@ -9,9 +9,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class CategorySwitcher extends Vue {
-
-}
+export default class CategorySwitcher extends Vue {}
 </script>
 
 <style scoped>

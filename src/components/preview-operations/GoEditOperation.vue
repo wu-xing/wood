@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="handleGoEdit()">
+  <div v-on:click="handleGoEdit();">
     <el-tooltip class="item" effect="dark" content="编辑" placement="top">
       <as-icon name="edit" size="25" style="padding-left: 3px;"></as-icon>
     </el-tooltip>
@@ -21,5 +21,4 @@ export default class GoEditOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

@@ -11,7 +11,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AddTitleTool extends Vue {
-
   handleClick() {
     this.$emit('action', {
       content: `#+TITLE: \n#+AUTHOR:\n`,

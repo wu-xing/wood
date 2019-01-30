@@ -11,7 +11,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AddSrcBlockTool extends Vue {
-
   handleClick() {
     this.$emit('action', {
       content: '\n#+BEGIN_SRC\n\n#+END_SRC',

@@ -1,11 +1,5 @@
 <template>
-  <div class="page">
-    <ArticlePreview
-      ref="preview"
-      :html="html"
-      v-if="!!html"
-    />
-  </div>
+  <div class="page"><ArticlePreview ref="preview" :html="html" v-if="!!html" /></div>
 </template>
 
 <script lang="ts">
@@ -37,7 +31,6 @@ export default class HistoryArticle extends Vue {
   }
 }
 </script>
-
 
 <style scoped>
 .page {

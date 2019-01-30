@@ -4,16 +4,17 @@
       title="选择历史日期"
       width="400px"
       :visible.sync="dialogVisible"
-      :before-close="handleCloseHisotyDateSelect">
-
+      :before-close="handleCloseHisotyDateSelect"
+    >
       <datepicker
         v-if="historyDates"
         v-on:selected="handleHistoryDateSelect"
         :inline="true"
-        :disabledDates="genDisabledDates(historyDates)"></datepicker>
+        :disabledDates="genDisabledDates(historyDates)"
+      ></datepicker>
     </el-dialog>
 
-    <div v-on:click="handleOpenHistoryCalendarModal()">
+    <div v-on:click="handleOpenHistoryCalendarModal();">
       <el-tooltip class="item" effect="dark" content="历史" placement="top">
         <as-icon name="history" size="25" style="padding-left: 3px;"></as-icon>
       </el-tooltip>
@@ -73,5 +74,4 @@ export default class HistoryOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

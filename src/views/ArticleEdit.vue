@@ -5,7 +5,8 @@
       v-bind:articleId="$route.params.id + ''"
       :waitPush="waitPush"
       v-on:change="onChange"
-      v-bind:document="document" />
+      v-bind:document="document"
+    />
   </div>
 </template>
 

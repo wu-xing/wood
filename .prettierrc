@@ -1,0 +1,19 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.vue"],
+      "options": {
+        "parser": "vue",
+        "singleQuote": true,
+        "printWidth": 120
+      }
+    },
+    {
+      "files": "**/*.json",
+      "options": {
+        "parser": "json",
+        "printWidth": 120
+      }
+    }
+  ]
+}

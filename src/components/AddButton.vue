@@ -1,7 +1,5 @@
 <template>
-  <button v-on:click="onClick">
-    <as-icon name="plus" color="#454f56"></as-icon>
-  </button>
+  <button v-on:click="onClick"><as-icon name="plus" color="#454f56"></as-icon></button>
 </template>
 
 <script lang="ts">

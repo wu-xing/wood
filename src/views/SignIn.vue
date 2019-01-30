@@ -1,11 +1,8 @@
 <template>
   <div class="signin-page">
     <div class="signin-container">
-      <h2>
-        <img class="logo" alt="logo" src="/logo.png"/>
-        Sign In
-      </h2>
-      <form v-on:submit="signIn($event)">
+      <h2><img class="logo" alt="logo" src="/logo.png" /> Sign In</h2>
+      <form v-on:submit="signIn($event);">
         <div class="form-item">
           <label>
             <span>Username</span>
@@ -20,14 +17,9 @@
           </label>
         </div>
 
-        <div class="button-container">
-          <el-button native-type="submit" type="primary" plain>Go</el-button>
-        </div>
+        <div class="button-container"><el-button native-type="submit" type="primary" plain>Go</el-button></div>
 
-        <div class="tip">
-          Do not have account? <router-link to="/signup">Sign Up</router-link>
-        </div>
-
+        <div class="tip">Do not have account? <router-link to="/signup">Sign Up</router-link></div>
       </form>
     </div>
   </div>

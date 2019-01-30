@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <OrgModeEditor
-      v-on:change="onChange"
-      v-on:save="onSave"
-      v-bind:document="document" />
-  </div>
+  <div><OrgModeEditor v-on:change="onChange" v-on:save="onSave" v-bind:document="document" /></div>
 </template>
 
 <script lang="ts">
@@ -44,7 +39,7 @@ export default class ArticleEdit extends Vue {
       content: this.document.content,
       title: this.document.title,
       createdAt: new Date().getTime()
-    }
+    };
     axios
       .post('/api/auth/v2/article', document)
       .then(resp => {
