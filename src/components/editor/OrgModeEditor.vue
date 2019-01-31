@@ -1,47 +1,26 @@
 <template>
-  <div class="container">
-    <div class="operation-container">
-      <ul class="operation-list">
-        <li v-if="!isEdit" v-on:click="$emit('save');">
-          <el-tooltip class="item" effect="dark" content="保存" placement="right">
-            <as-icon name="save" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-        <AddTitleTool v-on:action="onToolAction" />
+  <div>
+    <EditingTitle v-bind:title="title" />
 
-        <AddSrcBlockTool v-on:action="onToolAction" />
+    <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" v-bind:hiddenPreview="hiddenPreview" />
 
-        <AddInlineCodeTool v-on:action="onToolAction" />
+    <div class="container">
+      <div class="edit-container" ref="editContainer">
+        <div class="org-code-container" v-bind:style="{ width: editAreaWidth }">
+          <textarea
+            ref="textarea"
+            v-on:input="onContentChanged"
+            v-on:scroll="onTextAreaScroll"
+            v-bind:value="document.content"
+          ></textarea>
+        </div>
 
-        <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event;" />
+        <div class="border" ref="border">
+          <div class="border-indicator-wrapper" ref="borderIndicator"><as-icon name="arrows-alt-h" /></div>
+        </div>
 
-        <AddQuoteCodeTool v-on:action="onToolAction" />
-
-        <li v-on:click="fullScreen();">
-          <el-tooltip class="item" effect="dark" content="全屏" placement="right">
-            <as-icon name="expand" style="color: #777"></as-icon>
-          </el-tooltip>
-        </li>
-
-        <UploadImageTool v-on:action="onToolAction" />
-      </ul>
-    </div>
-
-    <div class="edit-container" ref="editContainer">
-      <div class="org-code-container" v-bind:style="{ width: editAreaWidth }">
-        <textarea
-          ref="textarea"
-          v-on:input="onContentChanged"
-          v-on:scroll="onTextAreaScroll"
-          v-bind:value="document.content"
-        ></textarea>
+        <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
       </div>
-
-      <div class="border" ref="border">
-        <div class="border-indicator-wrapper" ref="borderIndicator"><as-icon name="arrows-alt-h" /></div>
-      </div>
-
-      <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
     </div>
   </div>
 </template>
@@ -51,23 +30,16 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import * as org from 'orgpr';
 import { fromEvent, merge } from 'rxjs';
 import { concatMap, takeUntil, tap } from 'rxjs/operators';
-import AddInlineCodeTool from './editor-tools/AddInlineCodeTool.vue';
-import ToggleFullEditorTool from './editor-tools/ToggleFullEditorTool.vue';
-import AddQuoteCodeTool from './editor-tools/AddQuoteCodeTool.vue';
-import AddSrcBlockTool from './editor-tools/AddSrcBlockTool.vue';
-import AddTitleTool from './editor-tools/AddTitleTool.vue';
-import UploadImageTool from './editor-tools/UploadImageTool.vue';
 import ArticlePreview from '../ArticlePreview.vue';
+import EditingTitle from './EditingTitle.vue';
+import ToolPanel from './ToolPanel.vue';
+import { handleEditAction } from './editor-helper';
 
 @Component({
   components: {
     ArticlePreview,
-    AddInlineCodeTool,
-    ToggleFullEditorTool,
-    AddQuoteCodeTool,
-    AddSrcBlockTool,
-    AddTitleTool,
-    UploadImageTool
+    EditingTitle,
+    ToolPanel
   }
 })
 export default class OrgModeEditor extends Vue {
@@ -82,7 +54,7 @@ export default class OrgModeEditor extends Vue {
   isEdit!: boolean;
 
   @Prop({ default: () => ({ content: '', title: '' }) })
-  document!: any;
+  document!: ArticleDocument;
 
   @Prop({ default: () => false })
   public waitPush?: boolean;
@@ -104,24 +76,16 @@ export default class OrgModeEditor extends Vue {
   }
 
   onToolAction({ content, position }: { content: string; position: 'CURRENT' | 'BEGIN' | 'END' }) {
-    if (position === 'CURRENT') {
-      this.$emit('change', {
-        ...this.document,
-        content: this.getInsertValueToTextArea(content)
-      });
-    }
-    if (position === 'BEGIN') {
-      this.$emit('change', {
-        ...this.document,
-        content: content + this.document.content
-      });
-    }
-    if (position === 'END') {
-      this.$emit('change', {
-        ...this.document,
-        content: this.document.content + content
-      });
-    }
+    const newContent = handleEditAction({
+      content,
+      position,
+      textarea: this.$el.querySelector('textarea')!,
+      document: this.document
+    });
+    this.$emit('change', {
+      ...this.document,
+      content: newContent
+    });
   }
 
   getEditAreaOffsetX(): number {
@@ -214,17 +178,6 @@ export default class OrgModeEditor extends Vue {
 
   fullScreen() {
     this.$eventHub.$emit('full-screen');
-  }
-
-  getInsertValueToTextArea(myValue: string): string {
-    const myField: any = this.$el.querySelector('textarea');
-    if (myField.selectionStart || myField.selectionStart === 0) {
-      const startPos = myField.selectionStart;
-      const endPos = myField.selectionEnd;
-      return myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-    } else {
-      return myField.value + myValue;
-    }
   }
 }
 </script>

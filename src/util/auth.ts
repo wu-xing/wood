@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 import { setupAxiosAuth } from './axios';
 
 export function setJwt(jwt: string) {
@@ -15,5 +15,5 @@ export function setUserId(userId: string): void {
 }
 
 export function readUserId(): string {
-  return window.localStorage.getItem('userId')!
+  return window.localStorage.getItem('userId')!;
 }

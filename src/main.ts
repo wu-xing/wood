@@ -5,25 +5,24 @@ import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-import { setupAxiosAuth } from './util/axios'
-import store from './store'
+import { setupAxiosAuth } from './util/axios';
+import store from './store';
 
 import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon.vue'
+import Icon from 'vue-awesome/components/Icon.vue';
 
 import AddButton from './components/AddButton.vue';
-
 
 import './element-variables.scss';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $eventHub: Vue
+    $eventHub: Vue;
   }
 }
 
-Vue.component('as-icon', Icon)
-Vue.component('add-button', AddButton)
+Vue.component('as-icon', Icon);
+Vue.component('add-button', AddButton);
 
 Vue.prototype.$eventHub = new Vue();
 

@@ -72,7 +72,7 @@ export default new Vuex.Store<any>({
           return {
             ...collection,
             [box.id]: box
-          }
+          };
         }, {})
       };
     }
@@ -95,7 +95,7 @@ export default new Vuex.Store<any>({
         }
       );
     },
-    searchArticles({commit}, {searchStr}) {
+    searchArticles({ commit }, { searchStr }) {
       commit('searchStr', searchStr);
       searchArticles(searchStr).then((articles: any) => {
         commit('articles', { boxId: '@SEARCH', articles });

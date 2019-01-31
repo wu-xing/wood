@@ -37,7 +37,6 @@ export default class UploadImageTool extends Vue {
           });
         });
     });
-
     fileReader.readAsDataURL(uploadObject.file);
   }
 }

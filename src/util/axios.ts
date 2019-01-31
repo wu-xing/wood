@@ -8,7 +8,7 @@ export function setupAxiosAuth() {
     (response: any) => {
       return response;
     },
-    (error) => {
+    error => {
       if (error.response && error.response.status === 401) {
         router.push('/401');
       }
