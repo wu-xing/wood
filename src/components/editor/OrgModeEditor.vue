@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="editor-container">
     <EditingTitle v-bind:title="title" />
 
     <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" v-bind:hiddenPreview="hiddenPreview" />
 
-    <div class="container">
+    <div class="edit-area-container">
       <div class="edit-container" ref="editContainer">
         <div class="org-code-container" v-bind:style="{ width: editAreaWidth }">
           <textarea
@@ -183,10 +183,15 @@ export default class OrgModeEditor extends Vue {
 </script>
 
 <style scoped>
-.container {
+.editor-container {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+}
+
+.edit-area-container {
+  flex-basis: 100%;
 }
 
 .edit-container {

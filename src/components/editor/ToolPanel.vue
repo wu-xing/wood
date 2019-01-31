@@ -6,6 +6,7 @@
           <as-icon name="save" style="color: #777"></as-icon>
         </el-tooltip>
       </li>
+
       <AddTitleTool v-on:action="onToolAction" />
 
       <AddSrcBlockTool v-on:action="onToolAction" />
@@ -72,5 +73,19 @@ export default class ToolPanel extends Vue {
   width: 100%;
   height: 100%;
   display: flex;
+}
+
+.operation-list {
+  display: block;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.operation-list li {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  text-align: center;
 }
 </style>

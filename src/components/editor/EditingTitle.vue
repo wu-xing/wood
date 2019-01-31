@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="edit-title-container">
     <div>{{ title }}</div>
   </div>
 </template>
@@ -23,9 +23,19 @@ export default class EditingTitle extends Vue {
 </script>
 
 <style scoped>
-.container {
+.edit-title-container {
   width: 100%;
   height: 100%;
-  display: flex;
+  text-align: center;
+  height: 50px;
+  line-height: 55px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.edit-title-container div {
+  display: inline-block;
+  border-bottom: 2px solid #666;
+  padding: 0 20px;
 }
 </style>
