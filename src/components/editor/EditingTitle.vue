@@ -24,6 +24,7 @@ export default class EditingTitle extends Vue {
 
 <style scoped>
 .edit-title-container {
+  flex: 0 0 auto;
   width: 100%;
   height: 100%;
   text-align: center;

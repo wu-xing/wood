@@ -24,8 +24,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import * as values from 'ramda/src/values';
-import * as compose from 'ramda/src/compose';
+import values from 'ramda/es/values';
+import compose from 'ramda/es/compose';
 
 @Component({})
 export default class Category extends Vue {

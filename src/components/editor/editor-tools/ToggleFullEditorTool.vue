@@ -3,7 +3,7 @@
     <el-tooltip
       class="item"
       effect="dark"
-      v-bind:content="!hiddenPreview ? '隐藏预览' : '显示预览'"
+      v-bind:content="editorPreviewShow ? '隐藏预览' : '显示预览'"
       placement="bottom"
       v-bind:open-delay="1000"
     >
@@ -17,9 +17,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class ToggleFullEditorTool extends Vue {
-  @Prop() hiddenPreview!: boolean;
+
   handleClick() {
-    this.$emit('hiddenPreview', !this.hiddenPreview);
+    this.$store.commit('editorPreviewShow', !this.editorPreviewShow);
+  }
+
+  get editorPreviewShow() {
+    return this.$store.state.editorPreviewShow;
   }
 }
 </script>

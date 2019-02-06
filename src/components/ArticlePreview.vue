@@ -60,7 +60,6 @@ export default class ArticlePreview extends Vue {
 
 .article-preview {
   margin: 0;
-  overflow-y: auto;
   width: 100%;
   height: 100%;
   box-sizing: border-box;

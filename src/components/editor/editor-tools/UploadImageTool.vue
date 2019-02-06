@@ -5,6 +5,7 @@
       accept="image/*"
       action="/api/auth/image"
       :multiple="true"
+      :show-file-list="false"
       :http-request="uploadImage"
       :on-change="handleImageUploadChange"
     >

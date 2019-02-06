@@ -13,15 +13,9 @@
 
       <AddInlineCodeTool v-on:action="onToolAction" />
 
-      <ToggleFullEditorTool :hiddenPreview="hiddenPreview" v-on:hiddenPreview="hiddenPreview = $event;" />
+      <ToggleFullEditorTool />
 
       <AddQuoteCodeTool v-on:action="onToolAction" />
-
-      <li v-on:click="fullScreen();">
-        <el-tooltip class="item" effect="dark" content="全屏" placement="right">
-          <as-icon name="expand" style="color: #777"></as-icon>
-        </el-tooltip>
-      </li>
 
       <UploadImageTool v-on:action="onToolAction" />
     </ul>
@@ -57,9 +51,6 @@ export default class ToolPanel extends Vue {
   @Prop()
   isEdit: boolean;
 
-  @Prop()
-  hiddenPreview: boolean;
-
   created() {}
 
   mounted() {}
@@ -69,17 +60,21 @@ export default class ToolPanel extends Vue {
 </script>
 
 <style scoped>
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
+.tool-panel {
+  text-align: center;
+  flex: 0 0 auto;
 }
 
 .operation-list {
-  display: block;
   list-style: none;
   padding: 0;
   text-align: center;
+  display: inline-block;
+  border: 1px solid #99999930;
+  padding: 10px 10px 7px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px #99999930;
+  margin: 0;
 }
 
 .operation-list li {
@@ -87,5 +82,6 @@ export default class ToolPanel extends Vue {
   display: inline-block;
   width: 40px;
   text-align: center;
+  cursor: pointer;
 }
 </style>

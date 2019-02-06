@@ -2,12 +2,13 @@
   <div class="editor-container">
     <EditingTitle v-bind:title="title" />
 
-    <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" v-bind:hiddenPreview="hiddenPreview" />
+    <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" />
 
     <div class="edit-area-container">
       <div class="edit-container" ref="editContainer">
         <div class="org-code-container" v-bind:style="{ width: editAreaWidth }">
           <textarea
+            autofocus
             ref="textarea"
             v-on:input="onContentChanged"
             v-on:scroll="onTextAreaScroll"
@@ -15,11 +16,11 @@
           ></textarea>
         </div>
 
-        <div class="border" ref="border">
+        <div class="border" ref="border" v-show="editorPreviewShow">
           <div class="border-indicator-wrapper" ref="borderIndicator"><as-icon name="arrows-alt-h" /></div>
         </div>
 
-        <div class="org-preview-container" v-if="!hiddenPreview"><ArticlePreview ref="preview" :html="orgHtml" /></div>
+        <div class="org-preview-container" v-if="editorPreviewShow"><ArticlePreview ref="preview" :html="orgHtml" /></div>
       </div>
     </div>
   </div>
@@ -45,7 +46,7 @@ import { handleEditAction } from './editor-helper';
 export default class OrgModeEditor extends Vue {
   public orgHtml: string = '';
   title: string = '';
-  editAreaWidth: any = '50%';
+  editAreaWidth: any = '100%';
 
   @Prop()
   articleId!: string;
@@ -59,12 +60,19 @@ export default class OrgModeEditor extends Vue {
   @Prop({ default: () => false })
   public waitPush?: boolean;
 
-  public hiddenPreview = false;
+  get editorPreviewShow() {
+    // TODO
+    if (this.$store.state.editorPreviewShow) {
+      this.editAreaWidth = '50%';
+    } else {
+      this.editAreaWidth = '100%';
+    }
+    return this.$store.state.editorPreviewShow;
+  }
 
   created() {
     this.parseHtmlFromOrgCode(this.document.content);
     window.addEventListener('beforeunload', this.handleBeforeunload);
-    this.hiddenPreview = window.localStorage.getItem(`article-${this.articleId}-preview`) !== 'true';
   }
 
   mounted() {
@@ -93,7 +101,7 @@ export default class OrgModeEditor extends Vue {
   }
 
   getEditAreaOffsetY(): number {
-    return (<HTMLElement>this.$refs.editContainer).parentElement!.parentElement!.offsetTop;
+    return (<HTMLElement>this.$refs.editContainer).getBoundingClientRect().top;
   }
 
   setupBorderReactive() {
@@ -162,11 +170,6 @@ export default class OrgModeEditor extends Vue {
     this.$emit('change', document);
   }
 
-  toggleFullEditor() {
-    this.hiddenPreview = !this.hiddenPreview;
-    window.localStorage.setItem(`article-${this.articleId}-preview`, (!this.hiddenPreview).toString());
-  }
-
   onTextAreaScroll(event: Event) {
     const textareaScrollRatio =
       (<HTMLElement>this.$refs.textarea).scrollTop / (<HTMLElement>this.$refs.textarea).scrollHeight;
@@ -191,7 +194,10 @@ export default class OrgModeEditor extends Vue {
 }
 
 .edit-area-container {
-  flex-basis: 100%;
+  flex: 1;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
 }
 
 .edit-container {
@@ -217,6 +223,7 @@ export default class OrgModeEditor extends Vue {
   padding: 0 5px;
   cursor: ew-resize;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .border:before {
@@ -229,7 +236,7 @@ export default class OrgModeEditor extends Vue {
 
 .border-indicator-wrapper {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: -5px;
   border: 1px solid #999;
   border-radius: 50%;
@@ -243,6 +250,8 @@ export default class OrgModeEditor extends Vue {
 
 .org-code-container {
   height: 100%;
+  flex-shrink: 0;
+  margin-right: -6px;
 }
 
 .operation-list {
@@ -278,5 +287,7 @@ export default class OrgModeEditor extends Vue {
   width: 50%;
   height: 100%;
   position: relative;
+  flex-grow: 10;
+  overflow: auto;
 }
 </style>

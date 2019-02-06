@@ -28,7 +28,8 @@ export default new Vuex.Store<any>({
         id: '@SEARCH',
         name: '搜索'
       }
-    }
+    },
+    editorPreviewShow: JSON.parse(window.localStorage.getItem('editorPreviewShow')!)
   },
   mutations: {
     articles(state: any, { boxId, articles }) {
@@ -75,6 +76,10 @@ export default new Vuex.Store<any>({
           };
         }, {})
       };
+    },
+    editorPreviewShow(state: any, editorPreviewShow: boolean) {
+      window.localStorage.setItem('editorPreviewShow', JSON.stringify(editorPreviewShow));
+      state.editorPreviewShow = editorPreviewShow;
     }
   },
   actions: {
