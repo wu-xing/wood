@@ -1,6 +1,6 @@
 <template>
   <li v-on:click="handleClick();">
-    <el-tooltip class="item" effect="dark" content="引用" placement="right">
+    <el-tooltip class="item" effect="dark" content="引用" placement="bottom" v-bind:open-delay="1000">
       <as-icon name="quote-right" style="color: #777"></as-icon>
     </el-tooltip>
   </li>

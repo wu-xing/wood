@@ -31,6 +31,9 @@ export default class EditingTitle extends Vue {
   line-height: 55px;
   font-size: 25px;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .edit-title-container div {

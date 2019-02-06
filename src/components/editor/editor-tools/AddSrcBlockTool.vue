@@ -1,6 +1,6 @@
 <template>
   <li v-on:click="handleClick();">
-    <el-tooltip class="item" effect="dark" content="代码" placement="right">
+    <el-tooltip class="item" effect="dark" content="代码" placement="bottom" v-bind:open-delay="1000">
       <as-icon name="code" style="color: #777"></as-icon>
     </el-tooltip>
   </li>

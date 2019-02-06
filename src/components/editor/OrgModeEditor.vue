@@ -211,15 +211,34 @@ export default class OrgModeEditor extends Vue {
 }
 
 .border {
-  height: 100;
-  width: 10px;
-  background-color: #999;
+  height: 100%;
+  position: relative;
+  width: 2px;
+  padding: 0 5px;
   cursor: ew-resize;
   user-select: none;
 }
 
+.border:before {
+  display: block;
+  content: '';
+  height: 100%;
+  width: 100%;
+  background-color: #e8e8e8;
+}
+
 .border-indicator-wrapper {
   position: absolute;
+  top: 50%;
+  left: -5px;
+  border: 1px solid #999;
+  border-radius: 50%;
+  background-color: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .org-code-container {
