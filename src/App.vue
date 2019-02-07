@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-bind:class="{ hide: hideMenu }">
+  <div id="app" v-bind:class="{ hide: hideMenu, 'in-editting': inEditting }">
     <nav>
       <img class="logo" alt="logo" src="/logo.png" />
 
@@ -31,6 +31,7 @@ import ArticleSearcher from './components/ArticleSearcher.vue';
 })
 export default class App extends Vue {
   public hideMenu = false;
+  public inEditting = false;
 
   @Watch('$route')
   watchRouter() {
@@ -38,6 +39,12 @@ export default class App extends Vue {
       this.hideMenu = true;
     } else {
       this.hideMenu = false;
+    }
+
+    if (this.$route.name === 'article-edit') {
+      this.inEditting = true;
+    } else {
+      this.inEditting = false;
     }
   }
 
@@ -85,6 +92,11 @@ body,
   position: relative;
 }
 
+#app.in-editting nav {
+  background-color: white;
+  box-shadow: 0 0 5px #e8e8e8;
+}
+
 #app.hide nav {
   display: none;
 }
@@ -97,7 +109,7 @@ body,
 <style scoped>
 nav {
   height: 40px;
-  transition: margin-top ease-in-out 200ms;
+  transition: all ease-in-out 200ms;
   color: white;
   background-color: #333;
   flex-grow: 0;
@@ -138,6 +150,10 @@ nav ul li {
   box-shadow: 0 1px 3px #999;
 }
 
+nav ul li:hover svg {
+  color: #47b784;
+}
+
 nav ul li a {
   color: white;
   padding: 0px 8px;
@@ -153,5 +169,6 @@ nav ul li a svg {
   vertical-align: middle;
   margin-top: -3px;
   color: #666;
+  transition: all 100ms ease-in-out;
 }
 </style>
