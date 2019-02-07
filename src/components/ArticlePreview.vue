@@ -66,6 +66,7 @@ export default class ArticlePreview extends Vue {
   line-height: 1.6;
   letter-spacing: 1px;
   padding-bottom: 50px;
+  word-break: break-all;
 }
 
 .article-preview .outline {

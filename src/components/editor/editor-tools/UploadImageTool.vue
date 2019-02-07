@@ -9,13 +9,7 @@
       :http-request="uploadImage"
       :on-change="handleImageUploadChange"
     >
-      <el-tooltip
-        class="item"
-        effect="dark"
-        content="上传图片"
-        placement="bottom"
-        v-bind:open-delay="1000"
-      >
+      <el-tooltip class="item" effect="dark" content="上传图片" placement="bottom" v-bind:open-delay="1000">
         <as-icon name="image" style="color: #777"></as-icon>
       </el-tooltip>
     </el-upload>

@@ -135,11 +135,11 @@ export default class Articles extends Vue {
 }
 
 .article-list li.active {
-  background-color: #666;
+  background-color: #469777;
 }
 
 .article-list li:hover {
-  background-color: #666;
+  background-color: #469777;
 }
 
 .article-title {

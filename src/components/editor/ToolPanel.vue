@@ -2,7 +2,7 @@
   <div class="tool-panel">
     <ul class="operation-list">
       <li v-if="!isEdit" v-on:click="$emit('save');">
-        <el-tooltip class="item" effect="dark" content="保存" placement="right">
+        <el-tooltip class="item" effect="dark" content="保存" placement="bottom" v-bind:open-delay="1000">
           <as-icon name="save" style="color: #777"></as-icon>
         </el-tooltip>
       </li>
@@ -59,7 +59,7 @@ export default class ToolPanel extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .tool-panel {
   text-align: center;
   flex: 0 0 auto;
@@ -75,6 +75,11 @@ export default class ToolPanel extends Vue {
   border-radius: 6px;
   box-shadow: 0 0 6px #99999930;
   margin: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.operation-list:hover {
+  transform: scale(1.02, 1.02);
 }
 
 .operation-list li {
@@ -83,5 +88,13 @@ export default class ToolPanel extends Vue {
   width: 40px;
   text-align: center;
   cursor: pointer;
+}
+
+.operation-list svg {
+  transition: all 200ms ease-in-out;
+}
+
+.operation-list svg:hover {
+  color: #47b784 !important;
 }
 </style>

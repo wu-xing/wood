@@ -10,6 +10,7 @@
           <textarea
             autofocus
             ref="textarea"
+            placeholder="write here..."
             v-on:input="onContentChanged"
             v-on:scroll="onTextAreaScroll"
             v-bind:value="document.content"
@@ -20,7 +21,9 @@
           <div class="border-indicator-wrapper" ref="borderIndicator"><as-icon name="arrows-alt-h" /></div>
         </div>
 
-        <div class="org-preview-container" v-if="editorPreviewShow"><ArticlePreview ref="preview" :html="orgHtml" /></div>
+        <div class="org-preview-container" v-if="editorPreviewShow" ref="preview">
+          <ArticlePreview :html="orgHtml" />
+        </div>
       </div>
     </div>
   </div>
@@ -219,7 +222,7 @@ export default class OrgModeEditor extends Vue {
 .border {
   height: 100%;
   position: relative;
-  width: 2px;
+  width: 1.5px;
   padding: 0 5px;
   cursor: ew-resize;
   user-select: none;
@@ -238,7 +241,7 @@ export default class OrgModeEditor extends Vue {
   position: absolute;
   top: 30%;
   left: -5px;
-  border: 1px solid #999;
+  border: 1px solid #47b784;
   border-radius: 50%;
   background-color: white;
   width: 20px;
@@ -246,6 +249,7 @@ export default class OrgModeEditor extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #47b784;
 }
 
 .org-code-container {

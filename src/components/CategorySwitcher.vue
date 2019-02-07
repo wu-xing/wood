@@ -17,7 +17,7 @@ export default class CategorySwitcher extends Vue {}
   display: inline-block;
   padding: 0px 7px 3px 0px;
   cursor: pointer;
-  color: #666;
+  color: #46a0fc;
 }
 .category-switcher-name {
   font-size: 13px;

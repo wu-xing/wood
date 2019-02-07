@@ -1,7 +1,7 @@
 <template>
   <li v-on:click="handleClick();">
     <el-tooltip class="item" effect="dark" content="代码" placement="bottom" v-bind:open-delay="1000">
-      <as-icon name="code" style="color: #777"></as-icon>
+      <as-icon name="code" size="29" style="color: #777"></as-icon>
     </el-tooltip>
   </li>
 </template>
@@ -20,4 +20,9 @@ export default class AddSrcBlockTool extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+svg {
+  width: 18px;
+  height: 17px;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="edit-title-container">
-    <div>{{ title }}</div>
+    <div>{{ wrappedTitle }}</div>
   </div>
 </template>
 
@@ -11,8 +11,14 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
   components: {}
 })
 export default class EditingTitle extends Vue {
+  innerTitle: string;
+
   @Prop()
   title!: string;
+
+  get wrappedTitle() {
+    return this.title === 'Untitled' ? '' : this.title;
+  }
 
   created() {}
 

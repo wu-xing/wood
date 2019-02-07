@@ -65,7 +65,7 @@ h1 {
   font-size: 20px;
   padding-bottom: 10px;
   margin: 4px 0 0px;
-  height: 26px;
+  word-break: break-all;
 }
 
 .date-info {

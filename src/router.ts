@@ -38,7 +38,7 @@ export default new Router({
     },
     {
       path: '/article/:id',
-      name: 'article',
+      name: 'article-edit',
       component: ArticleEdit
     },
     {

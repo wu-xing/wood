@@ -1,7 +1,7 @@
 <template>
   <div>
     <OrgModeEditor
-      is-edit
+      :is-edit="true"
       v-bind:articleId="$route.params.id + ''"
       :waitPush="waitPush"
       v-on:change="onChange"
