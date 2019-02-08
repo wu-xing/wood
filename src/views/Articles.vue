@@ -57,7 +57,7 @@ export default class Articles extends Vue {
       return null;
     }
     return compose(
-      sort((a: Article, b: Article) => a.updatedAt < b.updatedAt),
+      sort((a: Article, b: Article) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
       map((id: string) => this.$store.state.articles[id])
     )(this.$store.state.boxs[boxId].articleIds);
   }
