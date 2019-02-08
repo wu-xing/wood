@@ -2,7 +2,7 @@
   <div class="editor-container">
     <EditingTitle v-bind:title="title" />
 
-    <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" />
+    <ToolPanel v-bind:onToolAction="onToolAction" v-bind:isEdit="isEdit" v-on:save="$emit('save')" />
 
     <div class="edit-area-container">
       <div class="edit-container" ref="editContainer">
