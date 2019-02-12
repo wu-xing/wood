@@ -115,6 +115,7 @@ export default class ArticlePreview extends Vue {
 }
 
 .article-preview img {
+  border: 1px solid #e8e8e8;
   max-width: 95%;
   border-radius: 4px;
   overflow: hidden;
