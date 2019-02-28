@@ -3,7 +3,7 @@ import router from '../router';
 import { readJwt } from './auth';
 
 export function setupAxiosAuth() {
-  axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.getItem('jwt');
+  axios.defaults.headers.common['App-Authorization'] = 'Bearer ' + window.localStorage.getItem('jwt');
   axios.interceptors.response.use(
     (response: any) => {
       return response;
