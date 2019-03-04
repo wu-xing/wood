@@ -9,10 +9,11 @@ export function setupAxiosAuth() {
       return response;
     },
     error => {
-      if (error.response && error.response.status === 401) {
+      const ignore = /\/api\/v2\/signin$/.test(error.request.responseURL);
+      if (error.response && error.response.status === 401 && !ignore) {
         router.push('/401');
       }
-      return error;
+      throw error;
     }
   );
 }
