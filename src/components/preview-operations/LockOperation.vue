@@ -12,7 +12,8 @@ import axios from 'axios';
 
 @Component({})
 export default class LockOperation extends Vue {
-  @Prop() public foucsedArticleId!: string;
+  @Prop()
+  public foucsedArticleId!: string;
 
   public handleLockArticle() {
     axios.post(`/api/auth/v2/article/encryption/${this.foucsedArticleId}`).then(() => {});
@@ -21,4 +22,5 @@ export default class LockOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+</style>

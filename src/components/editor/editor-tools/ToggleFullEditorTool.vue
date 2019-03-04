@@ -27,4 +27,5 @@ export default class ToggleFullEditorTool extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

@@ -12,7 +12,8 @@ import axios from 'axios';
 
 @Component
 export default class ShareOperation extends Vue {
-  @Prop() public foucsedArticleId!: string;
+  @Prop()
+  public foucsedArticleId!: string;
 
   public handleShare() {
     const host = window.location.hostname;
@@ -32,4 +33,5 @@ export default class ShareOperation extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+</style>

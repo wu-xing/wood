@@ -20,4 +20,5 @@ export default class AddQuoteCodeTool extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

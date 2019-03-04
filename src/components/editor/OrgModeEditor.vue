@@ -175,7 +175,8 @@ export default class OrgModeEditor extends Vue {
 
   onTextAreaScroll(event: Event) {
     const textareaScrollRatio =
-      (<HTMLElement>this.$refs.textarea).scrollTop / ((<HTMLElement>this.$refs.textarea).scrollHeight - (<HTMLElement>this.$refs.textarea).offsetHeight);
+      (<HTMLElement>this.$refs.textarea).scrollTop /
+      ((<HTMLElement>this.$refs.textarea).scrollHeight - (<HTMLElement>this.$refs.textarea).offsetHeight);
     const preview: HTMLElement = <any>this.$refs.preview;
     window.requestAnimationFrame(() => {
       preview.scrollTop = preview.scrollHeight * textareaScrollRatio;

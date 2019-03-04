@@ -19,7 +19,8 @@ declare var hljs: any;
 
 @Component
 export default class ArticlePreview extends Vue {
-  @Prop() public html!: string;
+  @Prop()
+  public html!: string;
 
   @Prop({ default: () => false })
   public showOutline!: boolean;
@@ -27,7 +28,8 @@ export default class ArticlePreview extends Vue {
   @Prop({ default: () => false })
   public hideTitle: boolean;
 
-  @Prop() public articleHistory!: any;
+  @Prop()
+  public articleHistory!: any;
 
   updated(): void {
     this.hlCode();

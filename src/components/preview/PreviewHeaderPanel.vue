@@ -45,7 +45,8 @@ import CategorySwitcher from '../CategorySwitcher.vue';
   }
 })
 export default class PreviewHeaderPanel extends Vue {
-  @Prop() public article!: Article;
+  @Prop()
+  public article!: Article;
 
   public formatDate(date: number): string {
     return format(date, 'yyyy年MM月dd日');

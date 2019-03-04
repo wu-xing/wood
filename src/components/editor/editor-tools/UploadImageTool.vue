@@ -43,4 +43,5 @@ export default class UploadImageTool extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

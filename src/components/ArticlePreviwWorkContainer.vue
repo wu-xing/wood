@@ -43,7 +43,8 @@ import * as org from 'orgpr';
   }
 })
 export default class ArticlePreviwWorkContainer extends Vue {
-  @Prop() public article: Article;
+  @Prop()
+  public article: Article;
   public isLock = true;
   public lockPassword: string = '';
 
