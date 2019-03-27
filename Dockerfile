@@ -1,11 +1,6 @@
 FROM node:8.14.1-jessie as builder
 
-RUN npm -v
-
 COPY package.json package-lock.json ./
-
-RUN npm set registry https://registry.npm.taobao.org
-RUN npm set sass_binary_site https://npm.taobao.org/mirrors/node-sass
 
 RUN npm install && mkdir /ng-app && cp -R ./node_modules ./ng-app
 

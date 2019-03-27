@@ -26,7 +26,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import * as values from 'ramda/src/values';
 import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
