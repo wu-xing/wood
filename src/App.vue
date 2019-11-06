@@ -1,6 +1,6 @@
 <template>
   <div id="app" v-bind:class="{ hide: hideMenu, 'in-editting': inEditting }">
-    <nav>
+    <!-- <nav>
       <img class="logo" alt="logo" src="/logo.png" />
 
       <ul>
@@ -14,7 +14,7 @@
       </ul>
 
       <ArticleSearcher />
-    </nav>
+    </nav> -->
 
     <router-view />
   </div>
