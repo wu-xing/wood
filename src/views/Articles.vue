@@ -3,6 +3,11 @@
     <AppNavAside />
 
     <aside class="article-list" v-loading="$store.state.getArticlesLoading">
+
+      <div>
+        <el-button>新建笔记</el-button>
+      </div>
+
       <ul v-if="!!articles">
         <li
           v-on:click="onArticleItemClick(article);"
