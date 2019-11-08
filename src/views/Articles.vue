@@ -1,6 +1,6 @@
 <template>
   <div class="container-inner">
-    <Category />
+    <AppNavAside />
 
     <aside class="article-list" v-loading="$store.state.getArticlesLoading">
       <ul v-if="!!articles">
@@ -30,13 +30,13 @@ import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreviwWorkContainer from '../components/ArticlePreviwWorkContainer.vue';
-import Category from '../components/Category.vue';
+import AppNavAside from '../components/AppNavAside.vue';
 import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreviwWorkContainer,
-    Category
+    AppNavAside
   }
 })
 export default class Articles extends Vue {

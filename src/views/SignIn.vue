@@ -49,7 +49,8 @@ export default class SignIn extends Vue {
 
       setJwt(response.data.token);
       setUserId(response.data.id);
-      Message.success('Sign in sccuess');
+      Message.success('登录成功');
+      window.localStorage.setItem('username-cache', this.username);
       router.push('/home');
     } catch (error) {
       if (error.response && error.response.status === 401) {
