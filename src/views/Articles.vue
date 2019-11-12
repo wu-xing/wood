@@ -5,7 +5,7 @@
     <aside class="article-list" v-loading="$store.state.getArticlesLoading">
 
       <div>
-        <el-button>新建笔记</el-button>
+        <CreateArticleButton />
       </div>
 
       <ul v-if="!!articles">
@@ -35,12 +35,14 @@ import * as map from 'ramda/src/map';
 import * as sort from 'ramda/src/sort';
 import * as compose from 'ramda/src/compose';
 import ArticlePreviwWorkContainer from '../components/ArticlePreviwWorkContainer.vue';
+import CreateArticleButton from '../components/CreateArticleButton.vue';
 import AppNavAside from '../components/AppNavAside.vue';
 import format from 'date-fns/format';
 
 @Component({
   components: {
     ArticlePreviwWorkContainer,
+    CreateArticleButton,
     AppNavAside
   }
 })
